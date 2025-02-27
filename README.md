@@ -1,57 +1,44 @@
-## Span-ASTE-Pytorch
-![Python 3.8](https://img.shields.io/badge/python-3.8-green.svg?style=plastic)
-![PyTorch 1.8.1](https://img.shields.io/badge/PyTorch%20-%23EE4C2C.svg?style=plastic)
-![cuDNN 7.6.5](https://img.shields.io/badge/cudnn-7.6.5-green.svg?style=plastic)
+# Progress Skripsi (Februari) - Aspect Sentiment Triplet Extraction (ASTE)
 
-This repository is a pytorch version that implements Ali's ACL 2021 research
-paper [Learning Span-Level Interactions for Aspect Sentiment Triplet Extraction](https://aclanthology.org/2021.acl-long.367/)
-.
+## Hal yang Sudah Dilakukan
 
--  The [original repository](https://github.com/chiayewken/Span-ASTE.git) of the paper is based on
-  the [allennlp](https://docs.allennlp.org/main/) implementation
--  Thanks to Ali's dataset [SemEval-Triplet-data](https://github.com/xuuuluuu/SemEval-Triplet-data.git) that was open
-  sourced, so that we can use it for research
+### 1. Pembuatan Dataset
 
+Dataset sudah selesai dianotasi oleh total 5 annotator yang dibagi menjadi 2 tim. Untuk memastikan kualitas anotasi, telah dihitung *Inter-Annotator Agreement* menggunakan Cohen's Kappa dengan hasil sebagai berikut:
 
-![image](https://github.com/wireless911/span-aste/assets/40172030/4116fd42-2457-407a-8613-c76921a72eb0)
+| Elemen Anotasi | Rata-rata Cohen's Kappa |
+|----------------|-------------------------|
+| Aspect         | 0.85                    |
+| Opinion        | 0.76                    |
+| Sentiment      | 0.84                    |
 
+Nilai Cohen's Kappa di atas 0.75 menunjukkan kesepakatan antar annotator yang sangat baik, yang menandakan dataset yang dihasilkan memiliki kualitas dan konsistensi yang tinggi.
 
-### Usage
+### 2. Fine-Tuning Model
 
-1. Download dataset from here [SemEval-Triplet-data](https://github.com/xuuuluuu/SemEval-Triplet-data.git),
+Fine-tuning model Span-ASTE sudah dilakukan dan sedang dalam proses evaluasi menggunakan metode *5-fold cross validation*. Hasil sementara untuk fold 1, 2, dan 3 menunjukkan rata-rata F1-score sebesar 0.61.
 
-2. 训练模型
-```shell
-python train.py \
-  --bert_model bert-base-uncased \
-  --batch_size 1 \
-  --learning_rate 5e-5 \
-  --weight_decay 1e-2 \
-  --warmup_proportion 0.1 \
-  --train_path data/15res \
-  --dev_path data/15res \
-  --save_dir ./checkpoint \
-  --max_seq_len 512 \
-  --num_epochs 10 \
-  --logging_steps 30 \
-  --valid_steps 50
-```
-5. 模型评估
-```shell
-python evaluate.py \
-  --test_path  data/15res \
-  --bert_model bert-base-uncased  \
-  --model_path checkpoint/model_best \
-  --batch_size 1 \ 
-  --max_seq_len 512
-  
+Berdasarkan literatur dan penelitian sebelumnya, nilai ini termasuk dalam rentang yang wajar dan dapat diterima karena:
 
-```
+- Sebagian besar implementasi ASTE memiliki nilai F1-score berkisar antara 0.5 – 0.6 pada berbagai arsitektur
+- Untuk arsitektur Span-ASTE khususnya, nilai F1-score sebesar 0.61 sudah cukup baik dibandingkan dengan benchmark pada dataset serupa seperti res14 (domain restaurant) yang mencapai F1-score 0.59
 
+## Hal yang Akan Dilakukan
 
+### 1. Arsitektur Model Span-ASTE
 
+Mempelajari arsitektur model Span-ASTE secara mendalam, meliputi:
+- Proses transformasi input
+- Mekanisme kerja di setiap komponen model
+- Metode perhitungan loss
+- Metrik evaluasi yang digunakan
+- Proses pembentukan output triplet hasil ekstraksi
 
+### 2. Perbaikan Label
 
+Melakukan *cleaning* pada hasil konversi label dari format LabelStudio menjadi format Span-ASTE, karena saat ini masih terdapat beberapa teks yang belum sesuai dengan hasil konversinya. Perbaikan ini penting untuk memastikan model dilatih dengan data yang akurat.
 
+### 3. Dokumentasi dan Evaluasi
 
-
+- Menyimpan rekapitulasi lengkap hasil 5-fold cross validation untuk setiap langkah proses
+- Memodifikasi sistem validasi dengan mengubah parameter validation steps menjadi per-epoch untuk mendapatkan evaluasi yang lebih stabil dan konsisten

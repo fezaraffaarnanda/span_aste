@@ -38,6 +38,9 @@ def do_train():
     # set seed
     set_seed(args.seed)
 
+    # Track overall training time
+    training_start_time = time.time()
+
     # tokenizer
     tokenizer = BertTokenizer.from_pretrained(args.bert_model)
 
@@ -100,6 +103,11 @@ def do_train():
     valid_f1_list = []        # untuk menyimpan nilai F1 dari validasi
     valid_loss_list = []      # untuk menyimpan nilai loss dari validasi
     epoch_avg_loss_list = []  # untuk menyimpan rata-rata loss per epoch
+    
+    # Untuk menyimpan data waktu
+    epoch_durations = []      # durasi setiap epoch dalam detik
+    batch_times = []          # timestamp untuk setiap batch
+    validation_durations = [] # durasi validasi setiap epoch
 
     global_step = 0
     best_f1 = 0
@@ -120,6 +128,8 @@ def do_train():
         
         model.train()
         for batch_ix, batch in enumerate(progress_bar):
+            batch_start_time = time.time()
+            
             # Proses forward dan backward seperti biasa
             input_ids, attention_mask, token_type_ids, spans, relations, span_labels, relation_labels, seq_len = batch
             input_ids = torch.tensor(input_ids, device=device)
@@ -150,18 +160,33 @@ def do_train():
             training_loss_list.append(batch_loss)
             epoch_losses.append(batch_loss)
             global_step += 1
+            
+            # Catat waktu batch
+            batch_end_time = time.time()
+            batch_duration = batch_end_time - batch_start_time
+            batch_times.append({
+                'epoch': epoch,
+                'batch': batch_ix + 1,
+                'global_step': global_step,
+                'timestamp': batch_end_time,
+                'duration': batch_duration
+            })
 
-            progress_bar.set_postfix({'loss': f'{batch_loss:.4f}'})
+            progress_bar.set_postfix({'loss': f'{batch_loss:.4f}', 'time': f'{batch_duration:.2f}s'})
 
         # Menghitung rata-rata loss per epoch
         avg_loss = sum(epoch_losses) / len(epoch_losses)
         epoch_avg_loss_list.append(avg_loss)
         epoch_time = time.time() - epoch_start_time
+        epoch_durations.append(epoch_time)
         print(f"\nEpoch {epoch} completed in {epoch_time:.2f}s. Average loss: {avg_loss:.5f}")
         
         # Validasi di akhir setiap epoch
         print("\n" + "="*50)
         print(f"Validation at end of epoch {epoch}")
+        
+        # Start validation time measurement
+        validation_start_time = time.time()
         
         # Hitung validation loss
         model.eval()
@@ -190,6 +215,10 @@ def do_train():
                 valid_loss += float(v_loss)
                 valid_batches += 1
         
+        # Calculate validation duration
+        validation_duration = time.time() - validation_start_time
+        validation_durations.append(validation_duration)
+        
         avg_valid_loss = valid_loss / valid_batches if valid_batches > 0 else 0
         valid_loss_list.append(avg_valid_loss)
         
@@ -215,24 +244,44 @@ def do_train():
                 os.makedirs(save_dir)
             torch.save(model.state_dict(), os.path.join(save_dir, "model.pt"))
             
-            # # Optionally save model for specific epoch if needed
-            # epoch_save_dir = os.path.join(args.save_dir, f"model_epoch_{epoch}")
-            # if not os.path.exists(epoch_save_dir):
-            #     os.makedirs(epoch_save_dir)
-            # torch.save(model.state_dict(), os.path.join(epoch_save_dir, "model.pt"))
+            # Optionally save model for specific epoch if args.save_all_epochs is True
+            if args.save_all_epochs:
+                epoch_save_dir = os.path.join(args.save_dir, f"model_epoch_{epoch}")
+                if not os.path.exists(epoch_save_dir):
+                    os.makedirs(epoch_save_dir)
+                torch.save(model.state_dict(), os.path.join(epoch_save_dir, "model.pt"))
         
         # Kembali ke mode training
         model.train()
         
         print("="*50 + "\n")
     
+    # Calculate total training time
+    total_training_time = time.time() - training_start_time
+    print(f"\nTotal training time: {total_training_time:.2f} seconds ({total_training_time/60:.2f} minutes)")
+    
     # Visualisasi hasil training
-    plot_training_results(training_loss_list, epoch_list, valid_f1_list, valid_loss_list, epoch_avg_loss_list)
+    if args.visualize:
+        plot_training_results(
+            training_loss_list, epoch_list, valid_f1_list, valid_loss_list, 
+            epoch_avg_loss_list, epoch_durations, validation_durations, batch_times, total_training_time
+        )
 
-def plot_training_results(training_loss, epoch_list, valid_f1, valid_loss, epoch_avg_loss):
+def plot_training_results(training_loss, epoch_list, valid_f1, valid_loss, epoch_avg_loss, 
+                       epoch_durations, validation_durations, batch_times, total_training_time):
     """
     Plot training loss, validation loss dan f1 score berdasarkan epoch
     """
+    # Create visualization directory if it doesn't exist
+    if not os.path.exists(args.viz_dir):
+        os.makedirs(args.viz_dir)
+    
+    # Construct full paths for visualization files
+    overview_plot_path = os.path.join(args.viz_dir, args.viz_filename)
+    combined_metrics_path = os.path.join(args.viz_dir, f"combined_metrics_{args.viz_filename}")
+    time_metrics_path = os.path.join(args.viz_dir, f"time_metrics_{args.viz_filename}")
+    
+    # Plot training loss, validation loss and F1 score
     plt.figure(figsize=(15, 15))
     
     # Plot training loss per batch
@@ -275,7 +324,7 @@ def plot_training_results(training_loss, epoch_list, valid_f1, valid_loss, epoch
     
     # Simpan plot ke file
     plt.tight_layout()
-    plt.savefig('training_visualization.png')
+    plt.savefig(overview_plot_path)
     plt.close()
     
     # Buat plot tambahan yang menggabungkan validation loss dan F1 score dalam satu grafik
@@ -304,10 +353,41 @@ def plot_training_results(training_loss, epoch_list, valid_f1, valid_loss, epoch
     
     plt.grid(True, linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig('validation_metrics_combined.png')
+    plt.savefig(combined_metrics_path)
     plt.close()
     
-    print("Plots saved as 'training_visualization.png' and 'validation_metrics_combined.png'")
+    # Plot time metrics
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10))
+    
+    # Plot epoch durations
+    ax1.bar(epoch_list, epoch_durations, color='teal', alpha=0.7)
+    ax1.plot(epoch_list, validation_durations, 'ro-', label='Validation Duration')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Time (seconds)')
+    ax1.set_title('Training and Validation Duration per Epoch')
+    ax1.set_xticks(epoch_list)
+    ax1.legend()
+    ax1.grid(True, linestyle='--', alpha=0.7)
+    
+    # Plot cumulative training time
+    cumulative_time = np.cumsum(epoch_durations)
+    ax2.plot(epoch_list, cumulative_time, 'mo-', linewidth=2)
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Cumulative Time (seconds)')
+    ax2.set_title('Cumulative Training Time')
+    ax2.set_xticks(epoch_list)
+    ax2.grid(True, linestyle='--', alpha=0.7)
+    
+    # Add annotation for total training time
+    ax2.annotate(f'Total: {total_training_time:.1f}s ({total_training_time/60:.1f}min)', 
+                xy=(epoch_list[-1], cumulative_time[-1]),
+                xytext=(-150, 30), 
+                textcoords='offset points',
+                arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=.2'))
+    
+    plt.tight_layout()
+    plt.savefig(time_metrics_path)
+    plt.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -328,6 +408,22 @@ if __name__ == '__main__':
     parser.add_argument("--seed", default=1000, type=int, help="Random seed for initialization")
     parser.add_argument("--init_from_ckpt", default=None, type=str,
                         help="The path of model parameters for initialization.")
+
+    # Visualization parameters
+    parser.add_argument("--visualize", action="store_true", 
+                        help="Whether to generate visualization plots")
+    parser.add_argument("--viz_dir", default="./visualizations", type=str,
+                        help="Directory to save visualization results")
+    parser.add_argument("--viz_filename", default="training_visualization.png", type=str,
+                        help="Filename for the visualization plot")
+    parser.add_argument("--save_csv", action="store_true", 
+                        help="Whether to save training metrics as CSV files")
+    parser.add_argument("--save_all_epochs", action="store_true", 
+                        help="Whether to save model checkpoints for all epochs")
+    parser.add_argument("--export_excel", action="store_true",
+                        help="Export metrics as Excel file with multiple sheets instead of separate CSVs")
+    parser.add_argument("--time_metrics", action="store_true", default=True,
+                        help="Track and save detailed time metrics during training")
 
     args = parser.parse_args()
 

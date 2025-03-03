@@ -416,14 +416,12 @@ if __name__ == '__main__':
                         help="Directory to save visualization results")
     parser.add_argument("--viz_filename", default="training_visualization.png", type=str,
                         help="Filename for the visualization plot")
-    parser.add_argument("--save_csv", action="store_true", 
-                        help="Whether to save training metrics as CSV files")
     parser.add_argument("--save_all_epochs", action="store_true", 
                         help="Whether to save model checkpoints for all epochs")
-    parser.add_argument("--export_excel", action="store_true",
-                        help="Export metrics as Excel file with multiple sheets instead of separate CSVs")
-    parser.add_argument("--time_metrics", action="store_true", default=True,
-                        help="Track and save detailed time metrics during training")
+    parser.add_argument("--export_excel", action="store_true", default=True,
+                        help="Export metrics as Excel file with multiple sheets")
+    parser.add_argument("--excel_filename", default="training_metrics.xlsx", type=str,
+                        help="Filename for the Excel metrics")
 
     args = parser.parse_args()
 

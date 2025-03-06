@@ -54,7 +54,7 @@ def do_train():
 
     print("Construct Dataloader...")
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, collate_fn=collate_fn)
-    eval_dataloader = DataLoader(eval_dataset, batch_size=args.batch_size, shuffle=True, collate_fn=collate_fn)
+    eval_dataloader = DataLoader(eval_dataset, batch_size=args.batch_size, shuffle=False, collate_fn=collate_fn)
 
     print("Building SPAN-ASTE model...")
     # get dimension of target and relation

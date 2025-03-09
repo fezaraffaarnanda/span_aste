@@ -112,7 +112,7 @@ def do_train():
     global_step = 0
     best_f1 = 0
     
-    print("\n=== Starting Training ===\n")
+    print("\n=== Starting Fine Tuning ===\n")
     
     for epoch in range(1, args.num_epochs + 1):
         epoch_start_time = time.time()
@@ -152,6 +152,8 @@ def do_train():
             # backward
             optimizer.zero_grad()
             loss.backward()
+            # gradient clipping untuk mencegah gradient explosion
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # Tambahkan ini
             optimizer.step()
             scheduler.step()
 

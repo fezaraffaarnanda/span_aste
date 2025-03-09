@@ -34,7 +34,20 @@ def log_likelihood(probability, indices, gold_indices, gold_labels):
                 idx = indices[batch_idx].index(l)
                 gold_indice_labels.append((batch_idx, idx, gold_labels[batch_idx][i]))
 
-    # sum of the negative log-likelihood from both the mention module and triplet module
-    loss = [-torch.log(probability[c[0], c[1], c[2]]) for c in gold_indice_labels]
-    loss = torch.stack(loss).sum()
+    # # sum of the negative log-likelihood from both the mention module and triplet module
+    # loss = [-torch.log(probability[c[0], c[1], c[2]]) for c in gold_indice_labels]
+    # loss = torch.stack(loss).sum()
+    # return loss
+
+
+    # Tambahkan epsilon untuk mencegah log(0)
+    epsilon = 1e-5
+    
+    # sum of the negative log-likelihood with clipping
+    if gold_indice_labels:
+        loss = [-torch.log(torch.clamp(probability[c[0], c[1], c[2]], min=epsilon)) for c in gold_indice_labels]
+        loss = torch.stack(loss).sum()
+    else:
+        loss = torch.tensor(0.0, device=probability.device)
+    
     return loss

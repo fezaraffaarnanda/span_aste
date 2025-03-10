@@ -109,6 +109,10 @@ def do_train():
     batch_times = []          # timestamp untuk setiap batch
     validation_durations = [] # durasi validasi setiap epoch
 
+    # Initialize metrics lists
+    training_metrics = []
+    validation_metrics = []
+
     global_step = 0
     best_f1 = 0
     
@@ -224,8 +228,21 @@ def do_train():
         avg_valid_loss = valid_loss / valid_batches if valid_batches > 0 else 0
         valid_loss_list.append(avg_valid_loss)
         
-        # Evaluasi metric F1
+        train_precision, train_recall, train_f1 = evaluate(model, metric, train_dataloader, device)
+        training_metrics.append({
+            'precision': train_precision,
+            'recall': train_recall,
+            'f1': train_f1
+        })
+        
+        # Existing validation code...
         precision, recall, f1 = evaluate(model, metric, eval_dataloader, device)
+        validation_metrics.append({
+            'precision': precision,
+            'recall': recall,
+            'f1': f1
+        })
+
         print(
             "Evaluation metrics:\n"
             f"  Precision: {precision:.5f}\n"
@@ -263,14 +280,17 @@ def do_train():
     print(f"\nTotal training time: {total_training_time:.2f} seconds ({total_training_time/60:.2f} minutes)")
     
     # Visualisasi hasil training
+    # When calling plot_training_results, include the metrics
     if args.visualize:
         plot_training_results(
             training_loss_list, epoch_list, valid_f1_list, valid_loss_list, 
-            epoch_avg_loss_list, epoch_durations, validation_durations, batch_times, total_training_time
+            epoch_avg_loss_list, epoch_durations, validation_durations, batch_times, 
+            total_training_time, training_metrics, validation_metrics
         )
 
 def plot_training_results(training_loss, epoch_list, valid_f1, valid_loss, epoch_avg_loss, 
-                       epoch_durations, validation_durations, batch_times, total_training_time):
+                          epoch_durations, validation_durations, batch_times, total_training_time,
+                          training_metrics=None, validation_metrics=None):
     """
     Plot training loss, validation loss dan f1 score berdasarkan epoch
     """
@@ -282,7 +302,53 @@ def plot_training_results(training_loss, epoch_list, valid_f1, valid_loss, epoch
     overview_plot_path = os.path.join(args.viz_dir, args.viz_filename)
     combined_metrics_path = os.path.join(args.viz_dir, f"combined_metrics_{args.viz_filename}")
     time_metrics_path = os.path.join(args.viz_dir, f"time_metrics_{args.viz_filename}")
+    #######################
+
+    # Plot training and validation metrics (precision, recall, F1) in one plot
+    plt.figure(figsize=(12, 8))
     
+    # Ekstrak metrics
+    train_precision = [m['precision'] for m in training_metrics] if training_metrics else []
+    train_recall = [m['recall'] for m in training_metrics] if training_metrics else []
+    train_f1 = [m['f1'] for m in training_metrics] if training_metrics else []
+    
+    valid_precision = [m['precision'] for m in validation_metrics] if validation_metrics else []
+    valid_recall = [m['recall'] for m in validation_metrics] if validation_metrics else []
+    
+    # Plot metrics
+    plt.plot(epoch_list, train_precision, 'r-', marker='o', label='Training Precision')
+    plt.plot(epoch_list, train_recall, 'b-', marker='o', label='Training Recall')
+    plt.plot(epoch_list, train_f1, 'purple', marker='o', label='Training F1 Score')
+    
+    plt.plot(epoch_list, valid_precision, 'g-', marker='s', label='Validation Precision')
+    plt.plot(epoch_list, valid_recall, 'y-', marker='s', label='Validation Recall')
+    plt.plot(epoch_list, valid_f1, 'c-', marker='s', label='Validation F1 Score')
+    
+    # Mark best metrics
+    if valid_f1:
+        best_f1_idx = valid_f1.index(max(valid_f1))
+        best_precision = valid_precision[best_f1_idx]
+        best_recall = valid_recall[best_f1_idx]
+        best_f1 = valid_f1[best_f1_idx]
+        
+        plt.plot(epoch_list[best_f1_idx], best_precision, 'ro', markersize=10, label=f'Best Precision: {best_precision:.4f}')
+        plt.plot(epoch_list[best_f1_idx], best_recall, 'bo', markersize=10, label=f'Best Recall: {best_recall:.4f}')
+        plt.plot(epoch_list[best_f1_idx], best_f1, 'go', markersize=10, label=f'Best F1 Score: {best_f1:.4f}')
+    
+    plt.xlabel('Epoch')
+    plt.ylabel('Value')
+    plt.title('Validation and Training Metrics')
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.legend(loc='best')
+    plt.xticks(epoch_list)
+    
+    # Simpan plot metrics ke file
+    plt.tight_layout()
+    plt.savefig(os.path.join(args.viz_dir, "metrics_comparison.png"))
+    plt.close()
+    
+
+    ################
     # Plot training loss, validation loss and F1 score
     plt.figure(figsize=(15, 15))
     

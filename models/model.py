@@ -16,7 +16,7 @@ from torch import nn, Tensor
 from torch.nn import LSTM, init
 import itertools
 
-from transformers import BertModel
+from transformers import BertModel, AlbertModel
 
 from utils.tager import SpanLabel
 
@@ -205,8 +205,16 @@ class SpanAsteModel(nn.Module):
         self.span_pruned_threshold = span_pruned_threshold
         self.pretrain_model = pretrain_model
         self.device = device
-
-        self.bert = BertModel.from_pretrained(pretrain_model)
+        
+        
+        # Gunakan AlbertModel khusus untuk indobert-lite-base-p2
+        if "indobert-lite" in pretrain_model:
+            print(f"Using AlbertModel for {pretrain_model}")
+            self.bert = AlbertModel.from_pretrained(pretrain_model)
+        else:
+            print(f"Using BertModel for {pretrain_model}")
+            self.bert = BertModel.from_pretrained(pretrain_model)
+            
         encoding_dim = self.bert.config.hidden_size
 
         self.span_representation = SpanRepresentation(span_width_embedding_dim, span_maximum_length)

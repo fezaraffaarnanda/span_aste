@@ -2,6 +2,7 @@ checkpoint/
 __pycache__/
 checkpoint_large/
 checkpoint_lite/
+checkpoint_lite_large/
 
 # how to gitignore
 # git rm -rf --cached .

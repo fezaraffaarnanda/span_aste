@@ -3,6 +3,8 @@ __pycache__/
 checkpoint_large/
 checkpoint_lite/
 checkpoint_lite_large/
+indonlu/
+model_klasifikasi_aspek/
 
 # how to gitignore
 # git rm -rf --cached .

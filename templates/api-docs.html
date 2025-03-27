@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Span Level Aspect Sentiment Triplet Extraction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --positive-color: #4caf50;
+            --negative-color: #f44336;
+            --neutral-color: #ff9800;
+            --bg-light: #f8f9fa;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 15px 20px;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+        }
+        
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        /* API Documentation Styles */
+        .api-section {
+            margin-bottom: 30px;
+        }
+        
+        .api-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .api-endpoint {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-family: monospace;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        .api-endpoint .method {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            border: 1px solid #e9ecef;
+        }
+        
+        .table-params {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .table-params th {
+            background-color: #f1f1f1;
+        }
+        
+        .badge-required {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+        
+        .badge-optional {
+            background-color: #6c757d;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+        
+        .example-container {
+            margin: 20px 0;
+        }
+        
+        .example-container h5 {
+            margin-bottom: 10px;
+        }
+        
+        .section-divider {
+            border-top: 1px solid #dee2e6;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>API Documentation</h1>
+            <p>Span Level Aspect Sentiment Triplet Extraction API</p>
+        </div>
+        
+        <div class="nav-links">
+            <a href="/" class="nav-link"><i class="bi bi-house-door-fill me-1"></i>Beranda</a>
+            <a href="/api-docs" class="nav-link"><i class="bi bi-code-slash me-1"></i>Dokumentasi API</a>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Ringkasan API</h5>
+            </div>
+            <div class="card-body">
+                <p>API ini menyediakan kemampuan analisis sentimen tingkat aspek pada teks menggunakan model berbasis Span Level untuk ekstraksi Triplet Sentimen Aspek. API dapat mengidentifikasi istilah aspek (aspect terms), istilah opini (opinion terms), dan sentimen yang terkait, serta mengkategorikan aspek ke dalam beberapa kategori.</p>
+                
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <strong>Basis URL:</strong> <code>http://localhost:5000</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-hdd-stack me-2"></i>Endpoints API</h5>
+            </div>
+            <div class="card-body">
+                <div class="api-section">
+                    <h3>Analisis Aspek Sentimen</h3>
+                    
+                    <div class="api-endpoint">
+                        <span class="method">POST</span>/api/predict
+                    </div>
+                    
+                    <p>Menganalisis teks ulasan untuk mengekstrak triplet aspek-sentimen berdasarkan model Span Level.</p>
+                    
+                    <h5>Request Parameters</h5>
+                    <table class="table table-params table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Tipe</th>
+                                <th>Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>text <span class="badge-required">required</span></td>
+                                <td>string</td>
+                                <td>Teks ulasan yang akan dianalisis untuk ekstraksi triplet aspek-sentimen.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="example-container">
+                        <h5>Contoh Request</h5>
+                        <pre>{
+                        "text": "Aplikasi ini bagus tapi login sangat lambat"
+                        }
+                        </pre>
+                    </div>
+                    
+                    <h5>Response</h5>
+                    <table class="table table-params table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Tipe</th>
+                                <th>Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>text</td>
+                                <td>string</td>
+                                <td>Teks input yang dianalisis.</td>
+                            </tr>
+                            <tr>
+                                <td>triplets</td>
+                                <td>array</td>
+                                <td>Array objek triplet yang mengandung pasangan aspek-opini-sentimen yang diekstrak.</td>
+                            </tr>
+                            <tr>
+                                <td>count</td>
+                                <td>integer</td>
+                                <td>Jumlah triplet yang ditemukan dalam teks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h5>Triplet Object</h5>
+                    <table class="table table-params table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Tipe</th>
+                                <th>Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>aspect</td>
+                                <td>string</td>
+                                <td>Istilah aspek yang diekstrak.</td>
+                            </tr>
+                            <tr>
+                                <td>opinion</td>
+                                <td>string</td>
+                                <td>Istilah opini yang terkait dengan aspek.</td>
+                            </tr>
+                            <tr>
+                                <td>sentiment</td>
+                                <td>string</td>
+                                <td>Sentimen yang diekspresikan terhadap aspek. Nilai: "POS" (positif), "NEG" (negatif), atau "NEU" (netral).</td>
+                            </tr>
+                            <tr>
+                                <td>confidence</td>
+                                <td>float</td>
+                                <td>Tingkat kepercayaan model terhadap prediksi sentimen, dalam rentang 0 hingga 1.</td>
+                            </tr>
+                            <tr>
+                                <td>category</td>
+                                <td>string</td>
+                                <td>Kategori yang ditetapkan untuk aspek, seperti "User Interface", "Functionality and Performance", dll.</td>
+                            </tr>
+                            <tr>
+                                <td>category_confidence</td>
+                                <td>float</td>
+                                <td>Tingkat kepercayaan model terhadap prediksi kategori, dalam rentang 0 hingga 1.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="example-container">
+                        <h5>Contoh Respons</h5>
+                        <pre>{
+                            "text": "Aplikasi ini bagus tapi login sangat lambat",
+                            "triplets": [
+                                {
+                                "aspect": "aplikasi",
+                                "opinion": "bagus",
+                                "sentiment": "POS",
+                                "confidence": 0.95,
+                                "category": "User Interface",
+                                "category_confidence": 0.82
+                                },
+                                {
+                                "aspect": "login",
+                                "opinion": "lambat",
+                                "sentiment": "NEG",
+                                "confidence": 0.89,
+                                "category": "Functionality and Performance",
+                                "category_confidence": 0.76
+                                }
+                            ],
+                            "count": 2
+                            }
+                            </pre>
+                    </div>
+                    
+                    <h5>Kode Status</h5>
+                    <table class="table table-params table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>200</td>
+                                <td>Sukses. Response berisi hasil analisis.</td>
+                            </tr>
+                            <tr>
+                                <td>400</td>
+                                <td>Bad Request. Format permintaan tidak valid atau teks tidak disediakan.</td>
+                            </tr>
+                            <tr>
+                                <td>500</td>
+                                <td>Server Error. Terjadi kesalahan saat memproses permintaan.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <div class="api-section">
+                    <h3>Informasi Sistem</h3>
+                    
+                    <div class="api-endpoint">
+                        <span class="method">GET</span>/system_info
+                    </div>
+                    
+                    <p>Memberikan informasi tentang sistem yang menjalankan model, termasuk versi Python, ketersediaan CUDA, dll.</p>
+                    
+                    <div class="example-container">
+                        <h5>Contoh Respons</h5>
+                        <pre>{
+                        "Python Version": "3.8.10",
+                        "PyTorch Version": "1.9.0",
+                        "CUDA Available": true,
+                        "CUDA Version": "11.1",
+                        "Number of CUDA Devices": 1,
+                        "Current CUDA Device": 0,
+                        "Device Name": "NVIDIA GeForce RTX 3080",
+                        "System": "Linux",
+                        "System Release": "5.4.0-96-generic",
+                        "System Version": "#109-Ubuntu SMP",
+                        "Architecture": "x86_64"
+                        }
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2023</p>
+        </div>
+    </div>
+</body>
+</html>
+    

@@ -12,7 +12,7 @@ import argparse
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader
-from transformers import BertTokenizer
+from transformers import BertTokenizer, AlbertTokenizer
 from models.collate import collate_fn
 from models.model import SpanAsteModel
 from utils.dataset import CustomDataset
@@ -38,7 +38,15 @@ def run_test(model_path, test_path, bert_model, output_path=None):
     
     # tokenizer
     print(f"Loading tokenizer from {bert_model}")
-    tokenizer = BertTokenizer.from_pretrained(bert_model)
+    # Gunakan AlbertModel khusus untuk indobert-lite-base-p2
+    if "indobert-lite" in {bert_model}:
+        print(f"Using AlbertModel for {bert_model}")
+        tokenizer = AlbertTokenizer.from_pretrained(bert_model)
+    else:
+        print(f"Using BertModel for {bert_model}")
+        tokenizer = BertTokenizer.from_pretrained(bert_model)
+    
+    #tokenizer = BertTokenizer.from_pretrained(bert_model)
 
     print("Building SPAN-ASTE model...")
     # get dimension of target and relation

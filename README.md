@@ -24,6 +24,7 @@
 | IndoBERT-base        | 68.06    | 1160          |
 | IndoBERT-large       | 74.06    | 7281          |
 | IndoBERT-lite-base   | 70.86    | 9149          |
+| IndoBERT-lite-large   | 68.70    | 254          |
 
 - **IndoBERT-large** memiliki akurasi tertinggi tetapi dengan beban komputasi tinggi (~5 jam).
 - **IndoBERT-lite-base** menunjukkan performa lebih baik dibanding IndoBERT-base dengan parameter 10x lebih sedikit.

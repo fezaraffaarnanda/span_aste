@@ -25,10 +25,8 @@ class RelationLabel(IntEnum):
     NEU = 3
 
 # Definisikan konstanta label dari DocumentSentimentDataset
-LABEL2INDEX = {'User Interface': 0, 'User Experince': 1, 'Functionality and Perfomance': 2, 
-              'Security': 3, 'Support and Updates': 4, 'General Aspect': 5, 'Out of Aspect': 6}
-INDEX2LABEL = {0: 'User Interface', 1: 'User Experince', 2: 'Functionality and Perfomance', 
-              3: 'Security', 4: 'Support and Updates', 5: 'General Aspect', 6: 'Out of Aspect'}
+LABEL2INDEX = {'User Interface': 0, 'User Experince': 1, 'Functionality and Perfomance': 2, 'Security': 3, 'Support and Updates': 4, 'General Aspect': 5, 'Out of Aspect': 6}
+INDEX2LABEL = {0: 'User Interface', 1: 'User Experince', 2: 'Functionality and Perfomance', 3: 'Security', 4: 'Support and Updates', 5: 'General Aspect', 6: 'Out of Aspect'}
 NUM_LABELS = 7
 
 # System information function
@@ -335,8 +333,8 @@ class ModelManager:
     
     def load_span_aste_model(self):
         # Configuration - UBAH PATH MODEL SESUAI KEBUTUHAN
-        MODEL_PATH = "checkpoint/fold5/model_best"  # Path to model directory
-        BERT_MODEL = "indobenchmark/indobert-base-p2"  # Model used for training
+        MODEL_PATH = "checkpoint_large/fold1/model_best"  # Path to model directory
+        BERT_MODEL = "indobenchmark/indobert-large-p2"  # Model used for training
         
         print(f"Loading SPAN-ASTE model from {MODEL_PATH}")
         print(f"Using {self.device} device")
@@ -615,6 +613,7 @@ def api_predict():
         triplets = model_manager.predict_span_aste(text)
         
         # 2. For each triplet, predict aspect category
+        formatted_triplets = []
         for triplet in triplets:
             # Combine aspect and opinion for aspect category prediction
             aspect_opinion_text = f"{triplet['aspect']} {triplet['opinion']}"
@@ -622,14 +621,21 @@ def api_predict():
             # Predict aspect category
             aspect_category, category_confidence = model_manager.predict_aspect_category(aspect_opinion_text)
             
-            # Add category to triplet
-            triplet['category'] = aspect_category
-            triplet['category_confidence'] = category_confidence
+            # Format triplet with new key names
+            formatted_triplet = {
+                'aspect_term': triplet['aspect'],
+                'opinion_term': triplet['opinion'],
+                'sentiment': triplet['sentiment'],
+                'triplet_confidence': triplet['confidence'],
+                'aspect_category': aspect_category,
+                'aspect_category_confidence': category_confidence
+            }
+            formatted_triplets.append(formatted_triplet)
         
         return jsonify({
             'text': text,
-            'triplets': triplets,
-            'count': len(triplets)
+            'triplets': formatted_triplets,
+            'count': len(formatted_triplets)
         })
     
     except Exception as e:
@@ -641,6 +647,7 @@ def api_predict():
             'error': str(e)
         }), 500
 
+# Modifikasi pada fungsi predict() yang digunakan untuk web interface
 @app.route('/predict', methods=['POST'])
 def predict():
     # Get input text
@@ -663,6 +670,7 @@ def predict():
         triplets = model_manager.predict_span_aste(text)
         
         # 2. For each triplet, predict aspect category
+        formatted_triplets = []
         for triplet in triplets:
             # Combine aspect and opinion for aspect category prediction
             aspect_opinion_text = f"{triplet['aspect']} {triplet['opinion']}"
@@ -670,13 +678,20 @@ def predict():
             # Predict aspect category
             aspect_category, category_confidence = model_manager.predict_aspect_category(aspect_opinion_text)
             
-            # Add category to triplet
-            triplet['category'] = aspect_category
-            triplet['category_confidence'] = category_confidence
+            # Format triplet with new key names
+            formatted_triplet = {
+                'aspect_term': triplet['aspect'],
+                'opinion_term': triplet['opinion'],
+                'sentiment': triplet['sentiment'],
+                'triplet_confidence': triplet['confidence'],
+                'aspect_category': aspect_category,
+                'aspect_category_confidence': category_confidence
+            }
+            formatted_triplets.append(formatted_triplet)
         
         return jsonify({
             'text': text,
-            'triplets': triplets
+            'triplets': formatted_triplets
         })
     
     except Exception as e:
@@ -863,23 +878,14 @@ with open('templates/index.html', 'w') as f:
             margin-top: 5px;
             overflow: hidden;
         }
-        
+
         .confidence-level {
             height: 100%;
             border-radius: 3px;
+            transition: width 0.5s ease, background-color 0.5s ease;
+            /* Tidak perlu lagi class .high, .medium, .low karena warna diatur secara dinamis */
         }
         
-        .confidence-level.high {
-            background-color: var(--positive-color);
-        }
-        
-        .confidence-level.medium {
-            background-color: var(--neutral-color);
-        }
-        
-        .confidence-level.low {
-            background-color: var(--negative-color);
-        }
         
         .aspect-value, .opinion-value, .category-value {
             font-weight: 500;
@@ -955,7 +961,7 @@ with open('templates/index.html', 'w') as f:
 <body>
     <div class="app-container">
         <div class="header">
-            <h1>Analisis Aspek Sentimen</h1>
+            <h1>Aspect Sentiment Triplet Extraction</h1>
             <p>Analisis Sentimen Triplet Level Aspek Berbasis Span Level Pada Aplikasi Pemerintahan dan Kategorisasi Aspek</p>
         </div>
         
@@ -1006,11 +1012,21 @@ with open('templates/index.html', 'w') as f:
         </div>
         
         <div class="footer">
-            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2023</p>
+            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2025</p>
         </div>
     </div>
     
     <script>
+        function getConfidenceBarColor(confidence) {
+            // Warna linear dari merah (rendah) ke kuning (sedang) ke hijau (tinggi)
+            if (confidence >= 0.7) {
+                return '#4caf50'; // Hijau untuk confidence tinggi
+            } else if (confidence >= 0.4) {
+                return '#ff9800'; // Oranye untuk confidence sedang
+            } else {
+                return '#f44336'; // Merah untuk confidence rendah
+            }
+        }
         document.getElementById('prediction-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1065,23 +1081,18 @@ with open('templates/index.html', 'w') as f:
                             sentimentLabel = 'Netral';
                         }
                         
-                        const confidenceClass = triplet.confidence > 0.7 ? 'high' : 
-                                              triplet.confidence > 0.4 ? 'medium' : 'low';
-                        
-                        const categoryConfidenceClass = triplet.category_confidence > 0.7 ? 'high' : 
-                                                     triplet.category_confidence > 0.4 ? 'medium' : 'low';
-                        
+
                         tripletCard.innerHTML = `
                             <div class="card-body">
                                 <div class="triplet-header">
                                     <div class="aspect-opinion-container">
                                         <div class="mb-2">
                                             <span class="aspect-label">Aspek:</span>
-                                            <span class="aspect-value">${triplet.aspect}</span>
+                                            <span class="aspect-value">${triplet.aspect_term}</span>
                                         </div>
                                         <div>
                                             <span class="opinion-label">Opini:</span>
-                                            <span class="opinion-value">${triplet.opinion}</span>
+                                            <span class="opinion-value">${triplet.opinion_term}</span>
                                         </div>
                                     </div>
                                     <div class="sentiment-category-container">
@@ -1091,7 +1102,7 @@ with open('templates/index.html', 'w') as f:
                                         </div>
                                         <div>
                                             <span class="category-label">Kategori:</span>
-                                            <span class="category-value">${triplet.category || 'Tidak tersedia'}</span>
+                                            <span class="category-value">${triplet.aspect_category || 'Tidak tersedia'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1100,28 +1111,33 @@ with open('templates/index.html', 'w') as f:
                                     <div class="mb-2">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <small>Confidence Sentimen</small>
-                                            <small>${(triplet.confidence * 100).toFixed(0)}%</small>
+                                            <small>${(triplet.triplet_confidence * 100).toFixed(0)}%</small>
                                         </div>
                                         <div class="confidence-bar">
-                                            <div class="confidence-level ${confidenceClass}" style="width: ${(triplet.confidence * 100).toFixed(0)}%"></div>
+                                            <div class="confidence-level" 
+                                                style="width: ${(triplet.triplet_confidence * 100).toFixed(0)}%; 
+                                                        background-color: ${getConfidenceBarColor(triplet.triplet_confidence)}">
+                                            </div>
                                         </div>
                                     </div>
                                     
-                                    ${triplet.category_confidence ? `
+                                    ${triplet.aspect_category_confidence ? `
                                     <div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <small>Confidence Kategori</small>
-                                            <small>${(triplet.category_confidence * 100).toFixed(0)}%</small>
+                                            <small>${(triplet.aspect_category_confidence * 100).toFixed(0)}%</small>
                                         </div>
                                         <div class="confidence-bar">
-                                            <div class="confidence-level ${categoryConfidenceClass}" style="width: ${(triplet.category_confidence * 100).toFixed(0)}%"></div>
+                                            <div class="confidence-level" 
+                                                style="width: ${(triplet.aspect_category_confidence * 100).toFixed(0)}%; 
+                                                        background-color: ${getConfidenceBarColor(triplet.aspect_category_confidence)}">
+                                            </div>
                                         </div>
                                     </div>
                                     ` : ''}
                                 </div>
                             </div>
-                        `;
-                        
+                        `;              
                         tripletsContainer.appendChild(tripletCard);
                     });
                 }

@@ -164,23 +164,14 @@
             margin-top: 5px;
             overflow: hidden;
         }
-        
+
         .confidence-level {
             height: 100%;
             border-radius: 3px;
+            transition: width 0.5s ease, background-color 0.5s ease;
+            /* Tidak perlu lagi class .high, .medium, .low karena warna diatur secara dinamis */
         }
         
-        .confidence-level.high {
-            background-color: var(--positive-color);
-        }
-        
-        .confidence-level.medium {
-            background-color: var(--neutral-color);
-        }
-        
-        .confidence-level.low {
-            background-color: var(--negative-color);
-        }
         
         .aspect-value, .opinion-value, .category-value {
             font-weight: 500;
@@ -256,7 +247,7 @@
 <body>
     <div class="app-container">
         <div class="header">
-            <h1>Analisis Aspek Sentimen</h1>
+            <h1>Aspect Sentiment Triplet Extraction</h1>
             <p>Analisis Sentimen Triplet Level Aspek Berbasis Span Level Pada Aplikasi Pemerintahan dan Kategorisasi Aspek</p>
         </div>
         
@@ -307,11 +298,21 @@
         </div>
         
         <div class="footer">
-            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2023</p>
+            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2025</p>
         </div>
     </div>
     
     <script>
+        function getConfidenceBarColor(confidence) {
+            // Warna linear dari merah (rendah) ke kuning (sedang) ke hijau (tinggi)
+            if (confidence >= 0.7) {
+                return '#4caf50'; // Hijau untuk confidence tinggi
+            } else if (confidence >= 0.4) {
+                return '#ff9800'; // Oranye untuk confidence sedang
+            } else {
+                return '#f44336'; // Merah untuk confidence rendah
+            }
+        }
         document.getElementById('prediction-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -366,23 +367,18 @@
                             sentimentLabel = 'Netral';
                         }
                         
-                        const confidenceClass = triplet.confidence > 0.7 ? 'high' : 
-                                              triplet.confidence > 0.4 ? 'medium' : 'low';
-                        
-                        const categoryConfidenceClass = triplet.category_confidence > 0.7 ? 'high' : 
-                                                     triplet.category_confidence > 0.4 ? 'medium' : 'low';
-                        
+
                         tripletCard.innerHTML = `
                             <div class="card-body">
                                 <div class="triplet-header">
                                     <div class="aspect-opinion-container">
                                         <div class="mb-2">
                                             <span class="aspect-label">Aspek:</span>
-                                            <span class="aspect-value">${triplet.aspect}</span>
+                                            <span class="aspect-value">${triplet.aspect_term}</span>
                                         </div>
                                         <div>
                                             <span class="opinion-label">Opini:</span>
-                                            <span class="opinion-value">${triplet.opinion}</span>
+                                            <span class="opinion-value">${triplet.opinion_term}</span>
                                         </div>
                                     </div>
                                     <div class="sentiment-category-container">
@@ -392,7 +388,7 @@
                                         </div>
                                         <div>
                                             <span class="category-label">Kategori:</span>
-                                            <span class="category-value">${triplet.category || 'Tidak tersedia'}</span>
+                                            <span class="category-value">${triplet.aspect_category || 'Tidak tersedia'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -401,28 +397,33 @@
                                     <div class="mb-2">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <small>Confidence Sentimen</small>
-                                            <small>${(triplet.confidence * 100).toFixed(0)}%</small>
+                                            <small>${(triplet.triplet_confidence * 100).toFixed(0)}%</small>
                                         </div>
                                         <div class="confidence-bar">
-                                            <div class="confidence-level ${confidenceClass}" style="width: ${(triplet.confidence * 100).toFixed(0)}%"></div>
+                                            <div class="confidence-level" 
+                                                style="width: ${(triplet.triplet_confidence * 100).toFixed(0)}%; 
+                                                        background-color: ${getConfidenceBarColor(triplet.triplet_confidence)}">
+                                            </div>
                                         </div>
                                     </div>
                                     
-                                    ${triplet.category_confidence ? `
+                                    ${triplet.aspect_category_confidence ? `
                                     <div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <small>Confidence Kategori</small>
-                                            <small>${(triplet.category_confidence * 100).toFixed(0)}%</small>
+                                            <small>${(triplet.aspect_category_confidence * 100).toFixed(0)}%</small>
                                         </div>
                                         <div class="confidence-bar">
-                                            <div class="confidence-level ${categoryConfidenceClass}" style="width: ${(triplet.category_confidence * 100).toFixed(0)}%"></div>
+                                            <div class="confidence-level" 
+                                                style="width: ${(triplet.aspect_category_confidence * 100).toFixed(0)}%; 
+                                                        background-color: ${getConfidenceBarColor(triplet.aspect_category_confidence)}">
+                                            </div>
                                         </div>
                                     </div>
                                     ` : ''}
                                 </div>
                             </div>
-                        `;
-                        
+                        `;              
                         tripletsContainer.appendChild(tripletCard);
                     });
                 }

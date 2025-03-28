@@ -1,44 +1,66 @@
-# Progress Skripsi (Februari) - Aspect Sentiment Triplet Extraction (ASTE)
+# Analisis Triplet Sentimen Level Aspek Berbasis Span-Level pada Aplikasi Pemerintahan
 
-## Hal yang Sudah Dilakukan
+## Laporan Progress Skripsi - Maret
 
-### 1. Pembuatan Dataset
+### Pembaruan Progress
 
-Dataset sudah selesai dianotasi oleh total 5 annotator yang dibagi menjadi 2 tim. Untuk memastikan kualitas anotasi, telah dihitung *Inter-Annotator Agreement* menggunakan Cohen's Kappa dengan hasil sebagai berikut:
+#### Update Hasil Labelling:
+- Memisahkan tanda baca menjadi token tersendiri.
+- Contoh:
+  - **Sebelum:** "Tampilannya bagus, namun server lemot."
+    - Label: `[(\0, \1, POS), (\3, \4, NEG)]`
+  - **Sesudah:** "Tampilannya bagus , namun server lemot."
+    - Label: `[(\0, \1, POS), (\4, \5, NEG)]`
+- Perubahan ini sesuai dengan indeks label pada dataset SemEval 2016 untuk fine-tuning model Span-ASTE.
 
-| Elemen Anotasi | Rata-rata Cohen's Kappa |
-|----------------|-------------------------|
-| Aspect         | 0.85                    |
-| Opinion        | 0.76                    |
-| Sentiment      | 0.84                    |
+#### Pembersihan Label:
+- Membersihkan tanda baca berlebihan yang dapat memengaruhi indeks token.
+- Contoh: tanda titik lebih dari 2 akan dipotong menjadi satu saja.
 
-Nilai Cohen's Kappa di atas 0.75 menunjukkan kesepakatan antar annotator yang sangat baik, yang menandakan dataset yang dihasilkan memiliki kualitas dan konsistensi yang tinggi.
+### Hasil Fine-tuning
 
-### 2. Fine-Tuning Model
+| Model                 | F1 Score | Waktu (menit) |
+|-----------------------|----------|---------------|
+| IndoBERT-base        | 68.06    | 1160          |
+| IndoBERT-large       | 74.06    | 7281          |
+| IndoBERT-lite-base   | 70.86    | 9149          |
 
-Fine-tuning model Span-ASTE sudah dilakukan dan sedang dalam proses evaluasi menggunakan metode *5-fold cross validation*. Hasil sementara untuk fold 1, 2, dan 3 menunjukkan rata-rata F1-score sebesar 0.61.
+- **IndoBERT-large** memiliki akurasi tertinggi tetapi dengan beban komputasi tinggi (~5 jam).
+- **IndoBERT-lite-base** menunjukkan performa lebih baik dibanding IndoBERT-base dengan parameter 10x lebih sedikit.
+- Performa **F1 score setara** dengan paper original Span-ASTE (rata-rata **67.69**).
+- **Update label dengan memperhatikan tanda baca meningkatkan F1 score** dari **59-61 menjadi 68** (menggunakan IndoBERT-base).
 
-Berdasarkan literatur dan penelitian sebelumnya, nilai ini termasuk dalam rentang yang wajar dan dapat diterima karena:
+### Analisis Model IndoBERT-lite-base
 
-- Sebagian besar implementasi ASTE memiliki nilai F1-score berkisar antara 0.5 – 0.6 pada berbagai arsitektur
-- Untuk arsitektur Span-ASTE khususnya, nilai F1-score sebesar 0.61 sudah cukup baik dibandingkan dengan benchmark pada dataset serupa seperti res14 (domain restaurant) yang mencapai F1-score 0.59
+- Menggunakan arsitektur **ALBERT (A-Lite BERT)** yang mengurangi jumlah parameter.
+- Dilatih menggunakan **SOP (Sentence Order Prediction)** yang lebih unggul dalam menangkap urutan kata dibandingkan **NSP (Next Sentence Prediction)** pada BERT.
+- Sesuai dengan arsitektur **Span-ASTE** yang menghitung **width embedding** dan **distance embedding** untuk menentukan valid pair relation.
 
-## Hal yang Akan Dilakukan
+### Proses Kerja Span-Level ASTE
 
-### 1. Arsitektur Model Span-ASTE
+1. **Sentence Encoding**: Setiap input diencoding menggunakan **BERT tokenizer** (subword/wordpiece).
+2. **Span Representation**: Membentuk representasi span dari kemungkinan kata dalam kalimat.
+   - **Contoh:** "server sangat cepat"
+   - **Kemungkinan span:**
+     - "server", "sangat", "cepat"
+     - "server sangat", "sangat cepat"
+     - "server sangat cepat"
+3. **Aspect Term Extraction dan Opinion Term Extraction**:
+   - Mengklasifikasikan setiap token ke dalam **"TARGET", "OPINION", atau "INVALID"**.
+4. **Pruning Target dan Opinion**:
+   - Mengambil **top n** untuk efisiensi komputasi.
+5. **Triplet Module**:
+   - Membentuk pasangan valid dengan label **"POSITIVE", "NEGATIVE", "NEUTRAL", dan "INVALID"**.
+6. **Loss Function**:
+   - Menggunakan **negative log likelihood** dengan rumus:
+     ```
+     Loss = 0.2 × loss_NER + loss_RELATION
+     ```
 
-Mempelajari arsitektur model Span-ASTE secara mendalam, meliputi:
-- Proses transformasi input
-- Mekanisme kerja di setiap komponen model
-- Metode perhitungan loss
-- Metrik evaluasi yang digunakan
-- Proses pembentukan output triplet hasil ekstraksi
+### Catatan Penelitian
 
-### 2. Perbaikan Label
+- **Penelitian ini merupakan yang pertama** membangun dataset aspect sentiment triplet extraction berbahasa Indonesia.
+- **Penelitian ini juga pertama kali membangun model Span-ASTE untuk Bahasa Indonesia**.
+- **Domain yang digunakan** adalah **aplikasi pemerintahan berbahasa Indonesia**.
 
-Melakukan *cleaning* pada hasil konversi label dari format LabelStudio menjadi format Span-ASTE, karena saat ini masih terdapat beberapa teks yang belum sesuai dengan hasil konversinya. Perbaikan ini penting untuk memastikan model dilatih dengan data yang akurat.
-
-### 3. Dokumentasi dan Evaluasi
-
-- Menyimpan rekapitulasi lengkap hasil 5-fold cross validation untuk setiap langkah proses
-- Memodifikasi sistem validasi dengan mengubah parameter validation steps menjadi per-epoch untuk mendapatkan evaluasi yang lebih stabil dan konsisten
+---

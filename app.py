@@ -1012,7 +1012,7 @@ with open('templates/index.html', 'w') as f:
         </div>
         
         <div class="footer">
-            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2025</p>
+            <p>Feza Raffa Arnanda &copy; 2025</p>
         </div>
     </div>
     
@@ -1395,7 +1395,7 @@ with open('templates/api-docs.html', 'w') as f:
                     <div class="example-container">
                         <h5>Contoh Request</h5>
                         <pre>{
-                        "text": "Aplikasi ini bagus tapi login sangat lambat"
+                        "text": "overall aplikasinya bagus, tapi ui jelek dan login susah"
                         }
                         </pre>
                     </div>
@@ -1439,12 +1439,22 @@ with open('templates/api-docs.html', 'w') as f:
                         </thead>
                         <tbody>
                             <tr>
-                                <td>aspect</td>
+                                <td>aspect_category</td>
+                                <td>string</td>
+                                <td>Kategori yang ditetapkan untuk aspek, seperti "User Interface", "Functionality and Performance", dll.</td>
+                            </tr>
+                            <tr>
+                                <td>aspect_category_confidence</td>
+                                <td>float</td>
+                                <td>Tingkat kepercayaan model terhadap prediksi kategori, dalam rentang 0 hingga 1.</td>
+                            </tr>
+                            <tr>
+                                <td>aspect_term</td>
                                 <td>string</td>
                                 <td>Istilah aspek yang diekstrak.</td>
                             </tr>
                             <tr>
-                                <td>opinion</td>
+                                <td>opinion_term</td>
                                 <td>string</td>
                                 <td>Istilah opini yang terkait dengan aspek.</td>
                             </tr>
@@ -1454,19 +1464,9 @@ with open('templates/api-docs.html', 'w') as f:
                                 <td>Sentimen yang diekspresikan terhadap aspek. Nilai: "POS" (positif), "NEG" (negatif), atau "NEU" (netral).</td>
                             </tr>
                             <tr>
-                                <td>confidence</td>
+                                <td>triplet_confidence</td>
                                 <td>float</td>
                                 <td>Tingkat kepercayaan model terhadap prediksi sentimen, dalam rentang 0 hingga 1.</td>
-                            </tr>
-                            <tr>
-                                <td>category</td>
-                                <td>string</td>
-                                <td>Kategori yang ditetapkan untuk aspek, seperti "User Interface", "Functionality and Performance", dll.</td>
-                            </tr>
-                            <tr>
-                                <td>category_confidence</td>
-                                <td>float</td>
-                                <td>Tingkat kepercayaan model terhadap prediksi kategori, dalam rentang 0 hingga 1.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1474,27 +1474,35 @@ with open('templates/api-docs.html', 'w') as f:
                     <div class="example-container">
                         <h5>Contoh Respons</h5>
                         <pre>{
-                            "text": "Aplikasi ini bagus tapi login sangat lambat",
+                            "count": 3,
+                            "text": "overall aplikasinya bagus, tapi ui jelek dan login susah",
                             "triplets": [
                                 {
-                                "aspect": "aplikasi",
-                                "opinion": "bagus",
-                                "sentiment": "POS",
-                                "confidence": 0.95,
-                                "category": "User Interface",
-                                "category_confidence": 0.82
+                                    "aspect_category": "User Experince",
+                                    "aspect_category_confidence": 0.7083946466445923,
+                                    "aspect_term": "login",
+                                    "opinion_term": "susah",
+                                    "sentiment": "NEG",
+                                    "triplet_confidence": 1.0
                                 },
                                 {
-                                "aspect": "login",
-                                "opinion": "lambat",
-                                "sentiment": "NEG",
-                                "confidence": 0.89,
-                                "category": "Functionality and Performance",
-                                "category_confidence": 0.76
+                                    "aspect_category": "User Interface",
+                                    "aspect_category_confidence": 0.5862560868263245,
+                                    "aspect_term": "ui",
+                                    "opinion_term": "jelek",
+                                    "sentiment": "NEG",
+                                    "triplet_confidence": 1.0
+                                },
+                                {
+                                    "aspect_category": "General Aspect",
+                                    "aspect_category_confidence": 0.975966215133667,
+                                    "aspect_term": "aplikasinya",
+                                    "opinion_term": "bagus",
+                                    "sentiment": "POS",
+                                    "triplet_confidence": 1.0
                                 }
-                            ],
-                            "count": 2
-                            }
+                            ]
+                        }
                             </pre>
                     </div>
                     

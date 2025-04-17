@@ -11,6 +11,24 @@ from transformers import BertConfig, BertForSequenceClassification
 import sys
 import platform
 import traceback
+import json
+from datetime import datetime
+from tqdm import tqdm
+from time import sleep
+from typing import List, Optional, Tuple
+from google_play_scraper import Sort
+from google_play_scraper.constants.element import ElementSpecs
+from google_play_scraper.constants.regex import Regex
+from google_play_scraper.constants.request import Formats
+
+# Custom JSON encoder to handle datetime objects
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
+from google_play_scraper.utils.request import post
+import time  # Ensure time is imported here
 
 # Define enums needed for the SPAN-ASTE model
 class SpanLabel(IntEnum):
@@ -403,6 +421,9 @@ class ModelManager:
         """Extract aspect-opinion-sentiment triplets using SPAN-ASTE model"""
         if not self.loaded:
             self.load_models()
+        
+        # For very short reviews (less than 3 words), just proceed with normal extraction
+        # No fallback mechanism as per user request - if no triplets are extracted, return empty list
             
         with torch.no_grad():
             # Tokenize input
@@ -478,8 +499,8 @@ class ModelManager:
                         print(f"Found triplet: {aspect}, {opinion}, {sentiment}, conf: {confidence:.4f}")
                         
                         predict.append({
-                            "aspect": aspect,
-                            "opinion": opinion,
+                            "aspect_term": aspect,
+                            "opinion_term": opinion,
                             "sentiment": sentiment,
                             "confidence": confidence
                         })
@@ -550,7 +571,11 @@ class ModelManager:
             
             print(f"Aspect category for '{text}': {predicted_label}, conf: {confidence:.4f}")
             
-            return predicted_label, confidence
+            # Return as dictionary for consistent handling
+            return {
+                'category': predicted_label,
+                'confidence': confidence
+            }
         
         except Exception as e:
             print(f"Error during aspect classification: {e}")
@@ -587,6 +612,10 @@ def index():
 @app.route('/api-docs')
 def api_docs():
     return render_template('api-docs.html')
+    
+@app.route('/scrape')
+def scrape_page():
+    return render_template('scrape.html')
 
 @app.route('/api/predict', methods=['POST'])
 def api_predict():
@@ -616,19 +645,19 @@ def api_predict():
         formatted_triplets = []
         for triplet in triplets:
             # Combine aspect and opinion for aspect category prediction
-            aspect_opinion_text = f"{triplet['aspect']} {triplet['opinion']}"
+            aspect_opinion_text = f"{triplet['aspect_term']} {triplet['opinion_term']}"
             
             # Predict aspect category
-            aspect_category, category_confidence = model_manager.predict_aspect_category(aspect_opinion_text)
+            category_info = model_manager.predict_aspect_category(aspect_opinion_text)
             
             # Format triplet with new key names
             formatted_triplet = {
-                'aspect_term': triplet['aspect'],
-                'opinion_term': triplet['opinion'],
+                'aspect_term': triplet['aspect_term'],
+                'opinion_term': triplet['opinion_term'],
                 'sentiment': triplet['sentiment'],
                 'triplet_confidence': triplet['confidence'],
-                'aspect_category': aspect_category,
-                'aspect_category_confidence': category_confidence
+                'aspect_category': category_info['category'],
+                'aspect_category_confidence': category_info['confidence']
             }
             formatted_triplets.append(formatted_triplet)
         
@@ -646,6 +675,375 @@ def api_predict():
             'triplets': [],
             'error': str(e)
         }), 500
+
+@app.route('/api/scrape', methods=['POST'])
+def api_scrape():
+    try:
+        # Get max_reviews parameter from request
+        data = request.json or {}
+        max_reviews = data.get('max_reviews', 0)  # Default to 0 (all reviews)
+        
+        # Define the path for saved data
+        saved_data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saved_data')
+        os.makedirs(saved_data_dir, exist_ok=True)
+        saved_data_path = os.path.join(saved_data_dir, f'{ALLSTATS_APP_ID}_reviews.json')
+        
+        # Check if we have saved data
+        if os.path.exists(saved_data_path):
+            try:
+                with open(saved_data_path, 'r', encoding='utf-8') as f:
+                    saved_data = json.load(f)
+                    # Check if saved data is valid and has results
+                    if isinstance(saved_data, dict) and 'results' in saved_data and saved_data.get('max_reviews', 0) >= max_reviews:
+                        print(f"Loading {len(saved_data['results'])} saved reviews from disk")
+                        return jsonify(saved_data)
+            except Exception as e:
+                print(f"Error loading saved data: {e}")
+        
+        # Start scraping with progress feedback
+        print(f"Starting to scrape reviews for app: {ALLSTATS_APP_ID} with max_reviews={max_reviews}")
+        
+        # Scrape the reviews
+        reviews_data = reviews_all(ALLSTATS_APP_ID, max_reviews=max_reviews)
+        print(f"Scraped {len(reviews_data)} reviews for app {ALLSTATS_APP_ID}")
+        
+        # Function to check if a text is only emojis or emoticons
+        def is_emoji_only(text):
+            import re
+            # Basic pattern to detect emoji and emoticons
+            emoji_pattern = re.compile(
+                "["
+                "\U0001F600-\U0001F64F"  # emoticons
+                "\U0001F300-\U0001F5FF"  # symbols & pictographs
+                "\U0001F680-\U0001F6FF"  # transport & map symbols
+                "\U0001F700-\U0001F77F"  # alchemical symbols
+                "\U0001F780-\U0001F7FF"  # Geometric Shapes
+                "\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+                "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+                "\U0001FA00-\U0001FA6F"  # Chess Symbols
+                "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
+                "\U00002702-\U000027B0"  # Dingbats
+                "\U000024C2-\U0001F251" 
+                "]+"
+            )
+            
+            # Strip whitespace
+            cleaned_text = text.strip()
+            
+            # Remove all emojis and common emoticons
+            text_without_emojis = emoji_pattern.sub(r'', cleaned_text)
+            text_without_emoticons = re.sub(r'[:;=][\-^]?[)(<>$@3PDpoO0\[\]\\|/]', '', text_without_emojis)
+            
+            # If after removing emojis/emoticons the text is empty or just whitespace, it was emoji-only
+            return not text_without_emoticons.strip()
+        
+        # Process each review with the model
+        results = []
+        for review in tqdm(reviews_data, desc="Processing Reviews"):
+            # Get the review text
+            review_text = review['content']
+            review_score = review['score']  # Rating (1-5)
+            
+            # Skip empty reviews or emoji-only reviews
+            if not review_text or review_text.strip() == "" or is_emoji_only(review_text):
+                continue
+            
+            # Track processing time and status
+            start_time = time.time()
+            processing_status = "success"
+            error_details = None
+            
+            try: 
+                # No longer using fallback mechanism
+                # Reset any current_review_score to ensure it doesn't affect processing
+                model_manager.current_review_score = None
+                
+                # Process with our model
+                triplets = model_manager.predict_span_aste(review_text)
+                
+                # Reset current review score
+                model_manager.current_review_score = None
+                
+                # Get aspect categories if available
+                if model_manager.aspect_classifier_model is not None and triplets:
+                    for triplet in triplets:
+                        if isinstance(triplet, dict) and 'aspect_term' in triplet:
+                            aspect_term = triplet['aspect_term']
+                            category_info = model_manager.predict_aspect_category(aspect_term)
+                            triplet['aspect_category'] = category_info['category']
+                            triplet['category_confidence'] = category_info['confidence']
+                
+                # Calculate processing time
+                processing_time = time.time() - start_time
+                
+                # Add to results with metadata
+                results.append({
+                    'review_id': review['reviewId'],
+                    'review_text': review_text,
+                    'score': review_score,
+                    'at': review['at'],
+                    'triplets': triplets,
+                    'processing_status': processing_status,
+                    'processing_time': round(processing_time, 3),
+                    'processed_at': datetime.now().isoformat(),
+                    'model_version': getattr(model_manager, 'model_version', 'span_aste_v1')
+                })
+            except Exception as e:
+                print(f"Error processing review: {review_text}")
+                print(f"Error details: {e}")
+                # Log the error but still include the review in results with error info
+                processing_status = "error"
+                error_details = str(e)
+                processing_time = time.time() - start_time
+                
+                # Add to results with error information
+                results.append({
+                    'review_id': review['reviewId'],
+                    'review_text': review_text,
+                    'score': review_score,
+                    'at': review['at'],
+                    'triplets': [],  # Empty triplets for error cases
+                    'processing_status': processing_status,
+                    'processing_time': round(processing_time, 3),
+                    'processed_at': datetime.now().isoformat(),
+                    'error_details': error_details,
+                    'model_version': getattr(model_manager, 'model_version', 'span_aste_v1')
+                })
+                # Reset current_review_score in case of error
+                model_manager.current_review_score = None
+                # Continue processing other reviews even if one fails
+                continue
+        
+        # Prepare response data
+        response_data = {
+            'success': True,
+            'app_id': ALLSTATS_APP_ID,
+            'total_reviews': len(reviews_data),
+            'processed_reviews': len(results),
+            'max_reviews': max_reviews,
+            'results': results
+        }
+        
+        # Save data to disk for future use
+        try:
+            with open(saved_data_path, 'w', encoding='utf-8') as f:
+                json.dump(response_data, f, ensure_ascii=False, indent=2, cls=DateTimeEncoder)
+            print(f"Saved {len(results)} processed reviews to {saved_data_path}")
+        except Exception as e:
+            print(f"Error saving data to disk: {e}")
+        
+        return jsonify(response_data)
+    except Exception as e:
+        traceback_info = traceback.format_exc()
+        print(f"Error in review scraping: {e}\n{traceback_info}")
+        return jsonify({'error': 'Internal server error', 'details': str(e)}), 500
+
+# API endpoint for scraping reviews and getting predictions in one call
+@app.route('/api/scrape_and_predict', methods=['POST'])
+def api_scrape_and_predict():
+    """Scrape reviews and get sentiment analysis predictions in one call.
+    Accepts max_reviews parameter (optional) to limit the number of reviews to scrape.
+    Returns the scraped reviews with sentiment analysis results.
+    """
+    try:
+        # Get request data
+        data = request.get_json() or {}
+        max_reviews = data.get('max_reviews', 0)  # 0 means all reviews
+        
+        # App ID for BPS Allstats
+        ALLSTATS_APP_ID = "id.go.bps.allstats"
+        
+        # Path to save scrapped data
+        saved_data_dir = "saved_data"
+        saved_data_path = f"{saved_data_dir}/{ALLSTATS_APP_ID}_reviews.json"
+        
+        # Create directory if it doesn't exist
+        os.makedirs(saved_data_dir, exist_ok=True)
+        
+        print(f"Starting to scrape reviews for app: {ALLSTATS_APP_ID} with max_reviews={max_reviews}")
+        
+        # Use google-play-scraper to get reviews
+        from google_play_scraper import Sort, reviews
+        
+        result, continuation_token = reviews(
+            ALLSTATS_APP_ID,
+            lang='id',
+            country='id',
+            sort=Sort.NEWEST,
+            count=max_reviews if max_reviews > 0 else 100,  # Initial batch size
+            filter_score_with=None  # All ratings
+        )
+        
+        # If max_reviews is 0 (all reviews) or larger than initial batch, continue scraping
+        reviews_data = result
+        while continuation_token and (max_reviews == 0 or len(reviews_data) < max_reviews):
+            batch, continuation_token = reviews(
+                ALLSTATS_APP_ID,
+                continuation_token=continuation_token
+            )
+            reviews_data.extend(batch)
+            if max_reviews > 0 and len(reviews_data) >= max_reviews:
+                reviews_data = reviews_data[:max_reviews]  # Trim to exact max_reviews
+                break
+        
+        print(f"Scraped {len(reviews_data)} reviews for app {ALLSTATS_APP_ID}")
+        
+        # Function to check if a text is only emojis or emoticons
+        def is_emoji_only(text):
+            import re
+            # Basic pattern to detect emoji and emoticons
+            emoji_pattern = re.compile(
+                "["
+                "\U0001F600-\U0001F64F"  # emoticons
+                "\U0001F300-\U0001F5FF"  # symbols & pictographs
+                "\U0001F680-\U0001F6FF"  # transport & map symbols
+                "\U0001F700-\U0001F77F"  # alchemical symbols
+                "\U0001F780-\U0001F7FF"  # Geometric Shapes
+                "\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+                "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+                "\U0001FA00-\U0001FA6F"  # Chess Symbols
+                "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
+                "\U00002702-\U000027B0"  # Dingbats
+                "\U000024C2-\U0001F251" 
+                "]+"
+            )
+            
+            # Strip whitespace
+            cleaned_text = text.strip()
+            
+            # Remove all emojis and common emoticons
+            text_without_emojis = emoji_pattern.sub(r'', cleaned_text)
+            text_without_emoticons = re.sub(r'[:;=][\-^]?[)(<>$@3PDpoO0\[\]\\|/]', '', text_without_emojis)
+            
+            # If after removing emojis/emoticons the text is empty or just whitespace, it was emoji-only
+            return not text_without_emoticons.strip()
+        
+        # Process each review with the model
+        results = []
+        for review in tqdm(reviews_data, desc="Processing Reviews"):
+            # Get the review text
+            review_text = review['content']
+            review_score = review['score']  # Rating (1-5)
+            
+            # Skip empty reviews or emoji-only reviews
+            if not review_text or review_text.strip() == "" or is_emoji_only(review_text):
+                continue
+            
+            # Track processing time and status
+            start_time = time.time()
+            processing_status = "success"
+            error_details = None
+            
+            try: 
+                # No longer using fallback mechanism
+                # Reset any current_review_score to ensure it doesn't affect processing
+                model_manager.current_review_score = None
+                
+                # Process with our model
+                triplets = model_manager.predict_span_aste(review_text)
+                
+                # Reset current review score
+                model_manager.current_review_score = None
+                
+                # Get aspect categories if available
+                if model_manager.aspect_classifier_model is not None and triplets:
+                    for triplet in triplets:
+                        if isinstance(triplet, dict) and 'aspect_term' in triplet:
+                            aspect_term = triplet['aspect_term']
+                            category_info = model_manager.predict_aspect_category(aspect_term)
+                            triplet['aspect_category'] = category_info['category']
+                            triplet['category_confidence'] = category_info['confidence']
+                
+                # Calculate processing time
+                processing_time = time.time() - start_time
+                
+                # Format each triplet for consistent output
+                formatted_triplets = []
+                for triplet in triplets:
+                    formatted_triplet = {
+                        'aspect_term': triplet['aspect_term'],
+                        'opinion_term': triplet['opinion_term'],
+                        'sentiment': triplet['sentiment'],
+                        'triplet_confidence': triplet.get('confidence', 0.0),
+                        'aspect_category': triplet.get('aspect_category', 'Unknown'),
+                        'aspect_category_confidence': triplet.get('category_confidence', 0.0)
+                    }
+                    formatted_triplets.append(formatted_triplet)
+                
+                # Add to results with metadata
+                results.append({
+                    'review_id': review['reviewId'],
+                    'review_text': review_text,
+                    'score': review_score,
+                    'at': review['at'],
+                    'triplets': formatted_triplets,
+                    'processing_status': processing_status,
+                    'processing_time': round(processing_time, 3),
+                    'processed_at': datetime.now().isoformat(),
+                    'model_version': getattr(model_manager, 'model_version', 'span_aste_v1')
+                })
+            except Exception as e:
+                print(f"Error processing review: {review_text}")
+                print(f"Error details: {e}")
+                # Log the error but still include the review in results with error info
+                processing_status = "error"
+                error_details = str(e)
+                processing_time = time.time() - start_time
+                
+                # Add to results with error information
+                results.append({
+                    'review_id': review['reviewId'],
+                    'review_text': review_text,
+                    'score': review_score,
+                    'at': review['at'],
+                    'triplets': [],  # Empty triplets for error cases
+                    'processing_status': processing_status,
+                    'processing_time': round(processing_time, 3),
+                    'processed_at': datetime.now().isoformat(),
+                    'error_details': error_details,
+                    'model_version': getattr(model_manager, 'model_version', 'span_aste_v1')
+                })
+                # Reset current_review_score in case of error
+                model_manager.current_review_score = None
+        
+        # Calculate sentiment statistics
+        total_reviews = len(results)
+        processed_reviews = sum(1 for r in results if r['processing_status'] == 'success')
+        
+        # Count triplets by sentiment
+        positive_count = 0
+        negative_count = 0
+        neutral_count = 0
+        
+        for review in results:
+            for triplet in review.get('triplets', []):
+                if triplet['sentiment'] == 'POS':
+                    positive_count += 1
+                elif triplet['sentiment'] == 'NEG':
+                    negative_count += 1
+                else:
+                    neutral_count += 1
+        
+        # Prepare response data with statistics
+        response_data = {
+            'success': True,
+            'app_id': ALLSTATS_APP_ID,
+            'total_reviews': total_reviews,
+            'processed_reviews': processed_reviews,
+            'statistics': {
+                'positive_triplets': positive_count,
+                'negative_triplets': negative_count,
+                'neutral_triplets': neutral_count,
+                'total_triplets': positive_count + negative_count + neutral_count
+            },
+            'results': results
+        }
+        
+        return jsonify(response_data)
+    except Exception as e:
+        traceback_info = traceback.format_exc()
+        print(f"Error in scrape_and_predict: {e}\n{traceback_info}")
+        return jsonify({'error': 'Internal server error', 'details': str(e)}), 500
 
 # Modifikasi pada fungsi predict() yang digunakan untuk web interface
 @app.route('/predict', methods=['POST'])
@@ -673,19 +1071,19 @@ def predict():
         formatted_triplets = []
         for triplet in triplets:
             # Combine aspect and opinion for aspect category prediction
-            aspect_opinion_text = f"{triplet['aspect']} {triplet['opinion']}"
+            aspect_opinion_text = f"{triplet['aspect_term']} {triplet['opinion_term']}"
             
             # Predict aspect category
-            aspect_category, category_confidence = model_manager.predict_aspect_category(aspect_opinion_text)
+            category_info = model_manager.predict_aspect_category(aspect_opinion_text)
             
             # Format triplet with new key names
             formatted_triplet = {
-                'aspect_term': triplet['aspect'],
-                'opinion_term': triplet['opinion'],
+                'aspect_term': triplet['aspect_term'],
+                'opinion_term': triplet['opinion_term'],
                 'sentiment': triplet['sentiment'],
                 'triplet_confidence': triplet['confidence'],
-                'aspect_category': aspect_category,
-                'aspect_category_confidence': category_confidence
+                'aspect_category': category_info['category'],
+                'aspect_category_confidence': category_info['confidence']
             }
             formatted_triplets.append(formatted_triplet)
         
@@ -709,868 +1107,107 @@ def system_info():
     info = get_system_info()
     return jsonify(info)
 
-# Create templates directory and add index.html
-os.makedirs('templates', exist_ok=True)
-with open('templates/index.html', 'w') as f:
-    f.write('''
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Span Level Aspect Sentiment Triplet Extraction</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3a0ca3;
-            --accent-color: #7209b7;
-            --positive-color: #4caf50;
-            --negative-color: #f44336;
-            --neutral-color: #ff9800;
-            --bg-light: #f8f9fa;
-            --border-radius: 10px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-light);
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .app-container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .header p {
-            color: #666;
-            font-size: 1.1rem;
-        }
-        
-        .card {
-            border: none;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-        
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 15px 20px;
-        }
-        
-        .card-body {
-            padding: 25px;
-        }
-        
-        textarea.form-control {
-            border-radius: var(--border-radius);
-            min-height: 120px;
-            padding: 15px;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            transition: border-color 0.3s;
-        }
-        
-        textarea.form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            border-radius: var(--border-radius);
-            padding: 10px 20px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-        
-        .loading {
-            display: none;
-            align-items: center;
-            margin-top: 15px;
-        }
-        
-        .loading span {
-            margin-left: 10px;
-            font-weight: 500;
-        }
-        
-        .triplet-card {
-            border-radius: var(--border-radius);
-            margin-bottom: 15px;
-            transition: transform 0.3s;
-        }
-        
-        .triplet-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .triplet-card .card-body {
-            padding: 20px;
-        }
-        
-        .triplet-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .aspect-label, .opinion-label, .sentiment-label, .category-label {
-            font-weight: 600;
-            margin-right: 8px;
-            color: #555;
-        }
-        
-        .sentiment-badge {
-            padding: 5px 10px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-        
-        .sentiment-badge.positive {
-            background-color: rgba(76, 175, 80, 0.15);
-            color: var(--positive-color);
-        }
-        
-        .sentiment-badge.negative {
-            background-color: rgba(244, 67, 54, 0.15);
-            color: var(--negative-color);
-        }
-        
-        .sentiment-badge.neutral {
-            background-color: rgba(255, 152, 0, 0.15);
-            color: var(--neutral-color);
-        }
-        
-        .confidence-bar {
-            height: 6px;
-            background-color: #e9ecef;
-            border-radius: 3px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
 
-        .confidence-level {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease, background-color 0.5s ease;
-            /* Tidak perlu lagi class .high, .medium, .low karena warna diatur secara dinamis */
-        }
-        
-        
-        .aspect-value, .opinion-value, .category-value {
-            font-weight: 500;
-        }
-        
-        .confidence-text {
-            font-size: 0.8rem;
-            color: #6c757d;
-            margin-top: 3px;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 30px;
-            color: #6c757d;
-        }
-        
-        .no-results i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #dee2e6;
-        }
-        
-        .analyzed-text {
-            font-style: italic;
-            margin-bottom: 20px;
-            padding: 10px 15px;
-            background-color: rgba(67, 97, 238, 0.05);
-            border-left: 4px solid var(--primary-color);
-            border-radius: 4px;
-        }
-        
-        @media (max-width: 768px) {
-            .triplet-header {
-                flex-direction: column;
-            }
-            
-            .sentiment-category-container {
-                margin-top: 10px;
-            }
-        }
-        
-        /* Footer styling */
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #dee2e6;
-            color: #6c757d;
-        }
-        
-        /* Nav links */
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0;
-            gap: 20px;
-        }
-        
-        .nav-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-link:hover {
-            color: var(--secondary-color);
-            text-decoration: underline;
-        }
-    </style>
-    </head>
-<body>
-    <div class="app-container">
-        <div class="header">
-            <h1>Aspect Sentiment Triplet Extraction</h1>
-            <p>Analisis Sentimen Triplet Level Aspek Berbasis Span Level Pada Aplikasi Pemerintahan dan Kategorisasi Aspek</p>
-        </div>
-        
-        <div class="nav-links">
-            <a href="/" class="nav-link"><i class="bi bi-house-door-fill me-1"></i>Beranda</a>
-            <a href="/api-docs" class="nav-link"><i class="bi bi-code-slash me-1"></i>Dokumentasi API</a>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="bi bi-chat-dots me-2"></i>Masukkan Teks</h5>
-            </div>
-            <div class="card-body">
-                <form id="prediction-form">
-                    <div class="mb-3">
-                        <textarea class="form-control" id="text-input" rows="4" placeholder="Masukkan teks ulasan untuk dianalisis..." required></textarea>
-                    </div>
-                    <div class="d-flex">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-search me-2"></i>Analisis
-                        </button>
-                        <div class="loading ms-3 d-flex">
-                            <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <span class="ms-2">Sedang menganalisis...</span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <div id="results" class="card" style="display: none;">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Hasil Analisis</h5>
-            </div>
-            <div class="card-body">
-                <div class="analyzed-text" id="analyzed-text"></div>
-                
-                <div id="no-triplets" class="no-results" style="display: none;">
-                    <i class="bi bi-emoji-frown"></i>
-                    <h5>Tidak ditemukan aspek sentimen</h5>
-                    <p class="text-muted">Coba masukkan teks ulasan yang lebih detail tentang suatu produk atau layanan.</p>
-                </div>
-                
-                <div id="triplets-container"></div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>Feza Raffa Arnanda &copy; 2025</p>
-        </div>
-    </div>
-    
-    <script>
-        function getConfidenceBarColor(confidence) {
-            // Warna linear dari merah (rendah) ke kuning (sedang) ke hijau (tinggi)
-            if (confidence >= 0.7) {
-                return '#4caf50'; // Hijau untuk confidence tinggi
-            } else if (confidence >= 0.4) {
-                return '#ff9800'; // Oranye untuk confidence sedang
-            } else {
-                return '#f44336'; // Merah untuk confidence rendah
-            }
-        }
-        document.getElementById('prediction-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show loading indicator
-            document.querySelector('.loading').style.display = 'flex';
-            document.getElementById('results').style.display = 'none';
-            
-            // Get input text
-            const text = document.getElementById('text-input').value;
-            
-            // Send request
-            fetch('/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'text=' + encodeURIComponent(text)
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Hide loading indicator
-                document.querySelector('.loading').style.display = 'none';
-                
-                // Show results
-                document.getElementById('results').style.display = 'block';
-                document.getElementById('analyzed-text').textContent = data.text;
-                
-                const tripletsContainer = document.getElementById('triplets-container');
-                tripletsContainer.innerHTML = '';
-                
-                if (!data.triplets || data.triplets.length === 0) {
-                    document.getElementById('no-triplets').style.display = 'block';
-                } else {
-                    document.getElementById('no-triplets').style.display = 'none';
-                    
-                    // Display triplets
-                    data.triplets.forEach(triplet => {
-                        const tripletCard = document.createElement('div');
-                        tripletCard.className = 'card triplet-card';
-                        
-                        // Set card border color based on sentiment
-                        let sentimentClass = '';
-                        let sentimentLabel = '';
-                        if (triplet.sentiment === 'POS') {
-                            sentimentClass = 'positive';
-                            sentimentLabel = 'Positif';
-                        } else if (triplet.sentiment === 'NEG') {
-                            sentimentClass = 'negative';
-                            sentimentLabel = 'Negatif';
-                        } else {
-                            sentimentClass = 'neutral';
-                            sentimentLabel = 'Netral';
-                        }
-                        
+# Google Play Store Scraper constants
+MAX_COUNT_EACH_FETCH = 199
+MAX_REVIEWS_PER_APP = 0  # 0 means get all available reviews
+ALLSTATS_APP_ID = 'id.go.bps.allstats'
 
-                        tripletCard.innerHTML = `
-                            <div class="card-body">
-                                <div class="triplet-header">
-                                    <div class="aspect-opinion-container">
-                                        <div class="mb-2">
-                                            <span class="aspect-label">Aspek:</span>
-                                            <span class="aspect-value">${triplet.aspect_term}</span>
-                                        </div>
-                                        <div>
-                                            <span class="opinion-label">Opini:</span>
-                                            <span class="opinion-value">${triplet.opinion_term}</span>
-                                        </div>
-                                    </div>
-                                    <div class="sentiment-category-container">
-                                        <div class="mb-2">
-                                            <span class="sentiment-label">Sentimen:</span>
-                                            <span class="sentiment-badge ${sentimentClass}">${sentimentLabel}</span>
-                                        </div>
-                                        <div>
-                                            <span class="category-label">Kategori:</span>
-                                            <span class="category-value">${triplet.aspect_category || 'Tidak tersedia'}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-3">
-                                    <div class="mb-2">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small>Confidence Sentimen</small>
-                                            <small>${(triplet.triplet_confidence * 100).toFixed(0)}%</small>
-                                        </div>
-                                        <div class="confidence-bar">
-                                            <div class="confidence-level" 
-                                                style="width: ${(triplet.triplet_confidence * 100).toFixed(0)}%; 
-                                                        background-color: ${getConfidenceBarColor(triplet.triplet_confidence)}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    ${triplet.aspect_category_confidence ? `
-                                    <div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small>Confidence Kategori</small>
-                                            <small>${(triplet.aspect_category_confidence * 100).toFixed(0)}%</small>
-                                        </div>
-                                        <div class="confidence-bar">
-                                            <div class="confidence-level" 
-                                                style="width: ${(triplet.aspect_category_confidence * 100).toFixed(0)}%; 
-                                                        background-color: ${getConfidenceBarColor(triplet.aspect_category_confidence)}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        `;              
-                        tripletsContainer.appendChild(tripletCard);
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.querySelector('.loading').style.display = 'none';
-                alert('Terjadi kesalahan saat melakukan prediksi. Silakan coba lagi.');
-            });
-        });
-    </script>
-</body>
-</html>
-''')
 
-# Create api-docs.html template
-with open('templates/api-docs.html', 'w') as f:
-    f.write('''
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation - Span Level Aspect Sentiment Triplet Extraction</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3a0ca3;
-            --accent-color: #7209b7;
-            --positive-color: #4caf50;
-            --negative-color: #f44336;
-            --neutral-color: #ff9800;
-            --bg-light: #f8f9fa;
-            --border-radius: 10px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+# Google Play Store Scraper functionality
+class _ContinuationToken:
+    __slots__ = ("token", "lang", "country", "sort", "count", "filter_score_with", "filter_device_with")
+
+    def __init__(self, token, lang, country, sort, count, filter_score_with, filter_device_with):
+        self.token = token
+        self.lang = lang
+        self.country = country
+        self.sort = sort
+        self.count = count
+        self.filter_score_with = filter_score_with
+        self.filter_device_with = filter_device_with
+
+def _fetch_review_items(url, app_id, sort, count, filter_score_with, filter_device_with, pagination_token):
+    dom = post(
+        url,
+        Formats.Reviews.build_body(
+            app_id,
+            sort,
+            count,
+            "null" if filter_score_with is None else filter_score_with,
+            "null" if filter_device_with is None else filter_device_with,
+            pagination_token,
+        ),
+        {"content-type": "application/x-www-form-urlencoded"},
+    )
+    match = json.loads(Regex.REVIEWS.findall(dom)[0])
+    return json.loads(match[0][2])[0], json.loads(match[0][2])[-2][-1]
+
+def reviews(app_id, lang="id", country="id", sort=Sort.NEWEST, count=100, filter_score_with=None, continuation_token=None):
+    sort = sort.value
+    if continuation_token is not None:
+        token = continuation_token.token
+        if token is None:
+            return [], continuation_token
+    else:
+        token = None
+
+    url = Formats.Reviews.build(lang=lang, country=country)
+    _fetch_count = count
+    result = []
+
+    while True:
+        if _fetch_count == 0:
+            break
+        if _fetch_count > MAX_COUNT_EACH_FETCH:
+            _fetch_count = MAX_COUNT_EACH_FETCH
+
+        try:
+            review_items, token = _fetch_review_items(
+                url, app_id, sort, _fetch_count, filter_score_with, None, token
+            )
+        except (TypeError, IndexError):
+            break
+
+        for review in review_items:
+            result.append({k: spec.extract_content(review) for k, spec in ElementSpecs.Review.items()})
+
+        _fetch_count = count - len(result)
+        if token is None:
+            break
+
+    return result, _ContinuationToken(token, lang, country, sort, count, filter_score_with, None)
+
+def reviews_all(app_id, max_reviews=MAX_REVIEWS_PER_APP, sleep_milliseconds=1000):
+    result = []
+    continuation_token = None
+
+    while True:
+        count_to_fetch = MAX_COUNT_EACH_FETCH
+        if max_reviews > 0 and len(result) + count_to_fetch > max_reviews:
+            count_to_fetch = max_reviews - len(result)
+            
+        new_result, continuation_token = reviews(
+            app_id,
+            count=count_to_fetch,
+            continuation_token=continuation_token,
+        )
         
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-light);
-            color: #333;
-            line-height: 1.6;
-        }
+        if not new_result:
+            break
+            
+        result.extend(new_result)
         
-        .app-container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .header p {
-            color: #666;
-            font-size: 1.1rem;
-        }
-        
-        .card {
-            border: none;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-        
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 15px 20px;
-        }
-        
-        .card-body {
-            padding: 25px;
-        }
-        
-        /* Footer styling */
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #dee2e6;
-            color: #6c757d;
-        }
-        
-        /* Nav links */
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0;
-            gap: 20px;
-        }
-        
-        .nav-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-link:hover {
-            color: var(--secondary-color);
-            text-decoration: underline;
-        }
-        
-        /* API Documentation Styles */
-        .api-section {
-            margin-bottom: 30px;
-        }
-        
-        .api-section h3 {
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        .api-endpoint {
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            padding: 10px 15px;
-            font-family: monospace;
-            margin: 10px 0;
-            font-weight: 600;
-        }
-        
-        .api-endpoint .method {
-            color: var(--primary-color);
-            margin-right: 10px;
-        }
-        
-        code {
-            background-color: #f1f1f1;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-size: 0.9em;
-        }
-        
-        pre {
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            padding: 15px;
-            overflow-x: auto;
-            border: 1px solid #e9ecef;
-        }
-        
-        .table-params {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        
-        .table-params th {
-            background-color: #f1f1f1;
-        }
-        
-        .badge-required {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-        }
-        
-        .badge-optional {
-            background-color: #6c757d;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-        }
-        
-        .example-container {
-            margin: 20px 0;
-        }
-        
-        .example-container h5 {
-            margin-bottom: 10px;
-        }
-        
-        .section-divider {
-            border-top: 1px solid #dee2e6;
-            margin: 40px 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="app-container">
-        <div class="header">
-            <h1>API Documentation</h1>
-            <p>Span Level Aspect Sentiment Triplet Extraction API</p>
-        </div>
-        
-        <div class="nav-links">
-            <a href="/" class="nav-link"><i class="bi bi-house-door-fill me-1"></i>Beranda</a>
-            <a href="/api-docs" class="nav-link"><i class="bi bi-code-slash me-1"></i>Dokumentasi API</a>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Ringkasan API</h5>
-            </div>
-            <div class="card-body">
-                <p>API ini menyediakan kemampuan analisis sentimen tingkat aspek pada teks menggunakan model berbasis Span Level untuk ekstraksi Triplet Sentimen Aspek. API dapat mengidentifikasi istilah aspek (aspect terms), istilah opini (opinion terms), dan sentimen yang terkait, serta mengkategorikan aspek ke dalam beberapa kategori.</p>
-                
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle-fill me-2"></i>
-                    <strong>Basis URL:</strong> <code>http://localhost:5000</code>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="bi bi-hdd-stack me-2"></i>Endpoints API</h5>
-            </div>
-            <div class="card-body">
-                <div class="api-section">
-                    <h3>Analisis Aspek Sentimen</h3>
-                    
-                    <div class="api-endpoint">
-                        <span class="method">POST</span>/api/predict
-                    </div>
-                    
-                    <p>Menganalisis teks ulasan untuk mengekstrak triplet aspek-sentimen berdasarkan model Span Level.</p>
-                    
-                    <h5>Request Parameters</h5>
-                    <table class="table table-params table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Parameter</th>
-                                <th>Tipe</th>
-                                <th>Deskripsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>text <span class="badge-required">required</span></td>
-                                <td>string</td>
-                                <td>Teks ulasan yang akan dianalisis untuk ekstraksi triplet aspek-sentimen.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="example-container">
-                        <h5>Contoh Request</h5>
-                        <pre>{
-                        "text": "overall aplikasinya bagus, tapi ui jelek dan login susah"
-                        }
-                        </pre>
-                    </div>
-                    
-                    <h5>Response</h5>
-                    <table class="table table-params table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Field</th>
-                                <th>Tipe</th>
-                                <th>Deskripsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>text</td>
-                                <td>string</td>
-                                <td>Teks input yang dianalisis.</td>
-                            </tr>
-                            <tr>
-                                <td>triplets</td>
-                                <td>array</td>
-                                <td>Array objek triplet yang mengandung pasangan aspek-opini-sentimen yang diekstrak.</td>
-                            </tr>
-                            <tr>
-                                <td>count</td>
-                                <td>integer</td>
-                                <td>Jumlah triplet yang ditemukan dalam teks.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <h5>Triplet Object</h5>
-                    <table class="table table-params table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Field</th>
-                                <th>Tipe</th>
-                                <th>Deskripsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>aspect_category</td>
-                                <td>string</td>
-                                <td>Kategori yang ditetapkan untuk aspek, seperti "User Interface", "Functionality and Performance", dll.</td>
-                            </tr>
-                            <tr>
-                                <td>aspect_category_confidence</td>
-                                <td>float</td>
-                                <td>Tingkat kepercayaan model terhadap prediksi kategori, dalam rentang 0 hingga 1.</td>
-                            </tr>
-                            <tr>
-                                <td>aspect_term</td>
-                                <td>string</td>
-                                <td>Istilah aspek yang diekstrak.</td>
-                            </tr>
-                            <tr>
-                                <td>opinion_term</td>
-                                <td>string</td>
-                                <td>Istilah opini yang terkait dengan aspek.</td>
-                            </tr>
-                            <tr>
-                                <td>sentiment</td>
-                                <td>string</td>
-                                <td>Sentimen yang diekspresikan terhadap aspek. Nilai: "POS" (positif), "NEG" (negatif), atau "NEU" (netral).</td>
-                            </tr>
-                            <tr>
-                                <td>triplet_confidence</td>
-                                <td>float</td>
-                                <td>Tingkat kepercayaan model terhadap prediksi sentimen, dalam rentang 0 hingga 1.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="example-container">
-                        <h5>Contoh Respons</h5>
-                        <pre>{
-                            "count": 3,
-                            "text": "overall aplikasinya bagus, tapi ui jelek dan login susah",
-                            "triplets": [
-                                {
-                                    "aspect_category": "User Experince",
-                                    "aspect_category_confidence": 0.7083946466445923,
-                                    "aspect_term": "login",
-                                    "opinion_term": "susah",
-                                    "sentiment": "NEG",
-                                    "triplet_confidence": 1.0
-                                },
-                                {
-                                    "aspect_category": "User Interface",
-                                    "aspect_category_confidence": 0.5862560868263245,
-                                    "aspect_term": "ui",
-                                    "opinion_term": "jelek",
-                                    "sentiment": "NEG",
-                                    "triplet_confidence": 1.0
-                                },
-                                {
-                                    "aspect_category": "General Aspect",
-                                    "aspect_category_confidence": 0.975966215133667,
-                                    "aspect_term": "aplikasinya",
-                                    "opinion_term": "bagus",
-                                    "sentiment": "POS",
-                                    "triplet_confidence": 1.0
-                                }
-                            ]
-                        }
-                            </pre>
-                    </div>
-                    
-                    <h5>Kode Status</h5>
-                    <table class="table table-params table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Kode</th>
-                                <th>Deskripsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>200</td>
-                                <td>Sukses. Response berisi hasil analisis.</td>
-                            </tr>
-                            <tr>
-                                <td>400</td>
-                                <td>Bad Request. Format permintaan tidak valid atau teks tidak disediakan.</td>
-                            </tr>
-                            <tr>
-                                <td>500</td>
-                                <td>Server Error. Terjadi kesalahan saat memproses permintaan.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="section-divider"></div>
-                
-                <div class="api-section">
-                    <h3>Informasi Sistem</h3>
-                    
-                    <div class="api-endpoint">
-                        <span class="method">GET</span>/system_info
-                    </div>
-                    
-                    <p>Memberikan informasi tentang sistem yang menjalankan model, termasuk versi Python, ketersediaan CUDA, dll.</p>
-                    
-                    <div class="example-container">
-                        <h5>Contoh Respons</h5>
-                        <pre>{
-                        "Python Version": "3.8.10",
-                        "PyTorch Version": "1.9.0",
-                        "CUDA Available": true,
-                        "CUDA Version": "11.1",
-                        "Number of CUDA Devices": 1,
-                        "Current CUDA Device": 0,
-                        "Device Name": "NVIDIA GeForce RTX 3080",
-                        "System": "Linux",
-                        "System Release": "5.4.0-96-generic",
-                        "System Version": "#109-Ubuntu SMP",
-                        "Architecture": "x86_64"
-                        }
-                        </pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2023</p>
-        </div>
-    </div>
-</body>
-</html>
-    ''')
-    
+        if max_reviews > 0 and len(result) >= max_reviews:
+            break
+            
+        if continuation_token.token is None:
+            break
+            
+        sleep(sleep_milliseconds / 1000)
+
+    return result
+
 if __name__ == '__main__':
     print("\n===== System Information =====")
     info = get_system_info()
@@ -1589,4 +1226,4 @@ if __name__ == '__main__':
     os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
     
     # Run the Flask application
-    app.run(host='0.0.0.0', port=4040, debug=False)
+    app.run(host='0.0.0.0', port=8099, debug=True)

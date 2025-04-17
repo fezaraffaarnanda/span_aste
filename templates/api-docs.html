@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,6 +6,7 @@
     <title>API Documentation - Span Level Aspect Sentiment Triplet Extraction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='allstats_bps.png') }}">
     <style>
         :root {
             --primary-color: #4361ee;
@@ -187,6 +187,7 @@
         <div class="nav-links">
             <a href="/" class="nav-link"><i class="bi bi-house-door-fill me-1"></i>Beranda</a>
             <a href="/api-docs" class="nav-link"><i class="bi bi-code-slash me-1"></i>Dokumentasi API</a>
+            <a href="/scrape" class="nav-link"><i class="bi bi-cloud-download-fill me-1"></i>Scrape Ulasan Allstats</a>
         </div>
         
         <div class="card">
@@ -198,7 +199,7 @@
                 
                 <div class="alert alert-info">
                     <i class="bi bi-info-circle-fill me-2"></i>
-                    <strong>Basis URL:</strong> <code>http://localhost:5000</code>
+                    <strong>Basis URL:</strong> <code>http://localhost:8099</code>(sesuaikan, belum dideploy)
                 </div>
             </div>
         </div>
@@ -209,13 +210,13 @@
             </div>
             <div class="card-body">
                 <div class="api-section">
-                    <h3>Analisis Aspek Sentimen</h3>
+                    <h3>Span Level Aspect Sentiment Triplet Extraction</h3>
                     
                     <div class="api-endpoint">
                         <span class="method">POST</span>/api/predict
                     </div>
                     
-                    <p>Menganalisis teks ulasan untuk mengekstrak triplet aspek-sentimen berdasarkan model Span Level.</p>
+                    <p>Menganalisis teks ulasan untuk mengekstrak triplet aspek, opini, dan sentimen berdasarkan model Span Level ASTE.</p>
                     
                     <h5>Request Parameters</h5>
                     <table class="table table-params table-bordered">
@@ -360,20 +361,120 @@
                         <tbody>
                             <tr>
                                 <td>200</td>
-                                <td>Sukses. Response berisi hasil analisis.</td>
+                                <td>Sukses. Response berisi hasil prediksi triplet.</td>
                             </tr>
                             <tr>
                                 <td>400</td>
-                                <td>Bad Request. Format permintaan tidak valid atau teks tidak disediakan.</td>
+                                <td>Bad Request. Format permintaan tidak valid atau teks kosong.</td>
                             </tr>
                             <tr>
                                 <td>500</td>
-                                <td>Server Error. Terjadi kesalahan saat memproses permintaan.</td>
+                                <td>Internal Server Error. Terjadi kesalahan saat memproses permintaan.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 
+                <div class="section-divider"></div>
+                
+                <div class="api-section">
+                    <h3>Scraping dan Prediksi Triplet</h3>
+                    <div class="api-endpoint">
+                        <span class="method">POST</span>/api/scrape_and_predict
+                    </div>
+                    <p>Endpoint untuk melakukan scraping ulasan Allstats dari Google Play Store dan langsung melakukan prediksi triplet aspek opini sentimen pada ulasan tersebut dalam satu kali panggilan API.</p>
+                    <h5>Parameter Request</h5>
+                    <table class="table table-params table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Tipe</th>
+                                <th>Deskripsi</th>
+                                <th>Wajib</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>max_reviews</td>
+                                <td>Integer</td>
+                                <td>Jumlah maksimum ulasan yang akan diambil. Nilai 0 berarti mengambil semua ulasan yang tersedia.</td>
+                                <td>Tidak</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5>Contoh Request</h5>
+                    <pre>{
+                        "max_reviews": 50
+                    }</pre>
+                    <h5>Contoh Respons</h5>
+                    <pre>{
+                            "success": true,
+                            "app_id": "id.go.bps.allstats",
+                            "total_reviews": 45,
+                            "processed_reviews": 43,
+                            "statistics": {
+                                "positive_triplets": 23,
+                                "negative_triplets": 15,
+                                "neutral_triplets": 5,
+                                "total_triplets": 43
+                            },
+                            "results": [
+                                {
+                                    "review_id": "abcd1234",
+                                    "review_text": "Aplikasi sangat berguna, tapi tampilan kurang menarik",
+                                    "score": 4,
+                                    "at": "2025-04-15T08:30:00",
+                                    "triplets": [
+                                        {
+                                            "aspect_term": "aplikasi",
+                                            "opinion_term": "sangat berguna",
+                                            "sentiment": "POS",
+                                            "triplet_confidence": 0.95,
+                                            "aspect_category": "Functionality and Perfomance",
+                                            "aspect_category_confidence": 0.87
+                                        },
+                                        {
+                                            "aspect_term": "tampilan",
+                                            "opinion_term": "kurang menarik",
+                                            "sentiment": "NEG",
+                                            "triplet_confidence": 0.88,
+                                            "aspect_category": "User Interface",
+                                            "aspect_category_confidence": 0.91
+                                        }
+                                    ],
+                                    "processing_status": "success",
+                                    "processing_time": 0.254,
+                                    "processed_at": "2025-04-17T19:42:12",
+                                    "model_version": "span_aste_v1"
+                                }
+                                // ... hasil lainnya
+                            ]
+                        }
+                    </pre>
+                    <h5>Kode Status</h5>
+                    <table class="table table-params table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>200</td>
+                                <td>Berhasil. Respons berisi data hasil scraping dan hasil prediksi triplet.</td>
+                            </tr>
+                            <tr>
+                                <td>400</td>
+                                <td>Bad Request. Format request tidak valid.</td>
+                            </tr>
+                            <tr>
+                                <td>500</td>
+                                <td>Internal Server Error. Terjadi kesalahan saat memproses request.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="section-divider"></div>
                 
                 <div class="api-section">
@@ -383,7 +484,7 @@
                         <span class="method">GET</span>/system_info
                     </div>
                     
-                    <p>Memberikan informasi tentang sistem yang menjalankan model, termasuk versi Python, ketersediaan CUDA, dll.</p>
+                    <p>Memberikan informasi tentang sistem yang menjalankan model, seperi versi Python, CUDA, dll.</p>
                     
                     <div class="example-container">
                         <h5>Contoh Respons</h5>
@@ -407,7 +508,7 @@
         </div>
         
         <div class="footer">
-            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2023</p>
+            <p>Span Level Aspect Sentimen Triplet Extraction &copy; 2025</p>
         </div>
     </div>
 </body>

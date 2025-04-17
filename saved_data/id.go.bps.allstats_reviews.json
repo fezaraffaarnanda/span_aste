@@ -1,0 +1,1703 @@
+{
+  "success": true,
+  "app_id": "id.go.bps.allstats",
+  "total_reviews": 100,
+  "processed_reviews": 97,
+  "max_reviews": 100,
+  "results": [
+    {
+      "review_id": "b30215d0-58f9-42e4-8bae-c268af9d83a8",
+      "review_text": "publikasi tidak dapat di unduh, terdapat error setiap kali unduh, tolong di perbaiki",
+      "score": 2,
+      "at": "2025-03-24T04:40:39",
+      "triplets": [
+        {
+          "aspect_term": "publikasi",
+          "opinion_term": "tidak dapat di unduh",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.5227188467979431
+        },
+        {
+          "aspect_term": "unduh",
+          "opinion_term": "error",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9919805526733398
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.047,
+      "processed_at": "2025-04-17T21:12:35.963362",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "e96a251e-d535-4a44-8fa0-8b58a78c9ab4",
+      "review_text": "Publikasi tidak bisa didownload baik di websitenya pun juga error",
+      "score": 1,
+      "at": "2025-03-16T11:38:46",
+      "triplets": [
+        {
+          "aspect_term": "publikasi",
+          "opinion_term": "tidak bisa didownload",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.5227188467979431
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.022,
+      "processed_at": "2025-04-17T21:12:35.985269",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "504b3d0b-a7b3-4f77-b7ff-d5a2c1f58265",
+      "review_text": "kok loading terus ya menghubungkan ke jaringan terus padahal jaringan stabil, kuota juga masih banyak",
+      "score": 1,
+      "at": "2025-03-05T07:16:00",
+      "triplets": [
+        {
+          "aspect_term": "loading",
+          "opinion_term": "terus",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9924002885818481
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.037,
+      "processed_at": "2025-04-17T21:12:36.022058",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "ec1ff97f-6089-4da8-a0bf-9b17cd9cc787",
+      "review_text": "Tabel tidak bisa dibuka",
+      "score": 1,
+      "at": "2025-01-31T21:50:31",
+      "triplets": [
+        {
+          "aspect_term": "tabel",
+          "opinion_term": "tidak bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.5227188467979431
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:36.039362",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "62e890cc-92a3-4fac-92b2-3134ce8f00ee",
+      "review_text": "Ok",
+      "score": 5,
+      "at": "2025-01-23T14:05:41",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.048810",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "5e0edff8-d0b7-4c52-b46b-ed4229657e20",
+      "review_text": "apakah ini aplikasi yang digunakan untuk mitra bps/sobat bps.",
+      "score": 4,
+      "at": "2024-11-27T12:47:54",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T21:12:36.066737",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "7fde7e2d-2cb3-4735-9ebe-695f8c756e49",
+      "review_text": "Sangat bagus untuk kemudahan pencarian data",
+      "score": 5,
+      "at": "2024-11-26T08:38:38",
+      "triplets": [
+        {
+          "aspect_term": "pencarian",
+          "opinion_term": "sangat bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9841682314872742
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T21:12:36.085188",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "26fe4823-c7cb-478a-92cd-e2f56f9e1a59",
+      "review_text": "Aplikasi ini sangat bagus dan baik' untuk mengetahui siklus pertanian .pertambahan jumlah penduduk serta seluruh kegiatan ekonomi dan LMpertanian. Yg dapat digunakan sebagai in formasi bagi kami.... Per tumbuhan ekonomi masyarakat ... pertambahan jumlah penduduk...serta kegiatan pertanian... ,..",
+      "score": 5,
+      "at": "2024-10-30T18:39:49",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "baik",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.119,
+      "processed_at": "2025-04-17T21:12:36.204609",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "97e05abb-d835-4e22-b7ba-4ee6321ebb47",
+      "review_text": "Good work and good info terimakasih",
+      "score": 5,
+      "at": "2024-10-29T08:58:48",
+      "triplets": [
+        {
+          "aspect_term": "work",
+          "opinion_term": "good",
+          "sentiment": "POS",
+          "confidence": 0.9999997615814209,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.5227188467979431
+        },
+        {
+          "aspect_term": "info",
+          "opinion_term": "good",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.3556257486343384
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.024,
+      "processed_at": "2025-04-17T21:12:36.228774",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "4df9101e-9610-41ff-ad7d-48963db757b0",
+      "review_text": "Oce",
+      "score": 5,
+      "at": "2024-10-24T00:29:42",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.238057",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "2554348e-bab1-40a5-acab-f57f9d8de239",
+      "review_text": "Menyenangkan",
+      "score": 5,
+      "at": "2024-10-23T19:53:21",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.247252",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "c77c7c66-586e-4d16-a839-d1bd7af0e515",
+      "review_text": "Ngga bisa unduh data , gagal terus.",
+      "score": 1,
+      "at": "2024-10-12T16:47:25",
+      "triplets": [
+        {
+          "aspect_term": "unduh data",
+          "opinion_term": "ngga bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9754579663276672
+        },
+        {
+          "aspect_term": "unduh data",
+          "opinion_term": "gagal terus",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9754579663276672
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.025,
+      "processed_at": "2025-04-17T21:12:36.272547",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "e57b6bf5-e38f-4dc3-97d8-8af0f58cf295",
+      "review_text": "Baik",
+      "score": 5,
+      "at": "2024-08-30T13:26:05",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.281734",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "76990731-24ef-4914-b8ad-695aac047f12",
+      "review_text": "Keren",
+      "score": 5,
+      "at": "2024-08-18T07:55:51",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.290850",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "ae7fcda2-d5f6-4f3c-af3b-5b9d4d6e156b",
+      "review_text": "Tolong sediakan dark mode pada aplikasi",
+      "score": 5,
+      "at": "2024-07-19T19:25:53",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.013,
+      "processed_at": "2025-04-17T21:12:36.303407",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "de7d26dd-0ac5-41e1-a69a-7cb16d4b4af2",
+      "review_text": "Baik",
+      "score": 5,
+      "at": "2024-06-26T15:47:30",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.312646",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "ca22d351-7b84-43d5-8142-f6429bc13828",
+      "review_text": "Mantap",
+      "score": 5,
+      "at": "2024-06-11T06:14:25",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.321887",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "f34d52b4-a141-4e42-92b3-ff3b7ade3f45",
+      "review_text": "Sangat bermanfaat",
+      "score": 5,
+      "at": "2024-05-28T21:24:10",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:36.331639",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "6db27240-0aab-4f97-8277-cbb5aa37cdc5",
+      "review_text": "Tidak mengerti dan membingungkan",
+      "score": 1,
+      "at": "2024-05-02T16:56:48",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.011,
+      "processed_at": "2025-04-17T21:12:36.342611",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "31dbf291-c85a-411c-89d9-cd1aea581541",
+      "review_text": "Aplikasi ini sangat bermanfaat",
+      "score": 5,
+      "at": "2024-03-07T16:59:46",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:36.359234",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "2b7d30d6-4995-4d71-832c-da6fd0cb3131",
+      "review_text": "Oke",
+      "score": 5,
+      "at": "2024-01-31T18:18:49",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.368494",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "83f95da9-0e3d-4fa9-ade3-ba948a4e7635",
+      "review_text": "Informasi yg lengkap dalam genggaman",
+      "score": 5,
+      "at": "2023-12-24T05:48:32",
+      "triplets": [
+        {
+          "aspect_term": "informasi",
+          "opinion_term": "lengkap",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "User Experince",
+          "category_confidence": 0.7169772982597351
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:36.385548",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "a77e2e4c-d85f-4591-8dc2-ac21e309846b",
+      "review_text": "Di hp yg merk oppo gak bisa dibuka malah putih semua tapi di hp temen aku bisa sedihhh",
+      "score": 2,
+      "at": "2023-12-20T20:29:35",
+      "triplets": [
+        {
+          "aspect_term": "dibuka",
+          "opinion_term": "gak bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9360910654067993
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.031,
+      "processed_at": "2025-04-17T21:12:36.416475",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "b9aec045-6bbc-46a3-a4d6-0c68d6451d88",
+      "review_text": "Terbaik",
+      "score": 5,
+      "at": "2023-12-12T17:42:56",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.425848",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "eab0e4d0-c033-44fc-a786-d8014aa1bcce",
+      "review_text": "Ga bisa di buka ya",
+      "score": 3,
+      "at": "2023-12-03T08:31:10",
+      "triplets": [
+        {
+          "aspect_term": "buka",
+          "opinion_term": "ga bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9910544753074646
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:36.442873",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "87387e26-dd24-4dae-bbcf-ca7f5837750b",
+      "review_text": "Aplikasi ini sangat membantu, semoga kedepannya bisa semakin berkembang terimakasih allstars BPS semoka sukses selalu",
+      "score": 5,
+      "at": "2023-11-27T10:31:29",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat membantu",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.031,
+      "processed_at": "2025-04-17T21:12:36.473434",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "7f1e3f59-5c30-4ec5-8373-6c4cdb3bd948",
+      "review_text": "Ok",
+      "score": 5,
+      "at": "2023-11-17T13:18:56",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.482658",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "1248459e-dfc6-4faa-a430-9f8fa6a7600b",
+      "review_text": "Kenapa gak ada data kendaraan bermotor ya, di provinsi Sumbar 😥",
+      "score": 3,
+      "at": "2023-10-28T09:55:48",
+      "triplets": [
+        {
+          "aspect_term": "data kendaraan bermotor",
+          "opinion_term": "gak ada",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Security",
+          "category_confidence": 0.7169482111930847
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.023,
+      "processed_at": "2025-04-17T21:12:36.506156",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "9f5b4cc8-a0b3-4d91-b904-d34a0c6daa19",
+      "review_text": "Aplikasi lemot ya allah pake data mah padahal signal ga begitu jelek...",
+      "score": 3,
+      "at": "2023-08-06T08:51:32",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "lemot",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.026,
+      "processed_at": "2025-04-17T21:12:36.532632",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "4ee78c9f-0f6f-4536-be14-e6d4ef355c08",
+      "review_text": "Aplikasinya kadang kurang responsif dan sedikit lemot",
+      "score": 4,
+      "at": "2023-04-03T21:06:13",
+      "triplets": [
+        {
+          "aspect_term": "aplikasinya",
+          "opinion_term": "sedikit",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.5111799836158752
+        },
+        {
+          "aspect_term": "aplikasinya",
+          "opinion_term": "kurang responsif",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.5111799836158752
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.024,
+      "processed_at": "2025-04-17T21:12:36.556986",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "9616642b-c4e7-42f5-ba8b-488917f9a30b",
+      "review_text": "Aplikasi saat dibuka loading nya lama dan tombol cancel g berfungsi saat ingin membatalkan download publikasi",
+      "score": 3,
+      "at": "2023-04-01T21:36:50",
+      "triplets": [
+        {
+          "aspect_term": "tombol cancel",
+          "opinion_term": "g berfungsi",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "User Interface",
+          "category_confidence": 0.9279949069023132
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.028,
+      "processed_at": "2025-04-17T21:12:36.585432",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "adfafe2d-7733-4dbd-b04f-8f4769b65d31",
+      "review_text": "Luar biasa keren aplikasi nya",
+      "score": 5,
+      "at": "2023-03-11T08:19:37",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "luar biasa keren",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:36.602616",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "01df99a2-0c75-42ac-b63c-33c8892a5f0a",
+      "review_text": "udah bagus, grafik2 nya juga menarik tapi pas lagi searching dan mau nambahin kata di kolom pencarian harus ngetik ulang lagi",
+      "score": 4,
+      "at": "2023-02-25T13:04:33",
+      "triplets": [
+        {
+          "aspect_term": "grafik2",
+          "opinion_term": "menarik",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "User Interface",
+          "category_confidence": 0.6288753747940063
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.042,
+      "processed_at": "2025-04-17T21:12:36.644777",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "4dd1969b-5f23-4abd-b9ed-c91e1ee10372",
+      "review_text": "1 data untuk Indonesia Sejahtera",
+      "score": 5,
+      "at": "2022-11-15T00:19:37",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.011,
+      "processed_at": "2025-04-17T21:12:36.656250",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "88cbc83d-00c8-42be-8723-b06175be4a0a",
+      "review_text": "Baik",
+      "score": 5,
+      "at": "2022-09-25T14:52:38",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.665591",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "7db2456c-a991-4f04-9d42-5820c569ea99",
+      "review_text": "Oke",
+      "score": 1,
+      "at": "2022-07-19T20:40:36",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.674938",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "0e776b8b-df38-47e8-a14d-3b64c2512b3d",
+      "review_text": "Sering reload kehalaman awal, tidak ada menu khusus download laporan pdf, dan untuk kolom pencarian setelah di enter dan mau nambahin kata harus nulis dari awal lagi. Backend aplikasinya kurang smooth padahal aplikasi nya enteng tapi sering reload2 mulu",
+      "score": 3,
+      "at": "2022-07-12T13:12:41",
+      "triplets": [
+        {
+          "aspect_term": "backend aplikasinya",
+          "opinion_term": "kurang smooth",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "User Experince",
+          "category_confidence": 0.5534037351608276
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.09,
+      "processed_at": "2025-04-17T21:12:36.764530",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "40206dce-d191-49a1-87b0-d46693c2372a",
+      "review_text": "Mantap",
+      "score": 5,
+      "at": "2022-06-28T19:56:09",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:36.774047",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "e68b4da6-630c-433a-8008-a7998437180c",
+      "review_text": "Datanya tdk bisa dibuka",
+      "score": 1,
+      "at": "2022-05-15T23:19:11",
+      "triplets": [
+        {
+          "aspect_term": "datanya",
+          "opinion_term": "tdk bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.8637885451316833
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:36.790807",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "54b316fb-8560-482f-8f64-e803b8fd15e2",
+      "review_text": "Sangat membantu",
+      "score": 5,
+      "at": "2022-04-26T15:45:05",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:36.800526",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "0a53f393-cf96-4562-99f8-e50bf7d17899",
+      "review_text": "Izin bertanya min, dimanakah saya bisa bertanya cara mendapatkan data podes di silastik untuk mahasiswa? Apakah ada chat wanya?",
+      "score": 3,
+      "at": "2022-04-26T15:41:06",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.036,
+      "processed_at": "2025-04-17T21:12:36.836337",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "86828247-8730-4be3-86dc-2fd664516604",
+      "review_text": "Aplikasi geje data dinamis, engak ditampilkan, isian data dari tahun ke tahun engak ada perubahan, maksudnya gimana, masak penduduk tahun sekian dengan penduduk +1 engak berubah, engak jelas datanya",
+      "score": 1,
+      "at": "2022-04-20T04:25:53",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "geje",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "engak ditampilkan",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "dinamis",
+          "sentiment": "NEG",
+          "confidence": 0.998818576335907,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "isian data",
+          "opinion_term": "engak ada perubahan",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.4205392003059387
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.087,
+      "processed_at": "2025-04-17T21:12:36.923873",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "d9665271-6619-4aa7-a795-6f534d2b6c0e",
+      "review_text": "Alhamdulillah",
+      "score": 5,
+      "at": "2022-04-07T02:16:14",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:36.933852",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "48d4b034-bd29-4514-b8f1-970cf46f64a6",
+      "review_text": "Mantap",
+      "score": 5,
+      "at": "2022-04-05T07:52:40",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:36.943751",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "4bdf8ff0-3237-4cc5-8c91-4c801421f01c",
+      "review_text": "tidak bisa di gunakan sama sx. klik buka lgsg \"aplikasi terus menerus berhenti, tutup paksa\"",
+      "score": 1,
+      "at": "2022-04-02T06:12:37",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "terus menerus berhenti",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.036,
+      "processed_at": "2025-04-17T21:12:36.979499",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "f0522a08-9073-4cc7-9e52-f0cce283bdcb",
+      "review_text": "Okey",
+      "score": 5,
+      "at": "2022-03-21T17:07:28",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:36.989995",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "00373d87-0498-46c4-998b-64259e33894a",
+      "review_text": "Mantap sangat memudahkan",
+      "score": 5,
+      "at": "2022-03-09T09:28:41",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.011,
+      "processed_at": "2025-04-17T21:12:37.001252",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "f8c19bb1-8bca-4273-ac18-f8a3a51dbc13",
+      "review_text": "Pernah pakai dan sangat membantu",
+      "score": 5,
+      "at": "2022-03-07T08:41:10",
+      "triplets": [
+        {
+          "aspect_term": "pakai",
+          "opinion_term": "sangat",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.7736126780509949
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.024,
+      "processed_at": "2025-04-17T21:12:37.025509",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "5e3aa777-c9f0-4174-96f5-c5585f157af9",
+      "review_text": "Mantap",
+      "score": 5,
+      "at": "2022-03-07T07:37:51",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.011,
+      "processed_at": "2025-04-17T21:12:37.036505",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "d6ddff4c-03b3-4d12-b7fa-d5c6da632193",
+      "review_text": "Good",
+      "score": 5,
+      "at": "2022-02-07T09:46:42",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:37.046415",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "b038da0a-0952-43a3-af9b-eb6435bcaa0f",
+      "review_text": "Mohon lebih diperdetail kasus kasus yang sangat penting seperti memakai data yg jelas serta menggunakan infografis mengenai, pelecehan sexual, pembunuhan, dll agar kita bisa tau tiap tahun kasus kriminal berapa.",
+      "score": 1,
+      "at": "2022-02-04T14:19:03",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.062,
+      "processed_at": "2025-04-17T21:12:37.108118",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "e36ec0ae-c823-45b4-a817-60aaf4b35836",
+      "review_text": "Masih baru nyoba 👍👍",
+      "score": 5,
+      "at": "2022-02-03T10:14:51",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.012,
+      "processed_at": "2025-04-17T21:12:37.120004",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "d6e5b29b-b579-474f-a54a-a25cb21dba12",
+      "review_text": "Bagus satu data",
+      "score": 5,
+      "at": "2021-12-05T11:18:31",
+      "triplets": [
+        {
+          "aspect_term": "data",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Security",
+          "category_confidence": 0.9078767895698547
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.016,
+      "processed_at": "2025-04-17T21:12:37.136445",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "44a5909e-cabb-40d6-9979-23e410d7224b",
+      "review_text": "Xx xx x xx xx ec",
+      "score": 2,
+      "at": "2021-10-10T20:00:31",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.012,
+      "processed_at": "2025-04-17T21:12:37.148713",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "5977c6b1-13f5-401c-b1d4-72b5c2dad9e3",
+      "review_text": "Aplikasi yg bagus... Tapi informasi yang ada banyak yang diragukan alias kurang dipercaya, misalnya dalam pertumbuhan ekonomi... ✌✌✌",
+      "score": 1,
+      "at": "2021-09-12T09:39:00",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "informasi",
+          "opinion_term": "kurang dipercaya",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "User Experince",
+          "category_confidence": 0.7169772982597351
+        },
+        {
+          "aspect_term": "informasi",
+          "opinion_term": "diragukan",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "User Experince",
+          "category_confidence": 0.7169772982597351
+        },
+        {
+          "aspect_term": "informasi",
+          "opinion_term": "banyak yang diragukan",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "User Experince",
+          "category_confidence": 0.7169772982597351
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.057,
+      "processed_at": "2025-04-17T21:12:37.205805",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "cf5167e0-5fce-4a94-82f1-abf2b4a135e6",
+      "review_text": "Bravo Statistika Indonesia.",
+      "score": 5,
+      "at": "2021-08-19T11:23:45",
+      "triplets": [
+        {
+          "aspect_term": "statistika",
+          "opinion_term": "bravo",
+          "sentiment": "POS",
+          "confidence": 0.999990701675415,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.5227188467979431
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:37.222914",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "8fe1ab8f-8a15-42cb-81b6-3f4b0177abf3",
+      "review_text": "Aplikasinya bagus, Mantap developer aplikasi ini, keluhan pengguna didengarkan terima kasih",
+      "score": 5,
+      "at": "2021-08-03T14:45:25",
+      "triplets": [
+        {
+          "aspect_term": "aplikasinya",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.5111799836158752
+        },
+        {
+          "aspect_term": "developer aplikasi",
+          "opinion_term": "mantap",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Support and Updates",
+          "category_confidence": 0.8024317622184753
+        },
+        {
+          "aspect_term": "developer",
+          "opinion_term": "mantap",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Support and Updates",
+          "category_confidence": 0.9721376895904541
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.036,
+      "processed_at": "2025-04-17T21:12:37.258772",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "d588f973-4e31-46db-b6bc-2967b8c9e05c",
+      "review_text": "Kenapa tidak bisa download ya? Mohon aplikasinya untuk di update. Terima kasih",
+      "score": 3,
+      "at": "2021-07-11T11:35:52",
+      "triplets": [
+        {
+          "aspect_term": "download",
+          "opinion_term": "tidak bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9734762907028198
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.025,
+      "processed_at": "2025-04-17T21:12:37.283913",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "224b65f9-9e05-4a18-9829-7b3fc7709901",
+      "review_text": "Sangat membantu",
+      "score": 5,
+      "at": "2021-07-08T08:49:07",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:37.293587",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "2f3688a1-17db-4709-af57-49ecca4f040e",
+      "review_text": "Aplikasi ini memudahkan pengguna mengakses informasi yg di cari sesuai kebutuhkan yang ingin di dapat dari berbagai aspek dan bidang secara berimbang, serta bisa di jadikan barometer atau referensi dalam memperoleh informasi data yang akurat dan ter update..ini merupakan wujud kolaborasi yg baik antar lini dan pemangku kebijakan untuk mewujudkan kepentingan bersama tentang potensi serta solusi masalah dlm berbagai bidang tentang keterbukaan informasi publik.semoga BPS semakin maju,kreatif Go BPS",
+      "score": 4,
+      "at": "2021-07-07T16:36:01",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "memudahkan pengguna",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.185,
+      "processed_at": "2025-04-17T21:12:37.478731",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "1ec5a0cc-2216-4aad-99c5-71dc8bcb0545",
+      "review_text": "Setelah saya ulik aplikasi nya bagus, fiturnya lengkap dan sangat membantu dalam pencarian data statistik penduduk.",
+      "score": 5,
+      "at": "2021-07-07T12:06:05",
+      "triplets": [
+        {
+          "aspect_term": "fiturnya",
+          "opinion_term": "sangat membantu",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.5851791501045227
+        },
+        {
+          "aspect_term": "fiturnya",
+          "opinion_term": "lengkap",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.5851791501045227
+        },
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "pencarian data statistik penduduk",
+          "opinion_term": "sangat membantu",
+          "sentiment": "POS",
+          "confidence": 0.9999998807907104,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9652981758117676
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.051,
+      "processed_at": "2025-04-17T21:12:37.530201",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "ef8992ae-cb15-470e-890f-c100b94e7dbb",
+      "review_text": "Ok",
+      "score": 5,
+      "at": "2021-07-07T10:29:21",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:37.539917",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "e4be283c-99cc-4dce-870a-5101a5f092be",
+      "review_text": "Langkah maju dari BPS... Mudah2an bisa terus dikembangkan",
+      "score": 4,
+      "at": "2021-07-07T10:18:02",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T21:12:37.557885",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "684983ec-4b2c-4a06-990b-1102453393f5",
+      "review_text": "Luar biasa, aplikasi data statistik lengkap",
+      "score": 5,
+      "at": "2021-07-07T09:48:38",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "lengkap",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.019,
+      "processed_at": "2025-04-17T21:12:37.576563",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "431d5c8f-b552-47d7-a1dd-dbb59ea5a629",
+      "review_text": "Aplikasi yang sangat bermanfaat sekali, karena dengan aplikasi ini kita bisa mengetahui update data statistik penduduk indonesia dan kita juga bisa menghindari hoax dengan dat yang ada pada aplikasi ini. 👍👍",
+      "score": 5,
+      "at": "2021-07-07T09:19:14",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat bermanfaat",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.054,
+      "processed_at": "2025-04-17T21:12:37.630532",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "c500b918-5cdc-43a6-bb20-2e6b8f9dd586",
+      "review_text": "Aplikasi nya bagus, sangat membantu untuk mencari data yang diperlukan, top markotop deh pokoknya 🥰",
+      "score": 5,
+      "at": "2021-07-06T21:08:39",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat membantu",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.037,
+      "processed_at": "2025-04-17T21:12:37.667440",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "c320697c-b757-411e-ad93-5939cfde2427",
+      "review_text": "Aplikasi bps sangat bagus dan sangat membantu untuk pencarian data penduduk ..good job BPS",
+      "score": 5,
+      "at": "2021-07-06T12:33:51",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        },
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat membantu",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.034,
+      "processed_at": "2025-04-17T21:12:37.701429",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "475cf139-f6b2-47ac-922d-10aae4e4bb01",
+      "review_text": "bagus, untuk pelayanan statistik",
+      "score": 5,
+      "at": "2021-07-06T12:03:44",
+      "triplets": [
+        {
+          "aspect_term": "pelayanan",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 0.9999954700469971,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.5944137573242188
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T21:12:37.718959",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "e4d6c799-3081-4fac-800b-61c0910bf29b",
+      "review_text": "Aplikasi yang sangat membantu dalam memerlukan informasi data statistik masyarakat",
+      "score": 5,
+      "at": "2021-07-06T09:01:48",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat membantu",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.022,
+      "processed_at": "2025-04-17T21:12:37.740925",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "b5e6ca99-2576-4440-bb0a-2287720c6cc1",
+      "review_text": "Aplikasi nya bagus menyajikan berita tentang kependudukan, pertanian, inflasi serta pertumbuhan ekonomi dan kita lebih mudah mencari data melalui aplikasi allstats ini",
+      "score": 5,
+      "at": "2021-07-06T08:54:16",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.042,
+      "processed_at": "2025-04-17T21:12:37.783316",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "b3390932-9cca-4c4b-b3dd-d79e5ca5660e",
+      "review_text": "Kenapa saya tidak bisa mendownload aplikasi ini",
+      "score": 1,
+      "at": "2021-07-05T12:06:23",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "tidak bisa mendownload",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.019,
+      "processed_at": "2025-04-17T21:12:37.802114",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "ca8f672b-d573-485a-b077-8631da582959",
+      "review_text": "Bagus isi n penampilannya",
+      "score": 5,
+      "at": "2021-06-20T12:07:41",
+      "triplets": [
+        {
+          "aspect_term": "isi",
+          "opinion_term": "bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "User Experince",
+          "category_confidence": 0.4822724759578705
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:37.819055",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "c877a91b-3d86-4ed8-8d45-43778b11004f",
+      "review_text": "Isinya sudah pasti gak perlu dikomentari, tampilannya ini luar biasa bagus.",
+      "score": 5,
+      "at": "2021-06-09T00:17:34",
+      "triplets": [
+        {
+          "aspect_term": "tampilannya",
+          "opinion_term": "luar biasa bagus",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.5227188467979431
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.027,
+      "processed_at": "2025-04-17T21:12:37.845613",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "9d12fa4c-6fed-45f0-a852-fbd49e7d5bba",
+      "review_text": "Awalnya bagus. Tapi sekarang susah, percuma ada nama tabel doang pas di klik nggak bisa dibuka",
+      "score": 2,
+      "at": "2021-05-29T09:40:49",
+      "triplets": [
+        {
+          "aspect_term": "klik",
+          "opinion_term": "nggak bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9931261539459229
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.031,
+      "processed_at": "2025-04-17T21:12:37.876376",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "5b0f84be-7a08-47c2-aa96-7a706eff315c",
+      "review_text": "Berguna",
+      "score": 5,
+      "at": "2021-05-29T03:51:02",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.012,
+      "processed_at": "2025-04-17T21:12:37.888160",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "5493cc80-ccbe-49b5-9b81-533f5d66805c",
+      "review_text": "Luar biasa",
+      "score": 1,
+      "at": "2021-05-04T10:23:57",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.012,
+      "processed_at": "2025-04-17T21:12:37.900608",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "949687c6-c9d9-4293-a5eb-b25a3e65ce5e",
+      "review_text": "Sangat Bagus",
+      "score": 5,
+      "at": "2021-04-27T07:15:53",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.012,
+      "processed_at": "2025-04-17T21:12:37.912711",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "a9f18a42-11ee-4818-803b-7a68846d3602",
+      "review_text": "OK",
+      "score": 5,
+      "at": "2021-04-18T13:31:22",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.011,
+      "processed_at": "2025-04-17T21:12:37.923964",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "3eaeaa4a-428b-48eb-bf35-3887cf936f28",
+      "review_text": "Make WiFi tetep aja ga bisa buka data nya hadehhh ga niat asli yg bikin, malah nyusahin",
+      "score": 1,
+      "at": "2021-04-09T02:26:47",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.037,
+      "processed_at": "2025-04-17T21:12:37.961481",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "4213508d-64f6-4648-ba57-7a835aaf3b69",
+      "review_text": "Download error terus",
+      "score": 2,
+      "at": "2021-04-05T11:49:38",
+      "triplets": [
+        {
+          "aspect_term": "download",
+          "opinion_term": "error",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9734762907028198
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:37.978252",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "6a55fff8-8dba-4aa2-8178-1f3123adb972",
+      "review_text": "Data banyak yang kosong dan sering eror.",
+      "score": 1,
+      "at": "2021-03-27T02:28:36",
+      "triplets": [
+        {
+          "aspect_term": "data",
+          "opinion_term": "banyak yang kosong",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Security",
+          "category_confidence": 0.9078767895698547
+        },
+        {
+          "aspect_term": "data",
+          "opinion_term": "sering eror",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Security",
+          "category_confidence": 0.9078767895698547
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.026,
+      "processed_at": "2025-04-17T21:12:38.004638",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "28643636-38b4-4006-a1e6-e845e5acde74",
+      "review_text": "Mohon maaf, saya nau donwload data produksi teh 2019 coba melalui web dan download applikasinya, tapi ttp gak bisa dengan alasan format pdf tidak valid. Bagaimana yaaa?? Kalau sudah bisa saya naikkan bintangnya",
+      "score": 1,
+      "at": "2021-03-25T11:17:24",
+      "triplets": [
+        {
+          "aspect_term": "format pdf",
+          "opinion_term": "tidak valid",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.6462165117263794
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.087,
+      "processed_at": "2025-04-17T21:12:38.092064",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "f8a8f584-fbbe-4289-be50-ae1e1abeffda",
+      "review_text": "Sering sering eror",
+      "score": 1,
+      "at": "2021-03-15T15:23:44",
+      "triplets": [
+        {
+          "aspect_term": "eror",
+          "opinion_term": "sering sering",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9942164421081543
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:38.109314",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "bd05a74a-3932-43e9-9b88-0c3f060a3b73",
+      "review_text": "Baik",
+      "score": 5,
+      "at": "2021-03-11T05:01:11",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:38.119276",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "990a46d6-fe3e-41fb-a0ba-84e182afda83",
+      "review_text": "suka",
+      "score": 5,
+      "at": "2021-03-04T16:56:51",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:38.128967",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "0ce1c5b2-e0f3-4cc9-85cc-30a6ea341952",
+      "review_text": "Bermanfaat bagi pengguna data dan pembuat kebijakan",
+      "score": 5,
+      "at": "2021-01-20T05:39:37",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.013,
+      "processed_at": "2025-04-17T21:12:38.142159",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "2f7b3761-8b08-4709-8c3f-95b27c121557",
+      "review_text": "Melengkapi sesuai kebutuhan",
+      "score": 3,
+      "at": "2021-01-15T14:20:20",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:38.152538",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "027b2ffb-ec17-40a9-a972-e86ee8955832",
+      "review_text": "Bagus sekali",
+      "score": 5,
+      "at": "2020-12-13T11:27:20",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:38.162363",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "fc4841b9-502a-46f6-9234-2c85ae9077e8",
+      "review_text": "Masalahnya z tdk dpt menggunakan ut sirekappilkada karena terlalu berulang innstal padahal petunjuknya hrs demikian",
+      "score": 5,
+      "at": "2020-12-08T04:05:49",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.03,
+      "processed_at": "2025-04-17T21:12:38.192578",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "4cf02e39-5f9d-4160-be22-5d7fc7d97921",
+      "review_text": "Good service...",
+      "score": 4,
+      "at": "2020-12-04T20:38:06",
+      "triplets": [
+        {
+          "aspect_term": "service",
+          "opinion_term": "good",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.8718309998512268
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:38.209895",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "de291ba2-880f-4260-9a19-e531d7affb1c",
+      "review_text": "Sangat membantu",
+      "score": 5,
+      "at": "2020-12-02T04:17:53",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:38.219788",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "f1c1b082-c923-4978-98a5-111ecdecff88",
+      "review_text": "Banyak data yang tidak bisa terdownload",
+      "score": 3,
+      "at": "2020-11-08T22:41:37",
+      "triplets": [
+        {
+          "aspect_term": "data",
+          "opinion_term": "tidak bisa",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "Security",
+          "category_confidence": 0.9078767895698547
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.019,
+      "processed_at": "2025-04-17T21:12:38.238572",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "224cb390-753f-4320-9d56-27c01b65e24a",
+      "review_text": "Aplikasi yang sangat bermanfaat.",
+      "score": 4,
+      "at": "2020-10-30T19:29:50",
+      "triplets": [
+        {
+          "aspect_term": "aplikasi",
+          "opinion_term": "sangat bermanfaat",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6674513220787048
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T21:12:38.255917",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "075ad4a2-aeea-438a-9085-6012bf9c16ba",
+      "review_text": "Mantap",
+      "score": 5,
+      "at": "2020-10-11T12:06:54",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T21:12:38.265333",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "36bb4854-a5f2-47ed-a136-a3a6ca8b7e93",
+      "review_text": "Sangat membantu",
+      "score": 5,
+      "at": "2020-10-03T00:56:59",
+      "triplets": [],
+      "processing_status": "success",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T21:12:38.275205",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "abd99aa4-a72c-423c-8b05-3459b1448999",
+      "review_text": "Pada saat membuka aplikasi terjadi loading selama 5 detik baru muncul menu dalam Apk, lalu click menu dan scroll tidak responsive, serta gambar di infograpic tidak HD atau pecah saat di zoom, tetap semangat developer",
+      "score": 3,
+      "at": "2020-09-20T00:21:21",
+      "triplets": [
+        {
+          "aspect_term": "scroll",
+          "opinion_term": "tidak responsive",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "User Interface",
+          "category_confidence": 0.8336047530174255
+        },
+        {
+          "aspect_term": "gambar",
+          "opinion_term": "tidak hd",
+          "sentiment": "NEG",
+          "confidence": 1.0,
+          "aspect_category": "User Interface",
+          "category_confidence": 0.8591236472129822
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.082,
+      "processed_at": "2025-04-17T21:12:38.357645",
+      "model_version": "span_aste_v1"
+    },
+    {
+      "review_id": "9e5335b5-8dc6-4f14-a525-288e42b54093",
+      "review_text": "Adminnya mantap. Keluhan pelanggan langsung ditindaklanjuti. Terima kasih Allstats sangat bermanfaat.",
+      "score": 5,
+      "at": "2020-09-11T18:21:19",
+      "triplets": [
+        {
+          "aspect_term": "adminnya",
+          "opinion_term": "mantap",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.28610390424728394
+        },
+        {
+          "aspect_term": "keluhan pelanggan",
+          "opinion_term": "langsung ditindaklanjuti",
+          "sentiment": "POS",
+          "confidence": 1.0,
+          "aspect_category": "Support and Updates",
+          "category_confidence": 0.8303087949752808
+        }
+      ],
+      "processing_status": "success",
+      "processing_time": 0.035,
+      "processed_at": "2025-04-17T21:12:38.392594",
+      "model_version": "span_aste_v1"
+    }
+  ]
+}

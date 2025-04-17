@@ -331,7 +331,7 @@ class ModelManager:
             self.load_span_aste_model()
             self.load_aspect_classifier_model()
             self.loaded = True
-            print("All models loaded successfully!")
+            print("Semua model berhasil dimuat")
         except Exception as e:
             print(f"Error loading models: {e}")
             traceback.print_exc()
@@ -344,9 +344,9 @@ class ModelManager:
                     self.load_span_aste_model()
                     self.load_aspect_classifier_model()
                     self.loaded = True
-                    print("All models loaded successfully on CPU!")
+                    print("Semua model berhasil dimuat pada CPU!")
                 except Exception as e:
-                    print(f"Failed to load models on CPU as well: {e}")
+                    print(f"Gagal memuat model pada CPU: {e}")
                     traceback.print_exc()
     
     def load_span_aste_model(self):
@@ -354,16 +354,16 @@ class ModelManager:
         MODEL_PATH = "checkpoint_large/fold1/model_best"  # Path to model directory
         BERT_MODEL = "indobenchmark/indobert-large-p2"  # Model used for training
         
-        print(f"Loading SPAN-ASTE model from {MODEL_PATH}")
-        print(f"Using {self.device} device")
+        print(f"Memuat SPAN-ASTE model dari {MODEL_PATH}")
+        print(f"Menggunakan {self.device} device")
         
         # Load tokenizer
         try:
             self.span_aste_tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL)
-            print(f"Successfully loaded tokenizer: {type(self.span_aste_tokenizer).__name__}")
+            print(f"Berhasil memuat tokenizer: {type(self.span_aste_tokenizer).__name__}")
         except:
             self.span_aste_tokenizer = BertTokenizer.from_pretrained(BERT_MODEL)
-            print(f"Fallback to BertTokenizer: {type(self.span_aste_tokenizer).__name__}")
+            print(f"Fallback ke BertTokenizer: {type(self.span_aste_tokenizer).__name__}")
         
         # Define model structure
         target_dim, relation_dim = len(SpanLabel), len(RelationLabel)
@@ -379,20 +379,20 @@ class ModelManager:
         # Load model state
         model_file_path = os.path.join(MODEL_PATH, "model.pt")
         if not os.path.exists(model_file_path):
-            raise FileNotFoundError(f"Model file not found at {model_file_path}")
+            raise FileNotFoundError(f"File model tidak ditemukan di {model_file_path}")
         
         state_dict = torch.load(model_file_path, map_location=torch.device(self.device))
         self.span_aste_model.load_state_dict(state_dict, strict=False)  # Use strict=False
         self.span_aste_model.to(self.device)
         self.span_aste_model.eval()
         
-        print("SPAN-ASTE model loaded successfully")
+        print("SPAN-ASTE model berhasil dimuat")
     
     def load_aspect_classifier_model(self):
         # Configuration - UBAH PATH MODEL SESUAI KEBUTUHAN
         MODEL_PATH = "model_klasifikasi_aspek/model_aspect_categorization.pt"  # Path to model file
         
-        print(f"Loading Aspect Classifier model from {MODEL_PATH}")
+        print(f"Memuat model klasifikasi aspek dari {MODEL_PATH}")
         
         # Load tokenizer
         self.aspect_classifier_tokenizer = BertTokenizer.from_pretrained('indobenchmark/indobert-base-p2')
@@ -414,8 +414,8 @@ class ModelManager:
         self.aspect_classifier_model.to(self.device)
         self.aspect_classifier_model.eval()
         
-        print("Aspect Classifier model loaded successfully")
-        print(f"Label mapping: {self.i2w}")
+        print("Model klasifikasi aspek berhasil dimuat")
+        print(f"Mapping label: {self.i2w}")
     
     def predict_span_aste(self, text):
         """Extract aspect-opinion-sentiment triplets using SPAN-ASTE model"""
@@ -508,12 +508,12 @@ class ModelManager:
                 return predict
                 
             except Exception as e:
-                print(f"Error during prediction: {e}")
+                print(f"Error dalam memprediksi: {e}")
                 traceback.print_exc()
                 
                 # If we're on CUDA and it failed, try falling back to CPU for just this prediction
                 if self.device == "cuda":
-                    print("Attempting CPU fallback for this prediction...")
+                    print("Mencoba fallback ke CPU untuk prediksi ini...")
                     try:
                         self.device = "cpu"
                         self.span_aste_model.to("cpu")
@@ -529,7 +529,7 @@ class ModelManager:
                         # Continue with prediction code...
                         # (Similar code as above, abbreviated for clarity)
                         
-                        print("CPU fallback successful!")
+                        print("Fallback ke CPU berhasil!")
                         # Reset device back to cuda for future predictions
                         self.device = "cuda" 
                         self.span_aste_model.to("cuda")
@@ -569,7 +569,7 @@ class ModelManager:
             # Get predicted label
             predicted_label = self.i2w[predictions.item()]
             
-            print(f"Aspect category for '{text}': {predicted_label}, conf: {confidence:.4f}")
+            print(f"Kategori aspek untuk '{text}': {predicted_label}, confidence: {confidence:.4f}")
             
             # Return as dictionary for consistent handling
             return {
@@ -578,13 +578,13 @@ class ModelManager:
             }
         
         except Exception as e:
-            print(f"Error during aspect classification: {e}")
+            print(f"Error saat klasifikasi aspek: {e}")
             traceback.print_exc()
             
             # Try CPU fallback if we're on CUDA
             if self.device == "cuda":
                 try:
-                    print("Attempting CPU fallback for aspect classification...")
+                    print("Mencoba fallback ke CPU untuk klasifikasi aspek...")
                     self.device = "cpu"
                     self.aspect_classifier_model.to("cpu")
                     
@@ -625,17 +625,17 @@ def api_predict():
     
     if not data or 'text' not in data:
         return jsonify({
-            'error': 'Invalid request format. Please provide a JSON with a "text" field.'
+            'error': 'Format permintaan tidak valid. Harap berikan JSON dengan field "text"'
         }), 400
     
     text = data['text']
     
     try:
-        print(f"\nProcessing API input: '{text}'")
+        print(f"\nMemproses input API: '{text}'")
         
         # Ensure models are loaded
         if not model_manager.loaded:
-            print("Models not loaded yet, loading now...")
+            print("Models belum dimuat, sedang dimuat...")
             model_manager.load_models()
         
         # 1. Use SPAN-ASTE model to extract triplets
@@ -698,14 +698,14 @@ def api_scrape():
                         print(f"Loading {len(saved_data['results'])} saved reviews from disk")
                         return jsonify(saved_data)
             except Exception as e:
-                print(f"Error loading saved data: {e}")
+                print(f"Error saat memuat data yang disimpan: {e}")
         
         # Start scraping with progress feedback
-        print(f"Starting to scrape reviews for app: {ALLSTATS_APP_ID} with max_reviews={max_reviews}")
+        print(f"Mulai scraping ulasan untuk aplikasi: {ALLSTATS_APP_ID} dengan max_reviews={max_reviews}")
         
         # Scrape the reviews
         reviews_data = reviews_all(ALLSTATS_APP_ID, max_reviews=max_reviews)
-        print(f"Scraped {len(reviews_data)} reviews for app {ALLSTATS_APP_ID}")
+        print(f"Mengumpulkan {len(reviews_data)} ulasan aplikasi {ALLSTATS_APP_ID}")
         
         # Function to check if a text is only emojis or emoticons
         def is_emoji_only(text):
@@ -769,7 +769,9 @@ def api_scrape():
                     for triplet in triplets:
                         if isinstance(triplet, dict) and 'aspect_term' in triplet:
                             aspect_term = triplet['aspect_term']
-                            category_info = model_manager.predict_aspect_category(aspect_term)
+                            opinion_term = triplet['opinion_term']
+                            aspect_opinion_text = f"{aspect_term} {opinion_term}"
+                            category_info = model_manager.predict_aspect_category(aspect_opinion_text)
                             triplet['aspect_category'] = category_info['category']
                             triplet['category_confidence'] = category_info['confidence']
                 
@@ -789,8 +791,8 @@ def api_scrape():
                     'model_version': getattr(model_manager, 'model_version', 'span_aste_v1')
                 })
             except Exception as e:
-                print(f"Error processing review: {review_text}")
-                print(f"Error details: {e}")
+                print(f"Error saat memproses ulasan: {review_text}")
+                print(f"Detail error : {e}")
                 # Log the error but still include the review in results with error info
                 processing_status = "error"
                 error_details = str(e)
@@ -828,14 +830,14 @@ def api_scrape():
         try:
             with open(saved_data_path, 'w', encoding='utf-8') as f:
                 json.dump(response_data, f, ensure_ascii=False, indent=2, cls=DateTimeEncoder)
-            print(f"Saved {len(results)} processed reviews to {saved_data_path}")
+            print(f"Menyimpan {len(results)} ulasan yang sudah diproses {saved_data_path}")
         except Exception as e:
-            print(f"Error saving data to disk: {e}")
+            print(f"Error saat menyimpan data ke disk: {e}")
         
         return jsonify(response_data)
     except Exception as e:
         traceback_info = traceback.format_exc()
-        print(f"Error in review scraping: {e}\n{traceback_info}")
+        print(f"Error saat scraping ulasan: {e}\n{traceback_info}")
         return jsonify({'error': 'Internal server error', 'details': str(e)}), 500
 
 # API endpoint for scraping reviews and getting predictions in one call
@@ -850,6 +852,10 @@ def api_scrape_and_predict():
         data = request.get_json() or {}
         max_reviews = data.get('max_reviews', 0)  # 0 means all reviews
         
+        # Log parameter untuk debugging
+        print(f"Request data: {data}")
+        print(f"max_reviews parameter: {max_reviews}")
+        
         # App ID for BPS Allstats
         ALLSTATS_APP_ID = "id.go.bps.allstats"
         
@@ -860,33 +866,17 @@ def api_scrape_and_predict():
         # Create directory if it doesn't exist
         os.makedirs(saved_data_dir, exist_ok=True)
         
-        print(f"Starting to scrape reviews for app: {ALLSTATS_APP_ID} with max_reviews={max_reviews}")
+        print(f"Mulai scraping ulasan untuk aplikasi: {ALLSTATS_APP_ID} dengan max_reviews={max_reviews}")
         
         # Use google-play-scraper to get reviews
         from google_play_scraper import Sort, reviews
         
-        result, continuation_token = reviews(
-            ALLSTATS_APP_ID,
-            lang='id',
-            country='id',
-            sort=Sort.NEWEST,
-            count=max_reviews if max_reviews > 0 else 100,  # Initial batch size
-            filter_score_with=None  # All ratings
-        )
+        # Gunakan fungsi reviews_all() yang sudah ada untuk mengambil ulasan
+        # Fungsi ini sudah menangani parameter max_reviews dengan benar
+        print(f"Mulai scraping ulasan untuk aplikasi: {ALLSTATS_APP_ID} dengan max_reviews={max_reviews} menggunakan reviews_all()")
+        reviews_data = reviews_all(ALLSTATS_APP_ID, max_reviews=max_reviews)
         
-        # If max_reviews is 0 (all reviews) or larger than initial batch, continue scraping
-        reviews_data = result
-        while continuation_token and (max_reviews == 0 or len(reviews_data) < max_reviews):
-            batch, continuation_token = reviews(
-                ALLSTATS_APP_ID,
-                continuation_token=continuation_token
-            )
-            reviews_data.extend(batch)
-            if max_reviews > 0 and len(reviews_data) >= max_reviews:
-                reviews_data = reviews_data[:max_reviews]  # Trim to exact max_reviews
-                break
-        
-        print(f"Scraped {len(reviews_data)} reviews for app {ALLSTATS_APP_ID}")
+        print(f"Mengumpulkan {len(reviews_data)} ulasan aplikasi {ALLSTATS_APP_ID}")
         
         # Function to check if a text is only emojis or emoticons
         def is_emoji_only(text):
@@ -950,7 +940,9 @@ def api_scrape_and_predict():
                     for triplet in triplets:
                         if isinstance(triplet, dict) and 'aspect_term' in triplet:
                             aspect_term = triplet['aspect_term']
-                            category_info = model_manager.predict_aspect_category(aspect_term)
+                            opinion_term = triplet['opinion_term']
+                            aspect_opinion_text = f"{aspect_term} {opinion_term}"
+                            category_info = model_manager.predict_aspect_category(aspect_opinion_text)
                             triplet['aspect_category'] = category_info['category']
                             triplet['category_confidence'] = category_info['confidence']
                 
@@ -1042,7 +1034,7 @@ def api_scrape_and_predict():
         return jsonify(response_data)
     except Exception as e:
         traceback_info = traceback.format_exc()
-        print(f"Error in scrape_and_predict: {e}\n{traceback_info}")
+        print(f"Error saat scraping ulasan: {e}\n{traceback_info}")
         return jsonify({'error': 'Internal server error', 'details': str(e)}), 500
 
 # Modifikasi pada fungsi predict() yang digunakan untuk web interface
@@ -1057,11 +1049,11 @@ def predict():
         }), 400
     
     try:
-        print(f"\nProcessing input: '{text}'")
+        print(f"\nMemproses input: '{text}'")
         
         # Ensure models are loaded
         if not model_manager.loaded:
-            print("Models not loaded yet, loading now...")
+            print("Models belum dimuat, sedang dimuat...")
             model_manager.load_models()
         
         # 1. Use SPAN-ASTE model to extract triplets
@@ -1215,11 +1207,11 @@ if __name__ == '__main__':
         print(f"{key}: {value}")
     print("==============================\n")
     
-    print("Starting Aspect-Sentiment Analysis Flask App...")
+    print("Bismillah mulai Span-ASTE Flask App...")
     print(f"Using device: {model_manager.device}")
     
     # Load models before starting server
-    print("Loading models before starting server...")
+    print("Loading models sebelum server dimulai...")
     model_manager.load_models()
     
     # Set CUDA launch blocking for better error messages

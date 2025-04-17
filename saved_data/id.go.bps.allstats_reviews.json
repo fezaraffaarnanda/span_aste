@@ -16,8 +16,8 @@
           "opinion_term": "tidak dapat di unduh",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "Out of Aspect",
-          "category_confidence": 0.5227188467979431
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.9792247414588928
         },
         {
           "aspect_term": "unduh",
@@ -25,12 +25,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9919805526733398
+          "category_confidence": 0.9921315312385559
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.047,
-      "processed_at": "2025-04-17T21:12:35.963362",
+      "processing_time": 0.191,
+      "processed_at": "2025-04-17T22:35:40.527619",
       "model_version": "span_aste_v1"
     },
     {
@@ -44,13 +44,13 @@
           "opinion_term": "tidak bisa didownload",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "Out of Aspect",
-          "category_confidence": 0.5227188467979431
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.8640000820159912
         }
       ],
       "processing_status": "success",
       "processing_time": 0.022,
-      "processed_at": "2025-04-17T21:12:35.985269",
+      "processed_at": "2025-04-17T22:35:40.549739",
       "model_version": "span_aste_v1"
     },
     {
@@ -65,12 +65,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9924002885818481
+          "category_confidence": 0.9941126704216003
         }
       ],
       "processing_status": "success",
       "processing_time": 0.037,
-      "processed_at": "2025-04-17T21:12:36.022058",
+      "processed_at": "2025-04-17T22:35:40.586405",
       "model_version": "span_aste_v1"
     },
     {
@@ -84,13 +84,13 @@
           "opinion_term": "tidak bisa",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "Out of Aspect",
-          "category_confidence": 0.5227188467979431
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.8777081370353699
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:36.039362",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T22:35:40.604865",
       "model_version": "span_aste_v1"
     },
     {
@@ -100,8 +100,8 @@
       "at": "2025-01-23T14:05:41",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.048810",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T22:35:40.614718",
       "model_version": "span_aste_v1"
     },
     {
@@ -112,7 +112,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.018,
-      "processed_at": "2025-04-17T21:12:36.066737",
+      "processed_at": "2025-04-17T22:35:40.633037",
       "model_version": "span_aste_v1"
     },
     {
@@ -127,12 +127,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9841682314872742
+          "category_confidence": 0.8686146140098572
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.018,
-      "processed_at": "2025-04-17T21:12:36.085188",
+      "processing_time": 0.019,
+      "processed_at": "2025-04-17T22:35:40.651958",
       "model_version": "span_aste_v1"
     },
     {
@@ -147,7 +147,7 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9698169231414795
         },
         {
           "aspect_term": "aplikasi",
@@ -155,12 +155,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.8018888831138611
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.119,
-      "processed_at": "2025-04-17T21:12:36.204609",
+      "processing_time": 0.122,
+      "processed_at": "2025-04-17T22:35:40.773657",
       "model_version": "span_aste_v1"
     },
     {
@@ -174,21 +174,21 @@
           "opinion_term": "good",
           "sentiment": "POS",
           "confidence": 0.9999997615814209,
-          "aspect_category": "Out of Aspect",
-          "category_confidence": 0.5227188467979431
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.5700655579566956
         },
         {
           "aspect_term": "info",
           "opinion_term": "good",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.3556257486343384
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.9316712617874146
         }
       ],
       "processing_status": "success",
       "processing_time": 0.024,
-      "processed_at": "2025-04-17T21:12:36.228774",
+      "processed_at": "2025-04-17T22:35:40.797850",
       "model_version": "span_aste_v1"
     },
     {
@@ -199,7 +199,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.238057",
+      "processed_at": "2025-04-17T22:35:40.807271",
       "model_version": "span_aste_v1"
     },
     {
@@ -210,7 +210,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.247252",
+      "processed_at": "2025-04-17T22:35:40.816390",
       "model_version": "span_aste_v1"
     },
     {
@@ -225,7 +225,7 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9754579663276672
+          "category_confidence": 0.9907371401786804
         },
         {
           "aspect_term": "unduh data",
@@ -233,12 +233,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9754579663276672
+          "category_confidence": 0.9247912764549255
         }
       ],
       "processing_status": "success",
       "processing_time": 0.025,
-      "processed_at": "2025-04-17T21:12:36.272547",
+      "processed_at": "2025-04-17T22:35:40.841749",
       "model_version": "span_aste_v1"
     },
     {
@@ -249,7 +249,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.281734",
+      "processed_at": "2025-04-17T22:35:40.851002",
       "model_version": "span_aste_v1"
     },
     {
@@ -260,7 +260,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.290850",
+      "processed_at": "2025-04-17T22:35:40.860200",
       "model_version": "span_aste_v1"
     },
     {
@@ -271,7 +271,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.013,
-      "processed_at": "2025-04-17T21:12:36.303407",
+      "processed_at": "2025-04-17T22:35:40.872777",
       "model_version": "span_aste_v1"
     },
     {
@@ -282,7 +282,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.312646",
+      "processed_at": "2025-04-17T22:35:40.882053",
       "model_version": "span_aste_v1"
     },
     {
@@ -292,8 +292,8 @@
       "at": "2024-06-11T06:14:25",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.321887",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T22:35:40.891894",
       "model_version": "span_aste_v1"
     },
     {
@@ -303,8 +303,8 @@
       "at": "2024-05-28T21:24:10",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:36.331639",
+      "processing_time": 0.012,
+      "processed_at": "2025-04-17T22:35:40.904315",
       "model_version": "span_aste_v1"
     },
     {
@@ -314,8 +314,8 @@
       "at": "2024-05-02T16:56:48",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.011,
-      "processed_at": "2025-04-17T21:12:36.342611",
+      "processing_time": 0.014,
+      "processed_at": "2025-04-17T22:35:40.918246",
       "model_version": "span_aste_v1"
     },
     {
@@ -330,12 +330,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.4711412489414215
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:36.359234",
+      "processing_time": 0.02,
+      "processed_at": "2025-04-17T22:35:40.938481",
       "model_version": "span_aste_v1"
     },
     {
@@ -345,8 +345,8 @@
       "at": "2024-01-31T18:18:49",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.368494",
+      "processing_time": 0.011,
+      "processed_at": "2025-04-17T22:35:40.949562",
       "model_version": "span_aste_v1"
     },
     {
@@ -361,12 +361,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "User Experince",
-          "category_confidence": 0.7169772982597351
+          "category_confidence": 0.8445881009101868
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:36.385548",
+      "processing_time": 0.021,
+      "processed_at": "2025-04-17T22:35:40.970219",
       "model_version": "span_aste_v1"
     },
     {
@@ -381,12 +381,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9360910654067993
+          "category_confidence": 0.989834189414978
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.031,
-      "processed_at": "2025-04-17T21:12:36.416475",
+      "processing_time": 0.032,
+      "processed_at": "2025-04-17T22:35:41.001906",
       "model_version": "span_aste_v1"
     },
     {
@@ -397,7 +397,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.425848",
+      "processed_at": "2025-04-17T22:35:41.011393",
       "model_version": "span_aste_v1"
     },
     {
@@ -412,12 +412,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9910544753074646
+          "category_confidence": 0.9931648373603821
         }
       ],
       "processing_status": "success",
       "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:36.442873",
+      "processed_at": "2025-04-17T22:35:41.028883",
       "model_version": "span_aste_v1"
     },
     {
@@ -431,13 +431,13 @@
           "opinion_term": "sangat membantu",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.9295217990875244
         }
       ],
       "processing_status": "success",
       "processing_time": 0.031,
-      "processed_at": "2025-04-17T21:12:36.473434",
+      "processed_at": "2025-04-17T22:35:41.060153",
       "model_version": "span_aste_v1"
     },
     {
@@ -448,7 +448,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.482658",
+      "processed_at": "2025-04-17T22:35:41.069503",
       "model_version": "span_aste_v1"
     },
     {
@@ -463,12 +463,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Security",
-          "category_confidence": 0.7169482111930847
+          "category_confidence": 0.3189282715320587
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.023,
-      "processed_at": "2025-04-17T21:12:36.506156",
+      "processing_time": 0.024,
+      "processed_at": "2025-04-17T22:35:41.093291",
       "model_version": "span_aste_v1"
     },
     {
@@ -482,13 +482,13 @@
           "opinion_term": "lemot",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.990265429019928
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.026,
-      "processed_at": "2025-04-17T21:12:36.532632",
+      "processing_time": 0.027,
+      "processed_at": "2025-04-17T22:35:41.120491",
       "model_version": "span_aste_v1"
     },
     {
@@ -502,21 +502,21 @@
           "opinion_term": "sedikit",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.5111799836158752
+          "aspect_category": "User Experince",
+          "category_confidence": 0.8268103003501892
         },
         {
           "aspect_term": "aplikasinya",
           "opinion_term": "kurang responsif",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.5111799836158752
+          "aspect_category": "Support and Updates",
+          "category_confidence": 0.45815038681030273
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.024,
-      "processed_at": "2025-04-17T21:12:36.556986",
+      "processing_time": 0.026,
+      "processed_at": "2025-04-17T22:35:41.146156",
       "model_version": "span_aste_v1"
     },
     {
@@ -531,12 +531,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "User Interface",
-          "category_confidence": 0.9279949069023132
+          "category_confidence": 0.47836288809776306
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.028,
-      "processed_at": "2025-04-17T21:12:36.585432",
+      "processing_time": 0.029,
+      "processed_at": "2025-04-17T22:35:41.175495",
       "model_version": "span_aste_v1"
     },
     {
@@ -551,12 +551,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9795544147491455
         }
       ],
       "processing_status": "success",
       "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:36.602616",
+      "processed_at": "2025-04-17T22:35:41.192790",
       "model_version": "span_aste_v1"
     },
     {
@@ -571,12 +571,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "User Interface",
-          "category_confidence": 0.6288753747940063
+          "category_confidence": 0.8157727718353271
         }
       ],
       "processing_status": "success",
       "processing_time": 0.042,
-      "processed_at": "2025-04-17T21:12:36.644777",
+      "processed_at": "2025-04-17T22:35:41.234802",
       "model_version": "span_aste_v1"
     },
     {
@@ -587,7 +587,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.011,
-      "processed_at": "2025-04-17T21:12:36.656250",
+      "processed_at": "2025-04-17T22:35:41.246187",
       "model_version": "span_aste_v1"
     },
     {
@@ -598,7 +598,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.665591",
+      "processed_at": "2025-04-17T22:35:41.255357",
       "model_version": "span_aste_v1"
     },
     {
@@ -609,7 +609,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.674938",
+      "processed_at": "2025-04-17T22:35:41.264497",
       "model_version": "span_aste_v1"
     },
     {
@@ -624,12 +624,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "User Experince",
-          "category_confidence": 0.5534037351608276
+          "category_confidence": 0.5485175848007202
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.09,
-      "processed_at": "2025-04-17T21:12:36.764530",
+      "processing_time": 0.088,
+      "processed_at": "2025-04-17T22:35:41.352855",
       "model_version": "span_aste_v1"
     },
     {
@@ -639,8 +639,8 @@
       "at": "2022-06-28T19:56:09",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:36.774047",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T22:35:41.362437",
       "model_version": "span_aste_v1"
     },
     {
@@ -655,12 +655,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.8637885451316833
+          "category_confidence": 0.9871594905853271
         }
       ],
       "processing_status": "success",
       "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:36.790807",
+      "processed_at": "2025-04-17T22:35:41.379268",
       "model_version": "span_aste_v1"
     },
     {
@@ -671,7 +671,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:36.800526",
+      "processed_at": "2025-04-17T22:35:41.389006",
       "model_version": "span_aste_v1"
     },
     {
@@ -682,7 +682,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.036,
-      "processed_at": "2025-04-17T21:12:36.836337",
+      "processed_at": "2025-04-17T22:35:41.425248",
       "model_version": "span_aste_v1"
     },
     {
@@ -697,7 +697,7 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.866888701915741
         },
         {
           "aspect_term": "aplikasi",
@@ -705,7 +705,7 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9074344635009766
         },
         {
           "aspect_term": "aplikasi",
@@ -713,7 +713,7 @@
           "sentiment": "NEG",
           "confidence": 0.998818576335907,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9670668840408325
         },
         {
           "aspect_term": "isian data",
@@ -721,12 +721,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Out of Aspect",
-          "category_confidence": 0.4205392003059387
+          "category_confidence": 0.6327422857284546
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.087,
-      "processed_at": "2025-04-17T21:12:36.923873",
+      "processing_time": 0.085,
+      "processed_at": "2025-04-17T22:35:41.510673",
       "model_version": "span_aste_v1"
     },
     {
@@ -736,8 +736,8 @@
       "at": "2022-04-07T02:16:14",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:36.933852",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:41.520160",
       "model_version": "span_aste_v1"
     },
     {
@@ -747,8 +747,8 @@
       "at": "2022-04-05T07:52:40",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:36.943751",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:41.529425",
       "model_version": "span_aste_v1"
     },
     {
@@ -763,12 +763,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9455687999725342
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.036,
-      "processed_at": "2025-04-17T21:12:36.979499",
+      "processing_time": 0.033,
+      "processed_at": "2025-04-17T22:35:41.562853",
       "model_version": "span_aste_v1"
     },
     {
@@ -779,7 +779,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:36.989995",
+      "processed_at": "2025-04-17T22:35:41.572704",
       "model_version": "span_aste_v1"
     },
     {
@@ -789,8 +789,8 @@
       "at": "2022-03-09T09:28:41",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.011,
-      "processed_at": "2025-04-17T21:12:37.001252",
+      "processing_time": 0.015,
+      "processed_at": "2025-04-17T22:35:41.587908",
       "model_version": "span_aste_v1"
     },
     {
@@ -805,12 +805,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.7736126780509949
+          "category_confidence": 0.583050549030304
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.024,
-      "processed_at": "2025-04-17T21:12:37.025509",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T22:35:41.605543",
       "model_version": "span_aste_v1"
     },
     {
@@ -820,8 +820,8 @@
       "at": "2022-03-07T07:37:51",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.011,
-      "processed_at": "2025-04-17T21:12:37.036505",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:41.614611",
       "model_version": "span_aste_v1"
     },
     {
@@ -831,8 +831,8 @@
       "at": "2022-02-07T09:46:42",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:37.046415",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:41.623694",
       "model_version": "span_aste_v1"
     },
     {
@@ -842,8 +842,8 @@
       "at": "2022-02-04T14:19:03",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.062,
-      "processed_at": "2025-04-17T21:12:37.108118",
+      "processing_time": 0.059,
+      "processed_at": "2025-04-17T22:35:41.682437",
       "model_version": "span_aste_v1"
     },
     {
@@ -853,8 +853,8 @@
       "at": "2022-02-03T10:14:51",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.012,
-      "processed_at": "2025-04-17T21:12:37.120004",
+      "processing_time": 0.011,
+      "processed_at": "2025-04-17T22:35:41.693376",
       "model_version": "span_aste_v1"
     },
     {
@@ -868,13 +868,13 @@
           "opinion_term": "bagus",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "Security",
-          "category_confidence": 0.9078767895698547
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.4524378180503845
         }
       ],
       "processing_status": "success",
       "processing_time": 0.016,
-      "processed_at": "2025-04-17T21:12:37.136445",
+      "processed_at": "2025-04-17T22:35:41.709026",
       "model_version": "span_aste_v1"
     },
     {
@@ -885,7 +885,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.012,
-      "processed_at": "2025-04-17T21:12:37.148713",
+      "processed_at": "2025-04-17T22:35:41.721137",
       "model_version": "span_aste_v1"
     },
     {
@@ -900,15 +900,15 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9802079796791077
         },
         {
           "aspect_term": "informasi",
           "opinion_term": "kurang dipercaya",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "User Experince",
-          "category_confidence": 0.7169772982597351
+          "aspect_category": "Out of Aspect",
+          "category_confidence": 0.4994693100452423
         },
         {
           "aspect_term": "informasi",
@@ -916,7 +916,7 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "User Experince",
-          "category_confidence": 0.7169772982597351
+          "category_confidence": 0.711319625377655
         },
         {
           "aspect_term": "informasi",
@@ -924,12 +924,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "User Experince",
-          "category_confidence": 0.7169772982597351
+          "category_confidence": 0.5868943929672241
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.057,
-      "processed_at": "2025-04-17T21:12:37.205805",
+      "processing_time": 0.056,
+      "processed_at": "2025-04-17T22:35:41.777349",
       "model_version": "span_aste_v1"
     },
     {
@@ -944,12 +944,12 @@
           "sentiment": "POS",
           "confidence": 0.999990701675415,
           "aspect_category": "Out of Aspect",
-          "category_confidence": 0.5227188467979431
+          "category_confidence": 0.72500079870224
         }
       ],
       "processing_status": "success",
       "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:37.222914",
+      "processed_at": "2025-04-17T22:35:41.794186",
       "model_version": "span_aste_v1"
     },
     {
@@ -964,15 +964,15 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.5111799836158752
+          "category_confidence": 0.975966215133667
         },
         {
           "aspect_term": "developer aplikasi",
           "opinion_term": "mantap",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "Support and Updates",
-          "category_confidence": 0.8024317622184753
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.6159043312072754
         },
         {
           "aspect_term": "developer",
@@ -980,12 +980,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "Support and Updates",
-          "category_confidence": 0.9721376895904541
+          "category_confidence": 0.7249883413314819
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.036,
-      "processed_at": "2025-04-17T21:12:37.258772",
+      "processing_time": 0.035,
+      "processed_at": "2025-04-17T22:35:41.829389",
       "model_version": "span_aste_v1"
     },
     {
@@ -1000,12 +1000,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9734762907028198
+          "category_confidence": 0.99310302734375
         }
       ],
       "processing_status": "success",
       "processing_time": 0.025,
-      "processed_at": "2025-04-17T21:12:37.283913",
+      "processed_at": "2025-04-17T22:35:41.854264",
       "model_version": "span_aste_v1"
     },
     {
@@ -1015,8 +1015,8 @@
       "at": "2021-07-08T08:49:07",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:37.293587",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:41.863724",
       "model_version": "span_aste_v1"
     },
     {
@@ -1030,13 +1030,13 @@
           "opinion_term": "memudahkan pengguna",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.7703242301940918
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.185,
-      "processed_at": "2025-04-17T21:12:37.478731",
+      "processing_time": 0.178,
+      "processed_at": "2025-04-17T22:35:42.041949",
       "model_version": "span_aste_v1"
     },
     {
@@ -1050,16 +1050,16 @@
           "opinion_term": "sangat membantu",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.5851791501045227
+          "aspect_category": "User Experince",
+          "category_confidence": 0.920941174030304
         },
         {
           "aspect_term": "fiturnya",
           "opinion_term": "lengkap",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.5851791501045227
+          "aspect_category": "User Experince",
+          "category_confidence": 0.7339274287223816
         },
         {
           "aspect_term": "aplikasi",
@@ -1067,7 +1067,7 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9802079796791077
         },
         {
           "aspect_term": "pencarian data statistik penduduk",
@@ -1075,12 +1075,12 @@
           "sentiment": "POS",
           "confidence": 0.9999998807907104,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9652981758117676
+          "category_confidence": 0.5246310234069824
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.051,
-      "processed_at": "2025-04-17T21:12:37.530201",
+      "processing_time": 0.05,
+      "processed_at": "2025-04-17T22:35:42.091758",
       "model_version": "span_aste_v1"
     },
     {
@@ -1090,8 +1090,8 @@
       "at": "2021-07-07T10:29:21",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:37.539917",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:42.101152",
       "model_version": "span_aste_v1"
     },
     {
@@ -1102,7 +1102,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.018,
-      "processed_at": "2025-04-17T21:12:37.557885",
+      "processed_at": "2025-04-17T22:35:42.119252",
       "model_version": "span_aste_v1"
     },
     {
@@ -1116,13 +1116,13 @@
           "opinion_term": "lengkap",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.8788926005363464
         }
       ],
       "processing_status": "success",
       "processing_time": 0.019,
-      "processed_at": "2025-04-17T21:12:37.576563",
+      "processed_at": "2025-04-17T22:35:42.138640",
       "model_version": "span_aste_v1"
     },
     {
@@ -1136,13 +1136,13 @@
           "opinion_term": "sangat bermanfaat",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.6852167844772339
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.054,
-      "processed_at": "2025-04-17T21:12:37.630532",
+      "processing_time": 0.053,
+      "processed_at": "2025-04-17T22:35:42.191892",
       "model_version": "span_aste_v1"
     },
     {
@@ -1157,20 +1157,20 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9802079796791077
         },
         {
           "aspect_term": "aplikasi",
           "opinion_term": "sangat membantu",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.9295217990875244
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.037,
-      "processed_at": "2025-04-17T21:12:37.667440",
+      "processing_time": 0.036,
+      "processed_at": "2025-04-17T22:35:42.227654",
       "model_version": "span_aste_v1"
     },
     {
@@ -1185,20 +1185,20 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9698169231414795
         },
         {
           "aspect_term": "aplikasi",
           "opinion_term": "sangat membantu",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.9295217990875244
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.034,
-      "processed_at": "2025-04-17T21:12:37.701429",
+      "processing_time": 0.033,
+      "processed_at": "2025-04-17T22:35:42.260855",
       "model_version": "span_aste_v1"
     },
     {
@@ -1213,12 +1213,12 @@
           "sentiment": "POS",
           "confidence": 0.9999954700469971,
           "aspect_category": "Out of Aspect",
-          "category_confidence": 0.5944137573242188
+          "category_confidence": 0.7190795540809631
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.018,
-      "processed_at": "2025-04-17T21:12:37.718959",
+      "processing_time": 0.017,
+      "processed_at": "2025-04-17T22:35:42.277794",
       "model_version": "span_aste_v1"
     },
     {
@@ -1232,13 +1232,13 @@
           "opinion_term": "sangat membantu",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.9295217990875244
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.022,
-      "processed_at": "2025-04-17T21:12:37.740925",
+      "processing_time": 0.021,
+      "processed_at": "2025-04-17T22:35:42.298914",
       "model_version": "span_aste_v1"
     },
     {
@@ -1253,12 +1253,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "category_confidence": 0.9802079796791077
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.042,
-      "processed_at": "2025-04-17T21:12:37.783316",
+      "processing_time": 0.041,
+      "processed_at": "2025-04-17T22:35:42.339510",
       "model_version": "span_aste_v1"
     },
     {
@@ -1272,13 +1272,13 @@
           "opinion_term": "tidak bisa mendownload",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.7107016444206238
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.019,
-      "processed_at": "2025-04-17T21:12:37.802114",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T22:35:42.357487",
       "model_version": "span_aste_v1"
     },
     {
@@ -1293,12 +1293,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "User Experince",
-          "category_confidence": 0.4822724759578705
+          "category_confidence": 0.3176910877227783
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:37.819055",
+      "processing_time": 0.016,
+      "processed_at": "2025-04-17T22:35:42.373845",
       "model_version": "span_aste_v1"
     },
     {
@@ -1312,13 +1312,13 @@
           "opinion_term": "luar biasa bagus",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "Out of Aspect",
-          "category_confidence": 0.5227188467979431
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.48318758606910706
         }
       ],
       "processing_status": "success",
       "processing_time": 0.027,
-      "processed_at": "2025-04-17T21:12:37.845613",
+      "processed_at": "2025-04-17T22:35:42.400729",
       "model_version": "span_aste_v1"
     },
     {
@@ -1333,12 +1333,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9931261539459229
+          "category_confidence": 0.9941408038139343
         }
       ],
       "processing_status": "success",
       "processing_time": 0.031,
-      "processed_at": "2025-04-17T21:12:37.876376",
+      "processed_at": "2025-04-17T22:35:42.431964",
       "model_version": "span_aste_v1"
     },
     {
@@ -1348,8 +1348,8 @@
       "at": "2021-05-29T03:51:02",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.012,
-      "processed_at": "2025-04-17T21:12:37.888160",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T22:35:42.441858",
       "model_version": "span_aste_v1"
     },
     {
@@ -1359,8 +1359,8 @@
       "at": "2021-05-04T10:23:57",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.012,
-      "processed_at": "2025-04-17T21:12:37.900608",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T22:35:42.452199",
       "model_version": "span_aste_v1"
     },
     {
@@ -1370,8 +1370,8 @@
       "at": "2021-04-27T07:15:53",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.012,
-      "processed_at": "2025-04-17T21:12:37.912711",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T22:35:42.462542",
       "model_version": "span_aste_v1"
     },
     {
@@ -1381,8 +1381,8 @@
       "at": "2021-04-18T13:31:22",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.011,
-      "processed_at": "2025-04-17T21:12:37.923964",
+      "processing_time": 0.01,
+      "processed_at": "2025-04-17T22:35:42.472252",
       "model_version": "span_aste_v1"
     },
     {
@@ -1392,8 +1392,8 @@
       "at": "2021-04-09T02:26:47",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.037,
-      "processed_at": "2025-04-17T21:12:37.961481",
+      "processing_time": 0.031,
+      "processed_at": "2025-04-17T22:35:42.503190",
       "model_version": "span_aste_v1"
     },
     {
@@ -1408,12 +1408,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9734762907028198
+          "category_confidence": 0.9933232665061951
         }
       ],
       "processing_status": "success",
       "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:37.978252",
+      "processed_at": "2025-04-17T22:35:42.520394",
       "model_version": "span_aste_v1"
     },
     {
@@ -1427,21 +1427,21 @@
           "opinion_term": "banyak yang kosong",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "Security",
-          "category_confidence": 0.9078767895698547
+          "aspect_category": "User Experince",
+          "category_confidence": 0.6032200455665588
         },
         {
           "aspect_term": "data",
           "opinion_term": "sering eror",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "Security",
-          "category_confidence": 0.9078767895698547
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.8878899216651917
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.026,
-      "processed_at": "2025-04-17T21:12:38.004638",
+      "processing_time": 0.027,
+      "processed_at": "2025-04-17T22:35:42.547172",
       "model_version": "span_aste_v1"
     },
     {
@@ -1455,13 +1455,13 @@
           "opinion_term": "tidak valid",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "Out of Aspect",
-          "category_confidence": 0.6462165117263794
+          "aspect_category": "Security",
+          "category_confidence": 0.41722747683525085
         }
       ],
       "processing_status": "success",
       "processing_time": 0.087,
-      "processed_at": "2025-04-17T21:12:38.092064",
+      "processed_at": "2025-04-17T22:35:42.634518",
       "model_version": "span_aste_v1"
     },
     {
@@ -1476,12 +1476,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "Functionality and Perfomance",
-          "category_confidence": 0.9942164421081543
+          "category_confidence": 0.9242178797721863
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:38.109314",
+      "processing_time": 0.016,
+      "processed_at": "2025-04-17T22:35:42.650704",
       "model_version": "span_aste_v1"
     },
     {
@@ -1491,8 +1491,8 @@
       "at": "2021-03-11T05:01:11",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:38.119276",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:42.660037",
       "model_version": "span_aste_v1"
     },
     {
@@ -1502,8 +1502,8 @@
       "at": "2021-03-04T16:56:51",
       "triplets": [],
       "processing_status": "success",
-      "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:38.128967",
+      "processing_time": 0.009,
+      "processed_at": "2025-04-17T22:35:42.669253",
       "model_version": "span_aste_v1"
     },
     {
@@ -1514,7 +1514,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.013,
-      "processed_at": "2025-04-17T21:12:38.142159",
+      "processed_at": "2025-04-17T22:35:42.682088",
       "model_version": "span_aste_v1"
     },
     {
@@ -1525,7 +1525,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:38.152538",
+      "processed_at": "2025-04-17T22:35:42.692270",
       "model_version": "span_aste_v1"
     },
     {
@@ -1536,7 +1536,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:38.162363",
+      "processed_at": "2025-04-17T22:35:42.701915",
       "model_version": "span_aste_v1"
     },
     {
@@ -1547,7 +1547,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.03,
-      "processed_at": "2025-04-17T21:12:38.192578",
+      "processed_at": "2025-04-17T22:35:42.731472",
       "model_version": "span_aste_v1"
     },
     {
@@ -1562,12 +1562,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "Out of Aspect",
-          "category_confidence": 0.8718309998512268
+          "category_confidence": 0.6524097919464111
         }
       ],
       "processing_status": "success",
       "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:38.209895",
+      "processed_at": "2025-04-17T22:35:42.748136",
       "model_version": "span_aste_v1"
     },
     {
@@ -1578,7 +1578,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:38.219788",
+      "processed_at": "2025-04-17T22:35:42.757718",
       "model_version": "span_aste_v1"
     },
     {
@@ -1592,13 +1592,13 @@
           "opinion_term": "tidak bisa",
           "sentiment": "NEG",
           "confidence": 1.0,
-          "aspect_category": "Security",
-          "category_confidence": 0.9078767895698547
+          "aspect_category": "Functionality and Perfomance",
+          "category_confidence": 0.8959866762161255
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.019,
-      "processed_at": "2025-04-17T21:12:38.238572",
+      "processing_time": 0.018,
+      "processed_at": "2025-04-17T22:35:42.775695",
       "model_version": "span_aste_v1"
     },
     {
@@ -1612,13 +1612,13 @@
           "opinion_term": "sangat bermanfaat",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "General Aspect",
-          "category_confidence": 0.6674513220787048
+          "aspect_category": "User Experince",
+          "category_confidence": 0.6852167844772339
         }
       ],
       "processing_status": "success",
       "processing_time": 0.017,
-      "processed_at": "2025-04-17T21:12:38.255917",
+      "processed_at": "2025-04-17T22:35:42.792461",
       "model_version": "span_aste_v1"
     },
     {
@@ -1629,7 +1629,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.009,
-      "processed_at": "2025-04-17T21:12:38.265333",
+      "processed_at": "2025-04-17T22:35:42.801457",
       "model_version": "span_aste_v1"
     },
     {
@@ -1640,7 +1640,7 @@
       "triplets": [],
       "processing_status": "success",
       "processing_time": 0.01,
-      "processed_at": "2025-04-17T21:12:38.275205",
+      "processed_at": "2025-04-17T22:35:42.811057",
       "model_version": "span_aste_v1"
     },
     {
@@ -1655,7 +1655,7 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "User Interface",
-          "category_confidence": 0.8336047530174255
+          "category_confidence": 0.8679192662239075
         },
         {
           "aspect_term": "gambar",
@@ -1663,12 +1663,12 @@
           "sentiment": "NEG",
           "confidence": 1.0,
           "aspect_category": "User Interface",
-          "category_confidence": 0.8591236472129822
+          "category_confidence": 0.8328086733818054
         }
       ],
       "processing_status": "success",
-      "processing_time": 0.082,
-      "processed_at": "2025-04-17T21:12:38.357645",
+      "processing_time": 0.079,
+      "processed_at": "2025-04-17T22:35:42.890072",
       "model_version": "span_aste_v1"
     },
     {
@@ -1682,8 +1682,8 @@
           "opinion_term": "mantap",
           "sentiment": "POS",
           "confidence": 1.0,
-          "aspect_category": "Out of Aspect",
-          "category_confidence": 0.28610390424728394
+          "aspect_category": "General Aspect",
+          "category_confidence": 0.9111502766609192
         },
         {
           "aspect_term": "keluhan pelanggan",
@@ -1691,12 +1691,12 @@
           "sentiment": "POS",
           "confidence": 1.0,
           "aspect_category": "Support and Updates",
-          "category_confidence": 0.8303087949752808
+          "category_confidence": 0.8681526184082031
         }
       ],
       "processing_status": "success",
       "processing_time": 0.035,
-      "processed_at": "2025-04-17T21:12:38.392594",
+      "processed_at": "2025-04-17T22:35:42.924886",
       "model_version": "span_aste_v1"
     }
   ]

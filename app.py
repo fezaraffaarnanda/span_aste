@@ -607,15 +607,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('dashboard.html')
 
 @app.route('/api-docs')
 def api_docs():
     return render_template('api-docs.html')
-    
-@app.route('/scrape')
-def scrape_page():
-    return render_template('scrape.html')
 
 @app.route('/api/predict', methods=['POST'])
 def api_predict():
@@ -650,14 +646,14 @@ def api_predict():
             # Predict aspect category
             category_info = model_manager.predict_aspect_category(aspect_opinion_text)
             
-            # Format triplet with new key names
+            # Format triplet with keys that match frontend expectations
             formatted_triplet = {
-                'aspect_term': triplet['aspect_term'],
-                'opinion_term': triplet['opinion_term'],
+                'aspect': triplet['aspect_term'],
+                'opinion': triplet['opinion_term'],
                 'sentiment': triplet['sentiment'],
-                'triplet_confidence': triplet['confidence'],
+                'confidence': triplet['confidence'],
                 'aspect_category': category_info['category'],
-                'aspect_category_confidence': category_info['confidence']
+                'category_confidence': category_info['confidence']
             }
             formatted_triplets.append(formatted_triplet)
         
@@ -778,12 +774,22 @@ def api_scrape():
                 # Calculate processing time
                 processing_time = time.time() - start_time
                 
+                # Format the date for better filtering in the frontend
+                review_date = None
+                if 'at' in review and review['at']:
+                    try:
+                        # Convert timestamp to ISO date format (YYYY-MM-DD)
+                        review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
+                    except (TypeError, ValueError) as e:
+                        print(f"Error formatting date: {e}")
+                
                 # Add to results with metadata
                 results.append({
                     'review_id': review['reviewId'],
                     'review_text': review_text,
                     'score': review_score,
                     'at': review['at'],
+                    'date': review_date,  # Add formatted date for filtering
                     'triplets': triplets,
                     'processing_status': processing_status,
                     'processing_time': round(processing_time, 3),
@@ -798,11 +804,21 @@ def api_scrape():
                 error_details = str(e)
                 processing_time = time.time() - start_time
                 
+                # Format the date for better filtering in the frontend
+                review_date = None
+                if 'at' in review and review['at']:
+                    try:
+                        # Convert timestamp to ISO date format (YYYY-MM-DD)
+                        review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
+                    except (TypeError, ValueError) as e:
+                        print(f"Error formatting date: {e}")
+                
                 # Add to results with error information
                 results.append({
                     'review_id': review['reviewId'],
                     'review_text': review_text,
                     'score': review_score,
+                    'date': review_date,  # Add formatted date for filtering
                     'at': review['at'],
                     'triplets': [],  # Empty triplets for error cases
                     'processing_status': processing_status,
@@ -982,11 +998,21 @@ def api_scrape_and_predict():
                 error_details = str(e)
                 processing_time = time.time() - start_time
                 
+                # Format the date for better filtering in the frontend
+                review_date = None
+                if 'at' in review and review['at']:
+                    try:
+                        # Convert timestamp to ISO date format (YYYY-MM-DD)
+                        review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
+                    except (TypeError, ValueError) as e:
+                        print(f"Error formatting date: {e}")
+                
                 # Add to results with error information
                 results.append({
                     'review_id': review['reviewId'],
                     'review_text': review_text,
                     'score': review_score,
+                    'date': review_date,  # Add formatted date for filtering
                     'at': review['at'],
                     'triplets': [],  # Empty triplets for error cases
                     'processing_status': processing_status,
@@ -1068,14 +1094,14 @@ def predict():
             # Predict aspect category
             category_info = model_manager.predict_aspect_category(aspect_opinion_text)
             
-            # Format triplet with new key names
+            # Format triplet with keys that match frontend expectations
             formatted_triplet = {
-                'aspect_term': triplet['aspect_term'],
-                'opinion_term': triplet['opinion_term'],
+                'aspect': triplet['aspect_term'],
+                'opinion': triplet['opinion_term'],
                 'sentiment': triplet['sentiment'],
-                'triplet_confidence': triplet['confidence'],
+                'confidence': triplet['confidence'],
                 'aspect_category': category_info['category'],
-                'aspect_category_confidence': category_info['confidence']
+                'category_confidence': category_info['confidence']
             }
             formatted_triplets.append(formatted_triplet)
         
@@ -1200,6 +1226,23 @@ def reviews_all(app_id, max_reviews=MAX_REVIEWS_PER_APP, sleep_milliseconds=1000
 
     return result
 
+@app.route('/api/get_saved_data', methods=['GET'])
+def get_saved_data():
+    """API endpoint to retrieve saved scraping data"""
+    # Define the path to saved data
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saved_data')
+    data_file = os.path.join(data_dir, 'id.go.bps.allstats_reviews.json')
+    
+    if os.path.exists(data_file):
+        try:
+            with open(data_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            return jsonify({"results": data})
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    else:
+        return jsonify({"results": [], "message": "No saved scraping data found"})
+
 if __name__ == '__main__':
     print("\n===== System Information =====")
     info = get_system_info()
@@ -1208,14 +1251,29 @@ if __name__ == '__main__':
     print("==============================\n")
     
     print("Bismillah mulai Span-ASTE Flask App...")
-    print(f"Using device: {model_manager.device}")
+    print(f"Using device: {torch.device('cuda' if torch.cuda.is_available() else 'cpu')}")
     
-    # Load models before starting server
     print("Loading models sebelum server dimulai...")
-    model_manager.load_models()
+    try:
+        model_manager.load_models()
+        print("Semua model berhasil dimuat")
+    except Exception as e:
+        print(f"Error loading models: {str(e)}")
+        traceback.print_exc()
     
-    # Set CUDA launch blocking for better error messages
+    # Check if data directory exists, create if not
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saved_data')
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+        print(f"Created saved_data directory at {data_dir}")
+    
+    # Check if there's saved data
+    data_file = os.path.join(data_dir, 'id.go.bps.allstats_reviews.json')
+    if os.path.exists(data_file):
+        print(f"Found saved scraping data at {data_file}")
+    else:
+        print("No saved scraping data found")
+    
+    # Run Flask app
     os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
-    
-    # Run the Flask application
     app.run(host='0.0.0.0', port=8099, debug=True)

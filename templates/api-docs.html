@@ -195,7 +195,7 @@
                 <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Ringkasan API</h5>
             </div>
             <div class="card-body">
-                <p>API ini menyediakan kemampuan analisis sentimen tingkat aspek pada teks menggunakan model berbasis Span Level untuk ekstraksi Triplet Sentimen Aspek. API dapat mengidentifikasi istilah aspek (aspect terms), istilah opini (opinion terms), dan sentimen yang terkait, serta mengkategorikan aspek ke dalam beberapa kategori.</p>
+                <p>API untuk model Span Level Aspect Sentiment Triplet Extraction. API dapat digunakan untuk mengidentifikasi aspect terms, opinion terms, dan polaritas sentimen, serta mengkategorikan triplet tersebut ke dalam aspek aplikasi mobile yang sesuai.</p>
                 
                 <div class="alert alert-info">
                     <i class="bi bi-info-circle-fill me-2"></i>
@@ -378,11 +378,11 @@
                 <div class="section-divider"></div>
                 
                 <div class="api-section">
-                    <h3>Scraping dan Prediksi Triplet</h3>
+                    <h3>Scraping Ulasan</h3>
                     <div class="api-endpoint">
-                        <span class="method">POST</span>/api/scrape_and_predict
+                        <span class="method">POST</span>/api/scrape
                     </div>
-                    <p>Endpoint untuk melakukan scraping ulasan Allstats dari Google Play Store dan langsung melakukan prediksi triplet aspek opini sentimen pada ulasan tersebut dalam satu kali panggilan API.</p>
+                    <p>Endpoint untuk melakukan scraping ulasan Allstats dari Google Play Store dan melakukan prediksi triplet aspek opini sentimen pada ulasan tersebut.</p>
                     <h5>Parameter Request</h5>
                     <table class="table table-params table-bordered">
                         <thead>
@@ -412,12 +412,7 @@
                             "app_id": "id.go.bps.allstats",
                             "total_reviews": 45,
                             "processed_reviews": 43,
-                            "statistics": {
-                                "positive_triplets": 23,
-                                "negative_triplets": 15,
-                                "neutral_triplets": 5,
-                                "total_triplets": 43
-                            },
+                            "max_reviews": 50,
                             "results": [
                                 {
                                     "review_id": "abcd1234",
@@ -431,7 +426,7 @@
                                             "sentiment": "POS",
                                             "triplet_confidence": 0.95,
                                             "aspect_category": "Functionality and Perfomance",
-                                            "aspect_category_confidence": 0.87
+                                            "category_confidence": 0.87
                                         },
                                         {
                                             "aspect_term": "tampilan",
@@ -439,7 +434,7 @@
                                             "sentiment": "NEG",
                                             "triplet_confidence": 0.88,
                                             "aspect_category": "User Interface",
-                                            "aspect_category_confidence": 0.91
+                                            "category_confidence": 0.91
                                         }
                                     ],
                                     "processing_status": "success",
@@ -462,15 +457,11 @@
                         <tbody>
                             <tr>
                                 <td>200</td>
-                                <td>Berhasil. Respons berisi data hasil scraping dan hasil prediksi triplet.</td>
-                            </tr>
-                            <tr>
-                                <td>400</td>
-                                <td>Bad Request. Format request tidak valid.</td>
+                                <td>Sukses</td>
                             </tr>
                             <tr>
                                 <td>500</td>
-                                <td>Internal Server Error. Terjadi kesalahan saat memproses request.</td>
+                                <td>Error server internal</td>
                             </tr>
                         </tbody>
                     </table>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Span-Level Aspect Sentiment Triplet Extraction</title>
+    
+    <!-- CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='allstats_bps.png') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Span-ASTE</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link" data-section="home-section">
+                    <i class="bi bi-house"></i>
+                    <span>Beranda</span>
+                </a>
+                <a href="#" class="nav-link" data-section="predict-text-section">
+                    <i class="bi bi-chat-square-text"></i>
+                    <span>Analisis Teks</span>
+                </a>
+                <a href="#" class="nav-link" data-section="scrape-section">
+                    <i class="bi bi-google"></i>
+                    <span>Scrape Ulasan</span>
+                </a>
+                <a href="#" class="nav-link" data-section="api-section">
+                    <i class="bi bi-code-slash"></i>
+                    <span>API Docs</span>
+                </a>
+                <a href="#" class="nav-link" data-section="about-section">
+                    <i class="bi bi-info-circle"></i>
+                    <span>Tentang</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <button class="sidebar-toggler" id="sidebar-toggler">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>Span Level Aspect Sentiment Triplet Extraction</h4>
+                <div></div> <!-- Placeholder for flex alignment -->
+            </div>
+
+            <!-- Home Section -->
+            <section id="home-section" class="content-section">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5 class="mb-3">Selamat Datang di SPAN-ASTE Dashboard</h5>
+                        <p>Dashboard ini menyediakan analisis sentimen tingkat aspek untuk ulasan aplikasi. Ekstraksi triplet sentimen aspek berbasis Span Level memungkinkan analisis mendalam tentang aspek spesifik yang dikomentari oleh pengguna.</p>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="bi bi-file-text"></i>
+                            </div>
+                            <div class="stat-value" id="total-reviews">-</div>
+                            <div class="stat-label">Total Ulasan</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="bi bi-link-45deg"></i>
+                            </div>
+                            <div class="stat-value" id="total-triplets">-</div>
+                            <div class="stat-label">Total Triplet</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 offset-md-1">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="bi bi-emoji-smile"></i>
+                            </div>
+                            <div class="stat-value" id="positive-sentiment">-</div>
+                            <div class="stat-label">Sentimen Positif</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="bi bi-emoji-neutral"></i>
+                            </div>
+                            <div class="stat-value" id="neutral-sentiment">-</div>
+                            <div class="stat-label">Sentimen Netral</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="bi bi-emoji-frown"></i>
+                            </div>
+                            <div class="stat-value" id="negative-sentiment">-</div>
+                            <div class="stat-label">Sentimen Negatif</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Distribusi Sentimen</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="sentiment-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Distribusi Kategori Aspek</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="category-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Fitur Utama</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <div class="mb-3">
+                                                    <i class="bi bi-chat-text fs-1 text-primary"></i>
+                                                </div>
+                                                <h5 class="card-title">Analisis Teks</h5>
+                                                <p class="card-text">Analisis sentimen teks secara langsung untuk mengekstrak aspek, opini, dan sentimen.</p>
+                                                <a href="#" class="btn btn-outline-primary btn-sm nav-link-trigger" data-section="predict-text-section">Coba Sekarang</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <div class="mb-3">
+                                                    <i class="bi bi-google fs-1 text-primary"></i>
+                                                </div>
+                                                <h5 class="card-title">Scrape Ulasan</h5>
+                                                <p class="card-text">Scrape dan analisis ulasan aplikasi Allstats dari Google Play Store.</p>
+                                                <a href="#" class="btn btn-outline-primary btn-sm nav-link-trigger" data-section="scrape-section">Coba Sekarang</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <div class="mb-3">
+                                                    <i class="bi bi-code-slash fs-1 text-primary"></i>
+                                                </div>
+                                                <h5 class="card-title">API</h5>
+                                                <p class="card-text">Integrasi API untuk analisis sentimen dan scraping ke dalam aplikasi Anda.</p>
+                                                <a href="#" class="btn btn-outline-primary btn-sm nav-link-trigger" data-section="api-section">Pelajari API</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Predict Text Section -->
+            <section id="predict-text-section" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-chat-square-text me-2"></i>Analisis Teks</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="prediction-form" onsubmit="handleTextPrediction(event)">
+                            <div class="mb-3">
+                                <label for="review-text" class="form-label">Masukkan Teks Ulasan:</label>
+                                <textarea class="form-control" id="review-text" rows="5" placeholder="Masukkan teks ulasan di sini..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-lightning-charge me-1"></i>Analisis Sentimen
+                            </button>
+                        </form>
+                        
+                        <div class="loading position-relative" style="height: 100px;">
+                            <div class="spinner"></div>
+                        </div>
+                        
+                        <div id="prediction-results" class="mt-4" style="display: none;">
+                            <h5 class="mb-3">Hasil Analisis Sentimen:</h5>
+                            
+                            <div id="no-triplets" class="alert alert-info" style="display: none;">
+                                <i class="bi bi-info-circle me-2"></i>Tidak ada triplet sentimen terdeteksi pada teks ini. Coba dengan teks ulasan yang lebih spesifik dan mengandung sentimen.
+                            </div>
+                            
+                            <div id="triplets-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scrape Section -->
+            <section id="scrape-section" class="content-section">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-google me-2"></i>Scrape Ulasan Allstats</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Fitur ini akan melakukan scraping ulasan aplikasi Allstats dari Google Play Store dan menganalisis sentimen pada setiap ulasan.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Jumlah Ulasan</span>
+                                    <input type="number" class="form-control" id="max-reviews" placeholder="0" value="0" min="0" max="1000">
+                                    <button class="btn btn-primary" type="button" id="scrape-button" onclick="handleScrapeRequest()">
+                                        <i class="bi bi-cloud-download me-1"></i>Scrape & Analisis
+                                    </button>
+                                </div>
+                                <small class="text-muted">*Masukkan 0 untuk scrape semua ulasan yang tersedia</small>
+                            </div>
+                        </div>
+                        
+                        <div class="loading position-relative" style="height: 150px;">
+                            <div class="spinner"></div>
+                        </div>
+                        
+                        <div id="progress-container" class="mt-3" style="display: none;">
+                            <div class="progress mb-2">
+                                <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <p id="status-text" class="text-muted small">Memulai proses scraping...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="results-container" style="display: none;">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="bi bi-bar-chart-line me-2"></i>Ringkasan Hasil</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="chart-container">
+                                        <canvas id="sentiment-chart-scrape"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="chart-container">
+                                        <canvas id="category-chart-scrape"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="filter-header">
+                                    <i class="bi bi-funnel me-1"></i>Filter Kategori Aspek
+                                </div>
+                                <div id="aspect-category-filters" class="mt-2">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <span class="ms-2 text-muted">Memuat kategori...</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="filter-header">
+                                    <i class="bi bi-calendar-date me-1"></i>Filter Tanggal
+                                </div>
+                                <div class="date-filters">
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <label for="date-start" class="form-label small">Tanggal Awal</label>
+                                            <input type="date" id="date-start" class="form-control" placeholder="Tgl Awal">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="date-end" class="form-label small">Tanggal Akhir</label>
+                                            <input type="date" id="date-end" class="form-control" placeholder="Tgl Akhir">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="filter-header">
+                                    <i class="bi bi-sliders me-1"></i>Kontrol Filter
+                                </div>
+                                <button id="reset-filters" class="btn btn-outline-secondary btn-sm mt-2">
+                                    <i class="bi bi-arrow-repeat me-1"></i>Reset Filter
+                                </button>
+                                <p id="filter-status" class="mt-2">Menampilkan 0 dari 0 ulasan</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="reviews-container"></div>
+                </div>
+            </section>
+
+            <!-- API Section -->
+            <section id="api-section" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-code-slash me-2"></i>API Documentation</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <strong>Catatan:</strong> API untuk model Span Level Aspect Sentiment Triplet Extraction. API dapat digunakan untuk mengidentifikasi aspect terms, opinion terms, dan polaritas sentimen, serta mengkategorikan triplet tersebut ke dalam aspek aplikasi mobile yang sesuai.
+                        </div>
+                        
+                        <h6 class="mt-4">Endpoint: Analisis Sentimen (Predict)</h6>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-success me-2">POST</span>
+                                    <code>/api/predict</code>
+                                </div>
+                                <p>Melakukan analisis sentimen pada teks yang diberikan dan mengembalikan triplet sentimen.</p>
+                                
+                                <div class="mb-3">
+                                    <strong>Request Body:</strong>
+                                    <pre><code>{
+  "text": "Aplikasi ini sangat bagus, tampilannya menarik tapi loadingnya lambat."
+}</code></pre>
+                                </div>
+                                
+                                <div>
+                                    <strong>Response:</strong>
+                                    <pre><code>{
+  "text": "Aplikasi ini sangat bagus, tampilannya menarik tapi loadingnya lambat.",
+  "triplets": [
+    {
+      "aspect_term": "aplikasi",
+      "opinion_term": "bagus",
+      "sentiment": "POS",
+      "confidence": 0.95,
+      "aspect_category": "General Aspect",
+      "category_confidence": 0.89
+    },
+    {
+      "aspect_term": "tampilan",
+      "opinion_term": "menarik",
+      "sentiment": "POS",
+      "confidence": 0.92,
+      "aspect_category": "User Interface",
+      "category_confidence": 0.94
+    },
+    {
+      "aspect_term": "loading",
+      "opinion_term": "lambat",
+      "sentiment": "NEG",
+      "confidence": 0.88,
+      "aspect_category": "Functionality and Performance",
+      "category_confidence": 0.85
+    }
+  ]
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h6>Endpoint: Scrape Ulasan Google Play Store</h6>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-success me-2">POST</span>
+                                    <code>/api/scrape</code>
+                                </div>
+                                <p>Melakukan scraping ulasan dari Google Play Store untuk aplikasi Allstats.</p>
+                                
+                                <div class="mb-3">
+                                    <strong>Request Body:</strong>
+                                    <pre><code>{
+  "max_reviews": 100 (0 untuk scrape semua review)
+}</code></pre>
+                                </div>
+                                
+                                <div>
+                                    <strong>Response:</strong>
+                                    <pre><code>{
+                                        "app_id": "id.go.bps.allstats",
+                                        "max_reviews": 0,
+                                        "processed_reviews": 589,
+                                        "results": [
+                                            {
+                                                "at": "Mon, 24 Mar 2025 04:40:39 GMT",
+                                                "model_version": "span_aste_v1",
+                                                "processed_at": "2025-04-20T23:43:31.844368",
+                                                "processing_status": "success",
+                                                "processing_time": 0.054,
+                                                "review_id": "b30215d0-58f9-42e4-8bae-c268af9d83a8",
+                                                "review_text": "publikasi tidak dapat di unduh, terdapat error setiap kali unduh, tolong di perbaiki",
+                                                "score": 2,
+                                                "triplets": [
+                                                    {
+                                                        "aspect_category": "Functionality and Perfomance",
+                                                        "aspect_term": "publikasi",
+                                                        "category_confidence": 0.9792247414588928,
+                                                        "confidence": 1.0,
+                                                        "opinion_term": "tidak dapat di unduh",
+                                                        "sentiment": "NEG"
+                                                    },
+                                                    {
+                                                        "aspect_category": "Functionality and Perfomance",
+                                                        "aspect_term": "unduh",
+                                                        "category_confidence": 0.9921315312385559,
+                                                        "confidence": 1.0,
+                                                        "opinion_term": "error",
+                                                        "sentiment": "NEG"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "at": "Sun, 16 Mar 2025 11:38:46 GMT",
+                                                "model_version": "span_aste_v1",
+                                                "processed_at": "2025-04-20T23:43:31.859353",
+                                                "processing_status": "success",
+                                                "processing_time": 0.015,
+                                                "review_id": "e96a251e-d535-4a44-8fa0-8b58a78c9ab4",
+                                                "review_text": "Publikasi tidak bisa didownload baik di websitenya pun juga error",
+                                                "score": 1,
+                                                "triplets": [
+                                                    {
+                                                        "aspect_category": "Functionality and Perfomance",
+                                                        "aspect_term": "publikasi",
+                                                        "category_confidence": 0.8640000820159912,
+                                                        "confidence": 1.0,
+                                                        "opinion_term": "tidak bisa didownload",
+                                                        "sentiment": "NEG"
+                                                    }
+                                                ]
+                                            },
+                                        ]
+                                    }
+                                </div>
+                                
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about-section" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Tentang SPAN-ASTE</h5>
+                    </div>
+                    <div class="card-body">
+                        <h5>Span Level Aspect Sentiment Triplet Extraction</h5>
+                        <p>Aplikasi ini menggunakan model berbasis deep learning untuk mengekstrak triplet sentimen tingkat aspek dari teks. Model mengidentifikasi aspect terms, opinion terms, dan polaritas sentimen terkait (positif, negatif, atau netral).</p>
+                        
+                        <h6 class="mt-4">Fitur Utama:</h6>
+                        <ul>
+                            <li>Ekstraksi aspek dan opini dari ulasan teks</li>
+                            <li>Klasifikasi sentimen untuk setiap pasangan aspek-opini</li>
+                            <li>Kategorisasi aspek ke dalam kategori seperti UI, Performance, dll</li>
+                            <li>Scraping ulasan dari Google Play Store untuk aplikasi Allstats</li>
+                            <li>API untuk integrasi dalam aplikasi lain</li>
+                        </ul>
+                        
+                        <h6 class="mt-4">Teknologi yang Digunakan:</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6>Backend:</h6>
+                                <ul>
+                                    <li>Python</li>
+                                    <li>Flask</li>
+                                    <li>PyTorch</li>
+                                    <li>Transformers (BERT)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <h6>Frontend:</h6>
+                                <ul>
+                                    <li>HTML/CSS/JavaScript</li>
+                                    <li>Bootstrap 5</li>
+                                    <li>Chart.js</li>
+                                    <li>Flatpickr</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <h6>Data Scraping:</h6>
+                                <ul>
+                                    <li>Google Play Scraper</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card bg-light mt-4">
+                            <div class="card-body">
+                                <p class="mb-0 text-center">Dibuat oleh Feza Raffa Arnanda &copy; 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    
+    <script>
+        // Activate navigation links to sections
+        document.querySelectorAll('.nav-link-trigger').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sectionId = this.getAttribute('data-section');
+                document.querySelector(`.nav-link[data-section="${sectionId}"]`).click();
+            });
+        });
+        
+        // Event listener for reset filter button
+        document.getElementById('reset-filters')?.addEventListener('click', function() {
+            // Reset date picker
+            if (document.getElementById('date-range')._flatpickr) {
+                document.getElementById('date-range')._flatpickr.clear();
+            }
+            
+            // Reset category filters - check all
+            document.querySelectorAll('.category-filter').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            
+            // Display all reviews
+            displayFilteredReviews();
+        });
+    </script>
+</body>
+</html>

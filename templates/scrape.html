@@ -653,6 +653,8 @@
                 // Filter berdasarkan tanggal jika ada
                 if (startDate && endDate) {
                     filteredReviews = filteredReviews.filter(review => {
+                        // Pastikan format tanggal dari Google Play Store diparsing dengan benar
+                        // Google Play menggunakan timestamp dalam format ISO string
                         const reviewDate = new Date(review.at);
                         return reviewDate >= startDate && reviewDate <= endDate;
                     });
@@ -660,6 +662,7 @@
                 
                 // Filter berdasarkan kategori jika ada
                 if (selectedCategories.length > 0) {
+                    // Pertama kita filter review yang memiliki setidaknya satu triplet dengan kategori yang dipilih
                     filteredReviews = filteredReviews.filter(review => {
                         if (!Array.isArray(review.triplets)) return false;
                         
@@ -667,6 +670,20 @@
                         return review.triplets.some(triplet => 
                             selectedCategories.includes(triplet.aspect_category)
                         );
+                    });
+                    
+                    // Kemudian kita modifikasi setiap review yang lolos filter
+                    // untuk hanya menampilkan triplet dengan kategori yang dipilih
+                    filteredReviews = filteredReviews.map(review => {
+                        // Clone review agar tidak mengubah data asli
+                        const clonedReview = {...review};
+                        
+                        // Filter triplet yang hanya memiliki kategori yang dipilih
+                        clonedReview.triplets = review.triplets.filter(triplet => 
+                            selectedCategories.includes(triplet.aspect_category)
+                        );
+                        
+                        return clonedReview;
                     });
                 }
                 
@@ -1012,6 +1029,8 @@
                 // Filter berdasarkan tanggal jika ada
                 if (startDate && endDate) {
                     filteredReviews = filteredReviews.filter(review => {
+                        // Pastikan format tanggal dari Google Play Store diparsing dengan benar
+                        // Google Play menggunakan timestamp dalam format ISO string
                         const reviewDate = new Date(review.at);
                         return reviewDate >= startDate && reviewDate <= endDate;
                     });
@@ -1019,6 +1038,7 @@
                 
                 // Filter berdasarkan kategori jika ada
                 if (selectedCategories.length > 0) {
+                    // Pertama kita filter review yang memiliki setidaknya satu triplet dengan kategori yang dipilih
                     filteredReviews = filteredReviews.filter(review => {
                         if (!Array.isArray(review.triplets)) return false;
                         
@@ -1026,6 +1046,20 @@
                         return review.triplets.some(triplet => 
                             selectedCategories.includes(triplet.aspect_category)
                         );
+                    });
+                    
+                    // Kemudian kita modifikasi setiap review yang lolos filter
+                    // untuk hanya menampilkan triplet dengan kategori yang dipilih
+                    filteredReviews = filteredReviews.map(review => {
+                        // Clone review agar tidak mengubah data asli
+                        const clonedReview = {...review};
+                        
+                        // Filter triplet yang hanya memiliki kategori yang dipilih
+                        clonedReview.triplets = review.triplets.filter(triplet => 
+                            selectedCategories.includes(triplet.aspect_category)
+                        );
+                        
+                        return clonedReview;
                     });
                 }
                 
@@ -1083,7 +1117,8 @@
                             `;
                         } else {
                             tripletsHtml = '<div class="mt-3">';
-                            tripletsHtml += '<h6 class="mb-2">Hasil Prediksi:</h6>';
+                            // Menampilkan judul hasil prediksi dengan jumlah triplet yang ditemukan
+                            tripletsHtml += `<h6 class="mb-2">Hasil Prediksi: <span class="text-muted">(${review.triplets.length} triplet)</span></h6>`;
                             
                             review.triplets.forEach(triplet => {
                                 let sentimentClass = '';

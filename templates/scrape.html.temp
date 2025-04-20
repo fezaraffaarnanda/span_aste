@@ -528,9 +528,6 @@
             
             // Fungsi untuk inisialisasi date range picker
             function initDateRangePicker(reviewsData) {
-                const dateRangeElem = document.getElementById('date-range');
-                if (!reviewsData || reviewsData.length === 0) return;
-                
                 // Dapatkan tanggal terlama dan terbaru dari review
                 const dates = reviewsData.map(review => new Date(review.at));
                 const minDate = dates.length ? new Date(Math.min(...dates)) : null;
@@ -724,7 +721,7 @@
                         `;
                     } else {
                         tripletsHtml = '<div class="mt-3">';
-                        tripletsHtml += '<h6 class="mb-2">Hasil Prediksi:</h6>';
+                        tripletsHtml += '<h6 class="mb-2">Hasil Analisis Sentimen:</h6>';
                         
                         review.triplets.forEach(triplet => {
                             let sentimentClass = '';
@@ -923,6 +920,41 @@
                     scrapeButton.disabled = false;
                 });
             });
+        });
+        
+                // Dapatkan tanggal terlama dan terbaru dari review
+                const dates = reviewsData.map(review => new Date(review.at));
+                const minDate = dates.length ? new Date(Math.min(...dates)) : null;
+                const maxDate = dates.length ? new Date(Math.max(...dates)) : null;
+                
+                // Inisialisasi flatpickr untuk date range picker
+                const dateRangePicker = flatpickr('#date-range', {
+                    mode: 'range',
+                    dateFormat: 'd M Y',
+                    minDate: minDate,
+                    maxDate: maxDate,
+                    locale: {
+                        firstDayOfWeek: 1,
+                        weekdays: {
+                            shorthand: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+                            longhand: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+                        },
+                        months: {
+                            shorthand: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+                            longhand: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+                        },
+                    },
+                    onChange: function(selectedDates) {
+                        displayFilteredReviews();
+                    }
+                });
+                
+                // Event untuk clear button
+                document.getElementById('clear-date-range').addEventListener('click', function() {
+                    dateRangePicker.clear();
+                    displayFilteredReviews();
+                });
+            }
             
             // Fungsi untuk mendapatkan semua kategori aspek unik dari hasil review
             function initAspectCategoryFilters(reviewsData) {
@@ -968,6 +1000,21 @@
                     });
                 });
             }
+            
+            // Event listener untuk tombol reset filter
+            document.getElementById('reset-filters').addEventListener('click', function() {
+                // Reset date picker
+                const dateRangePicker = document.getElementById('date-range')._flatpickr;
+                dateRangePicker.clear();
+                
+                // Reset checkbox kategori
+                document.querySelectorAll('.category-filter').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                // Tampilkan semua review
+                displayFilteredReviews();
+            });
             
             // Fungsi untuk menampilkan review yang difilter
             function displayFilteredReviews() {
@@ -1083,7 +1130,7 @@
                             `;
                         } else {
                             tripletsHtml = '<div class="mt-3">';
-                            tripletsHtml += '<h6 class="mb-2">Hasil Prediksi:</h6>';
+                            tripletsHtml += '<h6 class="mb-2">Hasil Analisis Sentimen:</h6>';
                             
                             review.triplets.forEach(triplet => {
                                 let sentimentClass = '';
@@ -1172,7 +1219,22 @@
                         
                         reviewsContainer.appendChild(reviewCard);
                     });
-            }
+                    
+                    // Re-enable button
+                    scrapeButton.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingElem.style.display = 'none';
+                    statusText.textContent = 'Error: ' + error.message;
+                    progressBar.style.width = '100%';
+                    progressBar.classList.remove('bg-primary');
+                    progressBar.classList.add('bg-danger');
+                    
+                    // Re-enable button
+                    scrapeButton.disabled = false;
+                });
+            });
         });
     </script>
 </body>

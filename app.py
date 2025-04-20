@@ -496,7 +496,7 @@ class ModelManager:
                     # Only include valid sentiment
                     if sentiment != RelationLabel.INVALID.name:
                         # Debug info
-                        print(f"Found triplet: {aspect}, {opinion}, {sentiment}, conf: {confidence:.4f}")
+                        print(f"Menemukan triplet: {aspect}, {opinion}, {sentiment}, conf: {confidence:.4f}")
                         
                         predict.append({
                             "aspect_term": aspect,
@@ -739,7 +739,7 @@ def api_scrape():
         
         # Process each review with the model
         results = []
-        for review in tqdm(reviews_data, desc="Processing Reviews"):
+        for review in tqdm(reviews_data, desc="Memproses review"):
             # Get the review text
             review_text = review['content']
             review_score = review['score']  # Rating (1-5)
@@ -910,7 +910,7 @@ def api_scrape_and_predict():
         
         # Process each review with the model
         results = []
-        for review in tqdm(reviews_data, desc="Processing Reviews"):
+        for review in tqdm(reviews_data, desc="Memproses review"):
             # Get the review text
             review_text = review['content']
             review_score = review['score']  # Rating (1-5)

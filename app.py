@@ -778,8 +778,12 @@ def api_scrape():
                 review_date = None
                 if 'at' in review and review['at']:
                     try:
-                        # Convert timestamp to ISO date format (YYYY-MM-DD)
-                        review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
+                        # Check if review['at'] is already a datetime object
+                        if isinstance(review['at'], datetime):
+                            review_date = review['at'].strftime('%Y-%m-%d')
+                        else:
+                            # Convert timestamp to ISO date format (YYYY-MM-DD)
+                            review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
                     except (TypeError, ValueError) as e:
                         print(f"Error formatting date: {e}")
                 
@@ -808,8 +812,12 @@ def api_scrape():
                 review_date = None
                 if 'at' in review and review['at']:
                     try:
-                        # Convert timestamp to ISO date format (YYYY-MM-DD)
-                        review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
+                        # Check if review['at'] is already a datetime object
+                        if isinstance(review['at'], datetime):
+                            review_date = review['at'].strftime('%Y-%m-%d')
+                        else:
+                            # Convert timestamp to ISO date format (YYYY-MM-DD)
+                            review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
                     except (TypeError, ValueError) as e:
                         print(f"Error formatting date: {e}")
                 
@@ -1002,8 +1010,12 @@ def api_scrape_and_predict():
                 review_date = None
                 if 'at' in review and review['at']:
                     try:
-                        # Convert timestamp to ISO date format (YYYY-MM-DD)
-                        review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
+                        # Check if review['at'] is already a datetime object
+                        if isinstance(review['at'], datetime):
+                            review_date = review['at'].strftime('%Y-%m-%d')
+                        else:
+                            # Convert timestamp to ISO date format (YYYY-MM-DD)
+                            review_date = datetime.fromtimestamp(review['at']).strftime('%Y-%m-%d')
                     except (TypeError, ValueError) as e:
                         print(f"Error formatting date: {e}")
                 

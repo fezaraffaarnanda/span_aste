@@ -29,13 +29,17 @@ body {
 
 /* Confidence meter styles */
 .confidence-container {
-    min-width: 100px;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .confidence-label {
     font-size: 0.75rem;
     color: #666;
     margin-bottom: 2px;
+    text-align: right;
 }
 
 .confidence-bar-bg {
@@ -43,6 +47,7 @@ body {
     background-color: #e9ecef;
     border-radius: 3px;
     overflow: hidden;
+    width: 100px;
 }
 
 .confidence-bar-inner {

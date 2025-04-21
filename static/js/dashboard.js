@@ -40,6 +40,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 link.classList.add('active');
             }
         });
+        
+        // Special handling for scrape section - auto show results if we have data
+        if (sectionId === 'scrape-section' && window.reviewsData && window.reviewsData.length > 0) {
+            const resultsContainer = document.getElementById('results-container');
+            if (resultsContainer) {
+                resultsContainer.style.display = 'block';
+            }
+        }
     }
     
     // Set up click handlers for navigation
@@ -720,7 +728,7 @@ function displayFilteredReviews() {
                                 ${triplet.aspect_category ? `
                                 <div class="confidence-container text-end">
                                     <div class="confidence-label small">Category Confidence: ${triplet.category_confidence ? (triplet.category_confidence * 100).toFixed(1) : '0.0'}%</div>
-                                    <div class="confidence-bar-bg" style="width: 100px;">
+                                    <div class="confidence-bar-bg">
                                         <div class="confidence-bar-inner" style="width: ${triplet.category_confidence ? (triplet.category_confidence * 100) : 0}%; background-color: ${getConfidenceBarColor(triplet.category_confidence || 0)}"></div>
                                     </div>
                                 </div>
@@ -825,6 +833,24 @@ function updateSummaryStats(reviewsData) {
     if (negativeSentimentElement) negativeSentimentElement.textContent = negativeCount;
 }
 
+// Function to update home page statistics
+function updateHomePageStats(reviewsData) {
+    // This function is just a wrapper around updateSummaryStats which already updates the home page stats
+    updateSummaryStats(reviewsData);
+    
+    // Make sure home section has visible stats
+    const homeChartElements = document.querySelectorAll('#home-section .chart-container');
+    homeChartElements.forEach(el => {
+        if (el) el.style.display = 'block';
+    });
+    
+    // Show home stats containers
+    const homeStatsContainers = document.querySelectorAll('#home-section .stats-container');
+    homeStatsContainers.forEach(container => {
+        if (container) container.style.display = 'block';
+    });
+}
+
 // Fungsi helper untuk update sentiment chart
 function updateSentimentChart(chartId, positiveCount, negativeCount, neutralCount) {
     const sentimentCtx = document.getElementById(chartId);
@@ -874,7 +900,7 @@ function updateSentimentChart(chartId, positiveCount, negativeCount, neutralCoun
             }
         }
     });
-}
+} // Close updateSentimentChart function
 
 // Fungsi helper untuk update category chart
 function updateCategoryChart(chartId, categoryCount) {
@@ -1010,8 +1036,7 @@ function handleTextPrediction(event) {
                 sentimentLabel = 'Netral';
             }
             
-            // Create confidence bar
-            const confidencePercent = Math.round(triplet.confidence * 100);
+            // Get confidence color if needed for styling
             const confidenceColor = getConfidenceBarColor(triplet.confidence);
             
             const tripletCard = document.createElement('div');
@@ -1041,14 +1066,7 @@ function handleTextPrediction(event) {
                             <span class="opinion-label">Opini:</span>
                             <span class="opinion-value">${triplet.opinion}</span>
                         </div>
-                        <div class="mt-2 d-flex justify-content-end">
-                            <div class="confidence-container">
-                                <div class="confidence-label small">Triplet Confidence: ${confidencePercent}%</div>
-                                <div class="confidence-bar-bg">
-                                    <div class="confidence-bar-inner" style="width: ${confidencePercent}%; background-color: ${confidenceColor}"></div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             `;
@@ -1071,6 +1089,9 @@ function handleTextPrediction(event) {
 
 // Fungsi untuk memuat data yang tersimpan
 function loadSavedData() {
+    // Hide loading states
+    document.querySelectorAll('.loading').forEach(el => el.style.display = 'none');
+
     fetch('/api/get_saved_data')
         .then(response => response.json())
         .then(data => {
@@ -1089,6 +1110,30 @@ function loadSavedData() {
                 
                 // Update summary stats
                 updateSummaryStats(data.results);
+                
+                // Show results container automatically
+                const resultsContainer = document.getElementById('results-container');
+                if (resultsContainer) {
+                    resultsContainer.style.display = 'block';
+                }
+
+                // Update the home page stats dan pastikan semua elemen chart dan stats di beranda terlihat
+                updateHomePageStats(data.results);
+                
+                // Force beranda menjadi section aktif jika tidak ada section yang aktif
+                const activeSections = Array.from(document.querySelectorAll('.content-section')).filter(section => 
+                    section.style.display === 'block' || section.style.display === '');
+                
+                if (activeSections.length === 0) {
+                    showSection('home-section');
+                    // Highlight the home nav link
+                    document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === 'home-section') {
+                            link.classList.add('active');
+                        }
+                    });
+                }
                 
                 console.log(`Loaded ${data.results.length} reviews from saved data`);
             } else {

@@ -914,8 +914,7 @@ function updateCategoryChart(chartId, categoryCount) {
     
     // Sort categories by count (descending)
     const sortedCategories = Object.entries(categoryCount)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5); // Only show top 5
+        .sort((a, b) => b[1] - a[1]); // Show all categories
     
     const labels = sortedCategories.map(cat => cat[0]);
     const values = sortedCategories.map(cat => cat[1]);

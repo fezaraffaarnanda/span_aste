@@ -61,8 +61,8 @@
             <section id="home-section" class="content-section">
                 <div class="row mb-4">
                     <div class="col-12">
-                        <h5 class="mb-3">Selamat Datang di SPAN-ASTE Dashboard</h5>
-                        <p>Dashboard ini menyediakan analisis sentimen tingkat aspek untuk ulasan aplikasi. Ekstraksi triplet sentimen aspek berbasis Span Level memungkinkan analisis mendalam tentang aspek spesifik yang dikomentari oleh pengguna.</p>
+                        <h5 class="mb-3">Span-ASTE Dashboard</h5>
+                        <p>Dashboard menyajikan hasil prediksi model Span Level Aspect Sentiment Triplet Extraction (Span-ASTE) untuk ulasan aplikasi Allstats.</p>
                     </div>
                 </div>
                 
@@ -156,7 +156,7 @@
                                                     <i class="bi bi-chat-text fs-1 text-primary"></i>
                                                 </div>
                                                 <h5 class="card-title">Analisis Teks</h5>
-                                                <p class="card-text">Analisis sentimen teks secara langsung untuk mengekstrak aspek, opini, dan sentimen.</p>
+                                                <p class="card-text">Prediksi triplet sentimen aspek berbasis Span Level untuk teks.</p>
                                                 <a href="#" class="btn btn-outline-primary btn-sm nav-link-trigger" data-section="predict-text-section">Coba Sekarang</a>
                                             </div>
                                         </div>
@@ -205,7 +205,7 @@
                                 <textarea class="form-control" id="review-text" rows="5" placeholder="Masukkan teks ulasan di sini..." required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-lightning-charge me-1"></i>Analisis Sentimen
+                                <i class="bi bi-lightning-charge me-1"></i>Prediksi Triplet
                             </button>
                         </form>
                         
@@ -478,17 +478,17 @@
             <section id="about-section" class="content-section">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Tentang SPAN-ASTE</h5>
+                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Tentang Span-ASTE</h5>
                     </div>
                     <div class="card-body">
                         <h5>Span Level Aspect Sentiment Triplet Extraction</h5>
-                        <p>Aplikasi ini menggunakan model berbasis deep learning untuk mengekstrak triplet sentimen tingkat aspek dari teks. Model mengidentifikasi aspect terms, opinion terms, dan polaritas sentimen terkait (positif, negatif, atau netral).</p>
+                        <p>Aplikasi ini menggunakan model berbasis deep learning untuk mengekstrak triplet aspek, opini, dan sentimen. Model Span-ASTE di fine-tuning pada domain aplikasi mobile.</p>
                         
                         <h6 class="mt-4">Fitur Utama:</h6>
                         <ul>
                             <li>Ekstraksi aspek dan opini dari ulasan teks</li>
                             <li>Klasifikasi sentimen untuk setiap pasangan aspek-opini</li>
-                            <li>Kategorisasi aspek ke dalam kategori seperti UI, Performance, dll</li>
+                            <li>Kategorisasi aspek ke dalam kategori aplikasi mobile : User Interface, User Experience, Functionality and Performance, Security, Support and Updates, General Aspect, Out of Aspect</li>
                             <li>Scraping ulasan dari Google Play Store untuk aplikasi Allstats</li>
                             <li>API untuk integrasi dalam aplikasi lain</li>
                         </ul>
@@ -498,10 +498,8 @@
                             <div class="col-md-4">
                                 <h6>Backend:</h6>
                                 <ul>
-                                    <li>Python</li>
                                     <li>Flask</li>
-                                    <li>PyTorch</li>
-                                    <li>Transformers (BERT)</li>
+                                    <li>Transformers (indoBERT)</li>
                                 </ul>
                             </div>
                             <div class="col-md-4">
@@ -516,14 +514,14 @@
                             <div class="col-md-4">
                                 <h6>Data Scraping:</h6>
                                 <ul>
-                                    <li>Google Play Scraper</li>
+                                    <li>Python Library Google Play Scraper</li>
                                 </ul>
                             </div>
                         </div>
                         
                         <div class="card bg-light mt-4">
                             <div class="card-body">
-                                <p class="mb-0 text-center">Dibuat oleh Feza Raffa Arnanda &copy; 2025</p>
+                                <p class="mb-0 text-center">Skripsi oleh Feza Raffa Arnanda &copy; 2025</p>
                             </div>
                         </div>
                     </div>

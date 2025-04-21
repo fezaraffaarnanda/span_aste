@@ -1243,16 +1243,20 @@ def get_saved_data():
     """API endpoint to retrieve saved scraping data"""
     # Define the path to saved data
     data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saved_data')
-    data_file = os.path.join(data_dir, 'id.go.bps.allstats_reviews.json')
+    data_file = os.path.join(data_dir, f'{ALLSTATS_APP_ID}_reviews.json')
     
     if os.path.exists(data_file):
         try:
             with open(data_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-            return jsonify({"results": data})
+            # Return data directly since it already has the correct structure
+            # with 'results' key containing the array of reviews
+            return jsonify(data)
         except Exception as e:
+            print(f"Error reading saved data: {e}")
             return jsonify({"error": str(e)}), 500
     else:
+        print(f"No saved data found at {data_file}")
         return jsonify({"results": [], "message": "No saved scraping data found"})
 
 if __name__ == '__main__':

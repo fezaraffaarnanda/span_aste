@@ -1091,25 +1091,51 @@ function handleTextPrediction(event) {
 function loadSavedData() {
     // Hide loading states
     document.querySelectorAll('.loading').forEach(el => el.style.display = 'none');
-
+    
+    console.log('Loading saved data...');
+    
     fetch('/api/get_saved_data')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data && data.results && data.results.length > 0) {
+            console.log('Received data:', data);
+            
+            // Handle different data structures that might be returned
+            let reviewsData;
+            
+            if (data && data.results && Array.isArray(data.results)) {
+                // Direct array of results
+                reviewsData = data.results;
+                console.log(`Found ${reviewsData.length} reviews in data.results`);
+            } else if (data && Array.isArray(data)) {
+                // Data is directly an array
+                reviewsData = data;
+                console.log(`Found ${reviewsData.length} reviews in direct array`);
+            } else {
+                // No valid data structure found
+                console.log('No valid review data structure found:', data);
+                return;
+            }
+            
+            if (reviewsData && reviewsData.length > 0) {
                 // Store results for filtering
-                window.reviewsData = data.results;
+                window.reviewsData = reviewsData;
                 
                 // Initialize date range picker dengan data yang dimuat
-                initDateRangePicker(data.results);
+                initDateRangePicker(reviewsData);
                 
                 // Initialize aspect category filters
-                initAspectCategoryFilters(data.results);
+                initAspectCategoryFilters(reviewsData);
                 
                 // Display all reviews
                 displayFilteredReviews();
                 
                 // Update summary stats
-                updateSummaryStats(data.results);
+                updateSummaryStats(reviewsData);
                 
                 // Show results container automatically
                 const resultsContainer = document.getElementById('results-container');
@@ -1118,26 +1144,29 @@ function loadSavedData() {
                 }
 
                 // Update the home page stats dan pastikan semua elemen chart dan stats di beranda terlihat
-                updateHomePageStats(data.results);
+                updateHomePageStats(reviewsData);
                 
                 // Force beranda menjadi section aktif jika tidak ada section yang aktif
                 const activeSections = Array.from(document.querySelectorAll('.content-section')).filter(section => 
                     section.style.display === 'block' || section.style.display === '');
                 
                 if (activeSections.length === 0) {
-                    showSection('home-section');
-                    // Highlight the home nav link
-                    document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('data-section') === 'home-section') {
-                            link.classList.add('active');
-                        }
-                    });
+                    // Check if showSection is defined
+                    if (typeof showSection === 'function') {
+                        showSection('home-section');
+                        // Highlight the home nav link
+                        document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('data-section') === 'home-section') {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
                 }
                 
-                console.log(`Loaded ${data.results.length} reviews from saved data`);
+                console.log(`Successfully loaded ${reviewsData.length} reviews from saved data`);
             } else {
-                console.log('No saved data found');
+                console.log('No reviews found in the data');
             }
         })
         .catch(error => {

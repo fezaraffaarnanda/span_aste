@@ -350,9 +350,9 @@ class ModelManager:
                     traceback.print_exc()
     
     def load_span_aste_model(self):
-        # Configuration - UBAH PATH MODEL SESUAI KEBUTUHAN
-        MODEL_PATH = "checkpoint_large/fold1/model_best"  # Path to model directory
-        BERT_MODEL = "indobenchmark/indobert-large-p2"  # Model used for training
+        # konfigurasi path model
+        MODEL_PATH = "checkpoint_lite/fold5/model_best"  # ini pakai indobert-lite-base
+        BERT_MODEL = "indobenchmark/indobert-lite-base-p2"  # base model
         
         print(f"Memuat SPAN-ASTE model dari {MODEL_PATH}")
         print(f"Menggunakan {self.device} device")
@@ -389,6 +389,16 @@ class ModelManager:
         print("SPAN-ASTE model berhasil dimuat")
     
     def load_aspect_classifier_model(self):
+        """
+        Load the aspect classification model from a pre-trained PyTorch model.
+        
+        The model is loaded from the file specified in MODEL_PATH, and the
+        tokenizer is loaded from the indobenchmark/indobert-base-p2 model.
+        
+        The model is then set to evaluation mode.
+        
+        :return: None
+        """
         # Configuration - UBAH PATH MODEL SESUAI KEBUTUHAN
         MODEL_PATH = "model_klasifikasi_aspek/model_aspect_categorization.pt"  # Path to model file
         
